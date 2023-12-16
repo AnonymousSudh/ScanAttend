@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import HomeScreen from "./screens/HomeScreen"
+import SignUpScreen from './screens/SignUpScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import LoginScreen from './screens/LoginScreen'
+import { createRoot } from "react-dom/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  createRoutesFromElements,
+} from "react-router-dom";
+// localStorage.getItem('faculty')
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+    <Route path='/home' element={<HomeScreen/>}/> 
+    <Route path='/signup' element={<SignUpScreen/>}/>
+    <Route path='/profile' element={<ProfileScreen/>}/>
+    <Route path='/login' element={<LoginScreen/>}/>
+    </>
+  )
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <RouterProvider router={router} />
+  )
 }
 
-export default App;
+export default App

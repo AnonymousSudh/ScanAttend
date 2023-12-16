@@ -8,6 +8,7 @@ const createStudent = async (req, res) => {
         console.log(req.body)
         const result = await studentService.createStudent(newUserData);
         console.log(result);
+        res.data(result)
         res.send(result);
     } catch (error) {
         console.log("Error at controller layer")
@@ -15,6 +16,7 @@ const createStudent = async (req, res) => {
     }
 
 }
+
 
 const updateStudent = async (req, res) => {
     try {

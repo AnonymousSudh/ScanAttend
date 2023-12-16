@@ -2,9 +2,9 @@ const { Student } = require("../models/index");
 
 const createStudent = async (newUserData) => {
     try {
-        console.log(newUserData)
+        // console.log(newUserData)
         const result = await Student.create(newUserData);
-        console.log(result)
+        // console.log(result)
         return { success: true, data: result, message: "Student created successfully" };
     } catch (error) {
         console.error("Error creating student:", error);

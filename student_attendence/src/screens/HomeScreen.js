@@ -7,8 +7,6 @@ const HomeScreen = () => {
   const cameraRef = useRef(null);
 
   const handleBarCodeRead = (event) => {
-    // Handle the scanned QR code data here
-    // console.log('Scanned data:', event.data);
     alert(event.data);
     // You can do whatever you want with the scanned data here
     // For example, set it in state, display it, or navigate based on the data
@@ -16,7 +14,9 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* <RNCamera
+    <Text>djhfduif</Text>
+    <View style={styles.camera}></View>
+      <RNCamera
         ref={cameraRef}
         style={styles.preview}
         type={RNCamera.Constants.Type.back}
@@ -27,12 +27,12 @@ const HomeScreen = () => {
         reactivateTimeout={4000}
       >
         <Text style={styles.scanText}>Scan QR Code</Text>
-      </RNCamera> */}
+      </RNCamera>
 
-      <QRCodeScanner
+      {/* <QRCodeScanner
       onRead={({data})=>{alert(data)}}
       flashMode={RNCamera.Constants.FlashMode.torch}
-      />
+      /> */}
 
     </View>
   );
@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  // camera:{
+  //   width:"100%",
+  //   height:400
+
+  // }
 });
 
 export default HomeScreen;

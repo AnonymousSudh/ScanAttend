@@ -4,6 +4,8 @@ const studentRepo = require("../repository_or_dal/studentRepository");
 const createStudent = async (newUserData) => {
     try {
         const result = await studentRepo.createStudent(newUserData);
+        console.log("")
+        console.log("result",result)
         return result;
     } catch (error) {
         console.log("Error at Service layer");

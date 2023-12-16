@@ -13,8 +13,8 @@ const initialState = {
 export const authSlice = createSlice({
     name: "user",
     initialState, // every slice has a initial state 
-    reducers: { //  action is what the user is sending/ state is to change the initial state/
-        login: (state, action) => { // it is that function through which we update our state
+    reducers: { //  action is what the user is sending/ state is to change the initial state
+        login: (state, action) => { // it is that function(also known as action) through which we update our state
             state.user.token = action.payload.token
         },
         logout: (state, action) => {
