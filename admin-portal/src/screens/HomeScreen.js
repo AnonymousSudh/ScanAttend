@@ -12,7 +12,7 @@ function HomeScreen() {
 
   const subject = 'java';
   const semester = 3;
-  const Faculty = 'Rgg'
+  const Faculty = 'Rgg' // fixed
   const data = useSelector(state => state);
   console.log(data)
 
