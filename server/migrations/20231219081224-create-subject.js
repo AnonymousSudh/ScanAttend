@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Courses', {
+    await queryInterface.createTable('Subjects', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,33 +10,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING,
-        allowNull: false,
-
-      },
-      code: {
         type: Sequelize.STRING
       },
-      stream: {
-        type: Sequelize.STRING
-      },
-      semester: {
-        type: Sequelize.STRING,
-        allowNull: false,
-
+      courseId: {
+        type: Sequelize.INTEGER
       },
       totalHours: {
         type: Sequelize.STRING
       },
-      facultyId: {
-        type: Sequelize.INTEGER,
-        allowNull: true, // Change to false if facultyId should not be nullable
-        references: {
-          model: 'faculties', // Name of the referenced table
-          key: 'id' // Primary key of the referenced table
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+      semester: {
+        type: Sequelize.STRING
+      },
+      subjectCode: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -49,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Courses');
+    await queryInterface.dropTable('Subjects');
   }
 };

@@ -28,8 +28,8 @@ const SignUpScreen = () => {
         // Handle form submission logic here
         console.log('Form submitted:', formData);
         try {
+            console.log(formData)
             const data = await dispatch(createFaculty(formData))
-            console.log(data)
             if (data.payload.error) {
                 console.log("payload ")
                 alert(data.payload.error);

@@ -23,7 +23,11 @@ const LoginScreen = () => {
     try {
       // Perform API call for authentication and get token
       const { email, password } = formData;
-      dispatch(loginFaculty({ email, password }));
+      const facultyData = await dispatch(loginFaculty({ email, password }))
+      console.log(facultyData.payload.success)
+      if(facultyData.payload.success && facultyData.payload.data.user){
+        navigation('/',facultyData.payload.data)
+      }
     } catch (error) {
       console.error('Login failed:', error.message);
     }
@@ -31,7 +35,7 @@ const LoginScreen = () => {
   useEffect(() => {
     const token = localStorage.getItem('facultyToken');
     if (token) {
-      navigation('/home')
+      navigation('/')
     }
 
   }, [])

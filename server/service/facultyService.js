@@ -15,12 +15,13 @@ const createFaculty = async (data) => {
                 error: 'Email already exists'
             };
         }
+        const { firstName,lastName,email,mobile} = data
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
         // Create a new user with the hashed password
-        const newFaculty = await facultyRepository.createFaculty({email:data.email,password:hashedPassword});
+        const newFaculty = await facultyRepository.createFaculty({firstName,lastName,email,mobile,password:hashedPassword});
 
         return {
             data: newFaculty,
@@ -59,5 +60,6 @@ const loginFaculty = async (data) => {
         throw error;
     }
 }
+
 
 module.exports = { createFaculty, loginFaculty }

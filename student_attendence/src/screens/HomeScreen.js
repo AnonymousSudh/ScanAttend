@@ -1,5 +1,5 @@
-import React, { useRef ,useState} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet,Button } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +13,7 @@ const HomeScreen = () => {
 
   const handleBarCodeRead = (event) => {
     const dataString = event.data;
+    console.log(dataString)
     const keyValuePairs = dataString.split(',').map(pair => pair.split(':'));
     keyValuePairs.forEach(([key, value]) => {
       qrInfo[key.trim()] = value.trim();
@@ -31,6 +32,26 @@ const HomeScreen = () => {
     // Implement your logic for marking present
   };
 
+
+
+
+  // const handleScan = async (event) => {
+  //   if (!scanned) {
+  //     setScanned(true);
+  //     try {
+  //       // Do something with the scanned data (example: log it)
+  //       console.log('Scanned data:', event.data);
+  //       setScannedData(event.data);
+  //     } catch (error) {
+  //       console.error('Error handling scanned data:', error);
+  //     }
+  //   }
+  // };
+
+  // // Function to handle when the scanner is resumed
+  // const handleScanResume = () => {
+  //   setScanned(false);
+  // };
   return (
     <View style={styles.container}>
       <View style={styles.camera}></View>
@@ -46,13 +67,23 @@ const HomeScreen = () => {
       >
         <Text style={styles.scanText}>Scan QR Code</Text>
       </RNCamera>
-
+      {/* <QRCodeScanner
+        onRead={handleScan}
+        reactivate={true}
+        reactivateTimeout={2000}
+        showMarker={true} /// Toggle the marker visibility
+        containerStyle={styles.scannerContainer}
+        markerStyle={styles.marker}
+        cameraStyle={styles.camera}
+      /> */}
       <View style={styles.container}>
-      
-        {visible  && (
+
+        {visible && (
           <View style={styles.dataContainer}>
-            <Text>Subject: {QRdata.subject}</Text>
-            <Text>Semester: {QRdata.semester}</Text>
+            <Text>course: {QRdata.course}</Text>
+            <Text>subject: {QRdata.subject}</Text>
+            <Text>division: {QRdata.division}</Text>
+            <Text>semester: {QRdata.semester}</Text>
             <Text>Faculty: {QRdata.faculty}</Text>
           </View>
         )}

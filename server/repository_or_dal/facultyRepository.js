@@ -23,4 +23,5 @@ const findFaculty = async (data) => {
         throw error;
     }
 }
+
 module.exports = { createFaculty, findFaculty }

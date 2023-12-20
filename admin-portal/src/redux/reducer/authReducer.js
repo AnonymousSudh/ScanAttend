@@ -1,25 +1,32 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {createFaculty,loginFaculty} from "../action/LoginAction"
+import { createFaculty, loginFaculty } from "../action/LoginAction"
 
 const initialState = {
     data: {},
+    userId:null,
     isLogin: false,
     msg: "",
     isLoading: false,
-    error:null,
+    error: null,
     token: null
 
 }
 
 export const authSlice = createSlice({
-    name: "authSlice",
+    name: "authSlice", 
     initialState,
     reducers: {
         setUser(state, action) {
             state.user = action.payload.user;
             state.token = action.payload.token;
             state.isLoggedIn = true;
-          }
+        },
+        clearAuthData(state) {
+            state.token = null;
+            state.userId = null;
+            localStorage.removeItem('facultyToken');
+            // localStorage.removeItem('userId');
+          },
     },
     extraReducers: (builder) => {
         builder
@@ -32,7 +39,7 @@ export const authSlice = createSlice({
                 console.log(action)
                 state.data = action.payload;
                 console.log("action", action.payload)
-                if(action.payload.error){
+                if (action.payload.error) {
                     state.error = action.payload.error
                     state.msg = action.payload.msg
                 }
@@ -43,8 +50,8 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 // state.error
             })
-      
-// for login Faculty
+
+            // for login Faculty
             .addCase(loginFaculty.pending, (state) => {
                 state.isLoading = true;
                 // console.log("action")
@@ -53,10 +60,11 @@ export const authSlice = createSlice({
             .addCase(loginFaculty.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.data = action.payload.data.user;
+                state.userId = action.payload.data.id
                 state.token = action.payload.data.token;
-                state.isLogin= true
+                state.isLogin = true
 
-                // console.log("action", action.payload)  action.payload.data.user 
+                console.log("action", action.payload)  //action.payload.data.user 
             })
             .addCase(loginFaculty.rejected, (state, action) => {
                 console.log(action.error)
@@ -66,4 +74,5 @@ export const authSlice = createSlice({
 })
 
 // export const {createUser} = authSlice.actions
+export const { clearAuthData } = authSlice.actions;
 export default authSlice.reducer

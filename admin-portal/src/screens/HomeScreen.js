@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import QRCode from 'qrcode.react';
+import LogoutButton from '../components/LogoutButton';
 import '../styles/Home.css'
+import AddSubject from '../components/AddSubject';
+import GenerateQR from '../components/GenerateQR';
+import AddDivision from '../components/AddDivision';
+import AddCourse from '../components/AddCourse';
 
 function HomeScreen() {
   const [qrData, setQRData] = useState('');
@@ -10,24 +15,9 @@ function HomeScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigate();
 
-  const subject = 'java';
-  const semester = 3;
-  const Faculty = 'Rgg' // fixed
+
   const data = useSelector(state => state);
   console.log(data)
-
-  const generateQRCode = () => {
-    // Replace 'YOUR_DATA_HERE' with the data you want to encode in the QR code
-    const data =
-      `
-      subject:${subject},
-      semester:${semester},
-      faculty:${Faculty};`
-
-    setQRData(data);
-    setShowQR(true);
-  };
-
 
   useEffect(() => {
 
@@ -35,12 +25,26 @@ function HomeScreen() {
   return (
     <>
       <div className="qr-generator">
-        <button onClick={generateQRCode}>Generate QR Code</button>
+        <AddSubject />
+        <AddCourse/>
+        <br />
+        <br />
+        <AddDivision/>
+        <br />
+        {/* <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
         {showQR && (
           <div className="qr-code">
             <QRCode value={qrData} />
           </div>
-        )}
+        )} */}
+        <br />
+        <GenerateQR />
+        <br />
+        <br />
+        <br />
+        <LogoutButton redirectTo="/signup" />
+
+
       </div>
     </>
   )
