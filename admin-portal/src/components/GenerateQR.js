@@ -12,13 +12,18 @@ function GenerateQR() {
     const [selectedSemester, setSelectedSemester] = useState('');
 
     const [subjects, setSubjects] = useState([]);
-    const [selectedSubject, setSelectedSubject] = useState('');
+    const [selectedSubject, setSelectedSubject] = useState({});
+    
     const [divisions, setDivisions] = useState([]);
     const [selectedDivision, setSelectedDivision] = useState('');
+    const [selectedDivisionValue, setSelectedDivisionValue] = useState('');
+
     const [qrData, setQRData] = useState('');
     const [showQR, setShowQR] = useState(false);
-    const userData = useSelector(state => state.data);
-    console.log(userData)
+    const [userData, setUserData] = useState({});
+    const user = useSelector(state => state.data);
+
+
 
     // const handleCourseChange = async (e) => {
     //     const courseId = e.target.value;
@@ -36,26 +41,39 @@ function GenerateQR() {
     };
 
     const generateQRCode = () => {
-        // Replace 'YOUR_DATA_HERE' with the data you want to encode in the QR code
+
+        console.log(selectedSubject)
+        console.log(selectedSemester)
+        console.log(selectedDivision)
+        console.log(selectedDivisionValue)
+        // return
         const data =
             `
           course:${selectedCourse.name},
-          subject:${selectedSubject},
-          division:${selectedDivision},
-          semester:${2},
-          faculty:${userData.firstName + userData.lastName}`
+          subject:${selectedSubject.name},
+          semester:${selectedSemester},
+          division:${selectedDivisionValue},
+          faculty:${userData.firstName + " " + userData.lastName}`
 
         setQRData(data);
         setShowQR(true);
-        console.log()
         const lectureDate = {
-            facultyId: userData.id,
-            courseId: selectedCourse.id
-            // divisionId:
+            facultyId: userData.id || 50,
+            courseId: selectedCourse.id,
+            divisionId: selectedDivision,
+            subjectId:selectedSubject.id
+
         }
         console.log(lectureDate)
-        // const createLecture = PostData('createLecture',)
 
+        const createLecture = PostData('createLecture',lectureDate)
+        if (createLecture.success) {
+            console.log(createLecture);
+            // setSubjects(subject?.data?.subjectData);
+            // setDivisions(subject?.data?.divisionData)
+        } else {
+            console.error('Failed to fetch subjects');
+        }
     };
     const handleCourseChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -63,6 +81,23 @@ function GenerateQR() {
         const selectedCourseName = e.target.options[selectedIndex].getAttribute('data-name');
 
         setSelectedCourse({ id: selectedCourseId, name: selectedCourseName });
+    };
+    const handelSubjectChange = (e) => {
+        const selectedIndex = e.target.selectedIndex;
+        const selectedSubjectId = e.target.options[selectedIndex].getAttribute('data-id');
+        const selectedSubjectName = e.target.options[selectedIndex].getAttribute('data-name');
+
+        console.log(selectedSubjectId);
+        console.log(selectedSubjectName);
+        setSelectedSubject({ id: selectedSubjectId, name: selectedSubjectName });
+    };
+    const handleDivisonChange = (e) => {
+        const selectedIndex = e.target.selectedIndex;
+        const selectedDivisionId = e.target.options[selectedIndex].getAttribute('data-id');
+        const selectedDivisionName = e.target.options[selectedIndex].getAttribute('data-name');
+        console.log(selectedDivisionId,selectedDivisionName)
+        setSelectedDivision(selectedDivisionId)
+        setSelectedDivisionValue(selectedDivisionName);
     };
     // const handleSubmit = async (e) => {
     //     e.preventDefault();
@@ -96,22 +131,22 @@ function GenerateQR() {
     //         console.error('Error occurred:', error);
     //     }
     // };
-    
 
 
-  
-      // run when semester changes
-    
-      useEffect(() => {
+
+
+    // run when semester changes
+
+    useEffect(() => {
         const fetchSubject = async () => {
             try {
-                console.log(selectedSemester);
-                const subject = await PostData('getSubjectOfCourse', { courseId: selectedCourse.id,semester:selectedSemester });
-                // console.log(subject)
+                // console.log(selectedSemester);
+                const subject = await PostData('getSubjectandDivisonOfCourse', { courseId: selectedCourse.id, semester: selectedSemester });
+                // console.log(subject.data.divisionData)
                 // return
                 if (subject.success) {
-                    setSubjects(subject.data);
-                    // setDivisions(response.data.divisonData)
+                    setSubjects(subject?.data?.subjectData);
+                    setDivisions(subject?.data?.divisionData)
                 } else {
                     console.error('Failed to fetch subjects');
                 }
@@ -122,15 +157,15 @@ function GenerateQR() {
         };
         fetchSubject();
     }, [selectedSemester]);
-// when course Changes
+    // when course Changes
     useEffect(() => {
         const fetchSemester = async () => {
             try {
-                console.log(selectedCourse);
+                // console.log(selectedCourse);
                 // return
                 const semester = await PostData('getSemesterOfCourse', { course: selectedCourse.id });
                 // const response = await PostData('addCourse', course)
-                console.log(semester)
+                // console.log(semester)
                 if (semester.success) {
                     setSemester(semester.data);
                     // setDivisions(response.data.divisonData)
@@ -142,31 +177,17 @@ function GenerateQR() {
             }
 
         };
-        const fetchDivision = async () => {
-            try {
-                console.log(selectedCourse)
-                const response = await PostData('getDivisioon', { course: selectedCourse });
-                // const response = await PostData('addCourse', course)
-                console.log(response)
-                if (response.success) {
-                    setSubjects(response.data);
-                } else {
-                    console.error('Failed to fetch subjects');
-                }
-            } catch (error) {
-                console.error('Error occurred while fetching subjects:', error);
-            }
-
-        }
+       
         fetchSemester();
     }, [selectedCourse])
 
     useEffect(() => {
-        // Fetch courses data when the component mounts
+
+        setUserData(user);
         const getCourse = async () => {
             try {
                 const response = await getData('getCourse')
-                console.log(response)
+                // console.log(response)
                 if (response.success) {
                     setCourses(response.data);
                 } else {
@@ -181,6 +202,8 @@ function GenerateQR() {
     }, []);
     return (
         <div className="form-container">
+
+
             <form>
                 <div className="form-group">
                     <label htmlFor="course">Select Course:</label>
@@ -216,12 +239,12 @@ function GenerateQR() {
                     <label htmlFor="subject">Select Subject:</label>
                     <select
                         id="subject"
-                        onChange={handleSubjectChange}
+                        onChange={handelSubjectChange}
                         value={selectedSubject}
                     >
                         <option value="">Select Subject</option>
                         {subjects.map((subject) => (
-                            <option key={subject.id} value={subject.id}>
+                            <option key={subject.id} value={subject.id} data-id={subject.id} data-name={subject.name}>
                                 {subject.name}
                             </option>
                         ))}
@@ -232,12 +255,12 @@ function GenerateQR() {
                     <select
                         id="division"
                         value={selectedDivision}
-                        onChange={(e) => setSelectedDivision(e.target.value)}
+                        onChange={handleDivisonChange}
                     >
                         <option value="">Select Division</option>
                         {divisions.map((division) => (
-                            <option key={division} value={division}>
-                                {division}
+                            <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
+                                {division.division}
                             </option>
                         ))}
                     </select>

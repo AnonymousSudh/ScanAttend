@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     facultyId: DataTypes.INTEGER,
     courseId: DataTypes.INTEGER,
     divisionId: DataTypes.INTEGER,
+    subjectId: DataTypes.INTEGER,
     lectureDate: DataTypes.DATE,
     startTime: DataTypes.STRING,
-    endTime: DataTypes.STRING,
-    subjectId:DataTypes.INTEGER
+    endTime: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Lecture',

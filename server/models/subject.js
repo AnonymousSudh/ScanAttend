@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     subjectCode: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Subject',
+    modelName: 'Courses',
   });
   return Subject;
 };

@@ -14,15 +14,17 @@ const addSubject = async (data) => {
     }
 }
 
-const getSubjectOfCourse = async (data) => {
+const getSubjectandDivionOfCourse = async (data) => {
     try {
-        // console.log(data)
+        console.log(data)
         data.courseId = Number(data.courseId)
         // data.semester = Number(data.semester)
-        const result = await subjectRepo.getSubjectOfCourse(data);
-        const subjectData = result.map((val) =>({id:val.id,name:val.name}))
+        const result = await subjectRepo.getSubjectandDivionOfCourse(data);
+        const subjectData = result.result.map((val) =>({id:val.id,name:val.name}))
+        const divisionData = result.distinctDivisions.map((val) =>({id:val.id,division:val.division,}))
         console.log(subjectData)
-        return subjectData
+        console.log(divisionData)
+        return {subjectData,divisionData}
     } catch (error) {
         console.log("error at service layer");
         console.log(error)
@@ -34,7 +36,7 @@ const getSemesterOfCourse = async (data) => {
         // console.log(data)
         data = Number(data.course);
         const result = await subjectRepo.getSemesterOfCourse(data);
-        const subjectData = result.map((val) =>({name:val.name,semester:Number(val.semester)}))
+        const subjectData = result.map((val) =>({semester:Number(val.semester)}))
         return subjectData
     } catch (error) {
         console.log("error at service layer");
@@ -42,4 +44,4 @@ const getSemesterOfCourse = async (data) => {
         throw error;
     }
 }
-module.exports = { addSubject ,getSubjectOfCourse,getSemesterOfCourse}
+module.exports = { addSubject ,getSubjectandDivionOfCourse,getSemesterOfCourse}

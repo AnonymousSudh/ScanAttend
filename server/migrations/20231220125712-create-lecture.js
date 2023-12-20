@@ -11,48 +11,46 @@ module.exports = {
       },
       facultyId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'faculties',
+          model: 'Faculties',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
       courseId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'courses',
+          model: 'Courses',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
       divisionId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'divisions',
+          model: 'Divisions',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
       subjectId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'lectures',
+          model: 'Subjects',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
       lectureDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-
+        type: Sequelize.DATE
       },
       startTime: {
         type: Sequelize.STRING

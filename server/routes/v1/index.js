@@ -5,7 +5,7 @@ const facultyController = require('../../controller_or_api/facultyController')
 const courseController = require('../../controller_or_api/courseController');
 const divisionController = require('../../controller_or_api/divisionController')
 const subjectController = require("../../controller_or_api/subjectController")
-
+const lectureController = require("../../controller_or_api/lectureController")
 router.post("/create",studentController.createStudent);
 router.post("/update",studentController.updateStudent);
 
@@ -27,8 +27,12 @@ router.post('/addDivision',divisionController.addDivision);
 
 // subject routes
 router.post('/addCourseAndSubject',subjectController.addSubject);
-router.post('/getSubjectOfCourse',subjectController.getSubjectOfCourse);
+router.post('/getSubjectandDivisonOfCourse',subjectController.getSubjectandDivionOfCourse);
 router.post('/getSemesterOfCourse',subjectController.getSemesterOfCourse);
 
+
+// lecture routes
+
+router.post('/createLecture',lectureController.createLecture)
 
 module.exports = router

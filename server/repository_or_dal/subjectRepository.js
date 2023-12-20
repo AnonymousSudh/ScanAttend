@@ -1,5 +1,5 @@
-const {Subject,Course,sequelize} = require('../models/index')
-// var sequelize = require('sequelize');
+const { Subject, Course, sequelize,Division } = require('../models/index')
+var Sequelize = require('sequelize');
 // const db = require('../config/config.json')
 
 const addSubject = async (data) => {
@@ -15,19 +15,42 @@ const addSubject = async (data) => {
         throw error;
     }
 }
-const getSubjectOfCourse = async (data) => {
+const getSubjectandDivionOfCourse = async (data) => {
 
     try {
+        // console.log("getSubjectandDivionOfCourse called")
         console.log("data at repo layer", data)
         // return
         const result = await Subject.findAll({
-            where:{
-                courseId:data.courseId,
-                semester:data.semester
+            where: {
+                courseId: data.courseId,
+                semester: data.semester
             }
         });
+
+
+        const distinctDivisions = await Division.findAll({
+            attributes: ['division', 'id'],
+            where: {
+              courseId: data.courseId,
+              semester: data.semester
+            },
+            distinct: true 
+            // attributes: [
+            //     [sequelize.fn('DISTINCT', sequelize.col('division')), 'division']
+            // ],
+            // where: {
+            //     courseId: data.courseId ,
+            //     semester:data.semester
+            // }
+        });
+        console.log(" ---distinctDivisions----")
+        console.log(distinctDivisions)
+        console.log("------------")
+
+        // console.log(distinctSemesterOfCourse);
         console.log(result);
-        return result
+        return {result,distinctDivisions}
     } catch (error) {
         console.log("error at Repository layer");
         console.log(error)
@@ -39,16 +62,16 @@ const getSemesterOfCourse = async (data) => {
 
     try {
         console.log("data at repo layer", data)
-        const distinctSemesterAndSubject = await sequelize.query(
+        const distinctSemesterOfCourse = await sequelize.query(
             `SELECT DISTINCT subjects.semester
             FROM subjects
             INNER JOIN courses ON subjects.courseId = courses.id
             WHERE courses.id = ${data}`,
             { type: sequelize.QueryTypes.SELECT }
-          );
+        );
+
       
-          console.log(distinctSemesterAndSubject);
-          return distinctSemesterAndSubject;
+        return distinctSemesterOfCourse;
     } catch (error) {
         console.log("error at Repository layer");
         console.log(error)
@@ -57,4 +80,4 @@ const getSemesterOfCourse = async (data) => {
 }
 
 
-module.exports = {addSubject,getSubjectOfCourse,getSemesterOfCourse}
+module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse }

@@ -31,14 +31,14 @@ const addSubject = async (req, res) => {
     }
 }
 
-const getSubjectOfCourse = async (req, res) => {
+const getSubjectandDivionOfCourse = async (req, res) => {
     try {
         const credentials = req.body;
         console.log(credentials);
-        const result = await subjectService.getSubjectOfCourse(credentials);
-        console.log("---")
-        console.log(result)
-        console.log("-----")
+        const result = await subjectService.getSubjectandDivionOfCourse(credentials);
+        // console.log("---")
+        // console.log(result)
+        // console.log("-----")
         if (result.error) {
             // If there's an error during login, respond with an error status and message
             return res.status(401).json({ error: result.error });
@@ -95,4 +95,4 @@ const getSemesterOfCourse = async (req, res) => {
 
 
 
-module.exports = { addSubject ,getSubjectOfCourse,getSemesterOfCourse}
+module.exports = { addSubject ,getSubjectandDivionOfCourse,getSemesterOfCourse}

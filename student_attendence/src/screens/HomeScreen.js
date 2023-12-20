@@ -18,6 +18,8 @@ const HomeScreen = () => {
     keyValuePairs.forEach(([key, value]) => {
       qrInfo[key.trim()] = value.trim();
     });
+    // console.log("------------")
+    // console.log(qrInfo)
     setQRData(qrInfo)
     setVisible(true);
 

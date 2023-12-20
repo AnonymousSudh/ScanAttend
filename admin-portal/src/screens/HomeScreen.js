@@ -12,24 +12,30 @@ import AddCourse from '../components/AddCourse';
 function HomeScreen() {
   const [qrData, setQRData] = useState('');
   const [showQR, setShowQR] = useState(false);
+  const [userData, setUserData] = useState({});
+
   const dispatch = useDispatch();
   const navigation = useNavigate();
+  const user = useSelector(state => state.data);
 
 
   const data = useSelector(state => state);
   console.log(data)
 
   useEffect(() => {
+    setUserData(user);
 
-  })
+  }, [])
   return (
     <>
       <div className="qr-generator">
+
+        <h1>{userData.firstName + " " + userData.lastName}</h1>
         <AddSubject />
-        <AddCourse/>
+        <AddCourse />
         <br />
         <br />
-        <AddDivision/>
+        <AddDivision />
         <br />
         {/* <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
         {showQR && (
@@ -43,8 +49,6 @@ function HomeScreen() {
         <br />
         <br />
         <LogoutButton redirectTo="/signup" />
-
-
       </div>
     </>
   )
