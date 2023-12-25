@@ -10,7 +10,7 @@ const initialState = {
     error: null,
     token: null
 
-}
+} 
 
 export const authSlice = createSlice({
     name: "authSlice", 
@@ -27,7 +27,7 @@ export const authSlice = createSlice({
             localStorage.removeItem('facultyToken');
             // localStorage.removeItem('userId');
           },
-    },
+    }, 
     extraReducers: (builder) => {
         builder
             .addCase(createFaculty.pending, (state) => {

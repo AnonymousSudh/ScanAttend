@@ -1,4 +1,4 @@
-const { Courses,Division} = require("../models/index");
+const { Course,Division} = require("../models/index");
 const { Op } = require("sequelize");
 var Sequelize = require('sequelize');
 
@@ -6,7 +6,7 @@ const addCourse = async (data) => {
 
     try {
         console.log("data at repo layer", data)
-        const result = await Courses.create(data);
+        const result = await Course.create(data);
         console.log(result);
         return result
     } catch (error) {
@@ -24,7 +24,7 @@ const getCourse = async () => {
 
     try {
         console.log("data at repo layer")
-        const allCourse = await Courses.findAll();
+        const allCourse = await Course.findAll();
 
         // console.log(allCourse);
 
@@ -40,7 +40,7 @@ const getSubject = async (data) => {
 
     try {
         console.log("data at repo layer", data)
-        const distinctSubject = await Courses.findAll({
+        const distinctSubject = await Course.findAll({
             attributes: [
                 [Sequelize.fn('DISTINCT', Sequelize.col('name')), 'name']
             ],
@@ -69,13 +69,14 @@ const getSubject = async (data) => {
 const getAllCourses = async () => {
 
     try {
-        console.log("data at repo layer")
-        const allCourses = await Courses.findAll();
+        console.log("data at repo layer");
+        console.log("1234t ")
+        const allCourses = await Course.findAll();
         console.log(allCourses);
-        return allCourses
+        return allCourses;
     } catch (error) {
-        console.log("error at Repository layer");
-        console.log(error)
+        console.log("error at Repository layer")
+        console.log(error);
         throw error;
     }
 }

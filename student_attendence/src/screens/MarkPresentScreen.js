@@ -7,11 +7,7 @@ const MarkPresentScreen = ({ route, navigation }) => {
 
   // Assume there's a function to fetch attendance from the backend
   const fetchAttendance = async () => {
-    // Fetch data from backend, for example:
-    // const response = await fetch('your-backend-url');
-    // const data = await response.json();
-    // setAttendancePercentage(data.attendancePercentage); // Set the fetched attendance percentage
-    // For now, setting a default value
+
     setAttendancePercentage(75); // Replace this with your backend logic
   };
   const goToMyAttendance = () => {

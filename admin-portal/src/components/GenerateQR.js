@@ -13,7 +13,7 @@ function GenerateQR() {
 
     const [subjects, setSubjects] = useState([]);
     const [selectedSubject, setSelectedSubject] = useState({});
-    
+
     const [divisions, setDivisions] = useState([]);
     const [selectedDivision, setSelectedDivision] = useState('');
     const [selectedDivisionValue, setSelectedDivisionValue] = useState('');
@@ -40,7 +40,7 @@ function GenerateQR() {
         setSelectedSubject(subjectId);
     };
 
-    const generateQRCode = () => {
+    const generateQRCode = async () => {
 
         console.log(selectedSubject)
         console.log(selectedSemester)
@@ -55,25 +55,35 @@ function GenerateQR() {
           division:${selectedDivisionValue},
           faculty:${userData.firstName + " " + userData.lastName}`
 
-        setQRData(data);
-        setShowQR(true);
         const lectureDate = {
             facultyId: userData.id || 50,
             courseId: selectedCourse.id,
             divisionId: selectedDivision,
-            subjectId:selectedSubject.id
-
+            subjectId: selectedSubject.id
         }
         console.log(lectureDate)
 
-        const createLecture = PostData('createLecture',lectureDate)
-        if (createLecture.success) {
-            console.log(createLecture);
+        const result = await PostData('createLecture', lectureDate)
+        console.log(result)
+        if (result.success) {
+            console.log(result.data);
+            // data.lectureId = result.id;
+            const data =
+                ` course:${selectedCourse.name},
+                    subject:${selectedSubject.name},
+                    semester:${selectedSemester},
+                    division:${selectedDivisionValue},
+                    faculty:${userData.firstName + " " + userData.lastName},
+                    lectureId:${result.data.id}`
+            setQRData(data);
+            setShowQR(true);
             // setSubjects(subject?.data?.subjectData);
             // setDivisions(subject?.data?.divisionData)
         } else {
             console.error('Failed to fetch subjects');
         }
+
+
     };
     const handleCourseChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
@@ -95,7 +105,7 @@ function GenerateQR() {
         const selectedIndex = e.target.selectedIndex;
         const selectedDivisionId = e.target.options[selectedIndex].getAttribute('data-id');
         const selectedDivisionName = e.target.options[selectedIndex].getAttribute('data-name');
-        console.log(selectedDivisionId,selectedDivisionName)
+        console.log(selectedDivisionId, selectedDivisionName)
         setSelectedDivision(selectedDivisionId)
         setSelectedDivisionValue(selectedDivisionName);
     };
@@ -177,7 +187,7 @@ function GenerateQR() {
             }
 
         };
-       
+
         fetchSemester();
     }, [selectedCourse])
 
@@ -186,7 +196,7 @@ function GenerateQR() {
         setUserData(user);
         const getCourse = async () => {
             try {
-                const response = await getData('getCourse')
+                const response = await getData('getAllCourse')
                 // console.log(response)
                 if (response.success) {
                     setCourses(response.data);

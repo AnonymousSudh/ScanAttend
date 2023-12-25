@@ -12,12 +12,10 @@ module.exports = {
       userName: {
         type: Sequelize.STRING
       },
-      firstName: {
+      fullName: {
         type: Sequelize.STRING
       },
-      lastName: {
-        type: Sequelize.STRING
-      },
+     
       mobileNumber: {
         type: Sequelize.BIGINT
       },
@@ -30,12 +28,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      programName: {
+      course: {
         type: Sequelize.STRING
       },
-      programSemester: {
-        type: Sequelize.STRING
-      },
+   
       authToken: {
         type: Sequelize.TEXT
       },

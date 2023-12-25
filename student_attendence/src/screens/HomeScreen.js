@@ -3,12 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { useNavigation } from '@react-navigation/native';
+import { postData } from '../utils/api';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = () => {
   const [QRdata, setQRData] = useState({});
   const [visible, setVisible] = useState(false);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
+  const user = useSelector(state => state.data);
+  console.log("user",user)
   var qrInfo = {};
 
   const handleBarCodeRead = (event) => {
@@ -19,19 +23,23 @@ const HomeScreen = () => {
       qrInfo[key.trim()] = value.trim();
     });
     // console.log("------------")
-    // console.log(qrInfo)
+    console.log(qrInfo)
     setQRData(qrInfo)
     setVisible(true);
 
   };
-  const markPresent = () => {
+  const markPresent = async () => {
     // Handle marking present functionality here
     // This function will be called when "Mark Present" button is pressed
+
+    const response = await postData('markPresent', QRdata);
+    if (response.success) {
+      console.log(response);
+    }
     console.log(QRdata)
 
     navigation.navigate('MarkPresent', QRdata)
 
-    // Implement your logic for marking present
   };
 
 
@@ -64,6 +72,7 @@ const HomeScreen = () => {
         flashMode={RNCamera.Constants.FlashMode.auto}
         onBarCodeRead={handleBarCodeRead}
         // onRead={({data})=>{alert(data)}}
+        captureAudio={false}
         reactivate={true}
         reactivateTimeout={4000}
       >
@@ -82,11 +91,11 @@ const HomeScreen = () => {
 
         {visible && (
           <View style={styles.dataContainer}>
-            <Text>course: {QRdata.course}</Text>
-            <Text>subject: {QRdata.subject}</Text>
-            <Text>division: {QRdata.division}</Text>
-            <Text>semester: {QRdata.semester}</Text>
-            <Text>Faculty: {QRdata.faculty}</Text>
+            <Text style={styles.blackBoldText}>course: {QRdata.course}</Text>
+            <Text style={styles.blackBoldText}>subject: {QRdata.subject}</Text>
+            <Text style={styles.blackBoldText}>division: {QRdata.division}</Text>
+            <Text style={styles.blackBoldText}>semester: {QRdata.semester}</Text>
+            <Text style={styles.blackBoldText}>Faculty: {QRdata.faculty}</Text>
           </View>
         )}
         {visible && (
@@ -130,6 +139,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '80%',
   },
+  blackBoldText: {
+    color: 'black',
+    fontWeight: 'bolder'
+  }
 });
 
 export default HomeScreen;

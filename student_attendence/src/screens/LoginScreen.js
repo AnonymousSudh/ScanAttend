@@ -1,23 +1,66 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import InputField from '../components/InputField';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet,ToastAndroid } from 'react-native';
+import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper'; // 
+import { useSelector, useDispatch } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+import { loginStudent } from '../redux/action/authAction';
+
+const LoginScreen = ({ navigation }) => {
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [deviceAddress, setDeviceAddress] = useState(null);
+  const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    // Implement login logic here (e.g., API call to authenticate user)
+  const getDeviceID = async () => setDeviceAddress(await DeviceInfo.getUniqueId());
+
+  const handleLogin = async () => {
+    // Handle login logic here
+    console.log('Username:', userName);
+    console.log('Password:', password);
+    const data = await dispatch(loginStudent({ userName, password, deviceAddress }))
+    console.log("-------------")
+    console.log(data)
+    if (data.payload.success) {
+
+    } else {
+      ToastAndroid.showWithGravity(
+        `${data.payload.error}`,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    }
+    // console.log(data)
   };
+  useEffect(() => {
+    getDeviceID();
+  }, [])
 
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
-      <InputField placeholder="Username" onChangeText={setUsername} />
-      <InputField placeholder="Password" onChangeText={setPassword} secureTextEntry />
-      <TouchableOpacity onPress={handleLogin}>
-        <Text>Login</Text>
-      </TouchableOpacity>
+      <PaperTextInput
+        mode="outlined"
+        label="Username"
+        value={userName}
+        right={<PaperTextInput.Affix text="" />}
+        onChangeText={(text) => setUserName(text)}
+        style={styles.input}
+      />
+      <PaperTextInput
+        mode="outlined"
+        label="Password"
+        value={password}
+        right={<PaperTextInput.Affix text="" />}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry
+        style={styles.input}
+      />
+      <PaperButton mode="contained" onPress={handleLogin} style={styles.loginButton}>
+        Login
+      </PaperButton>
+      <PaperButton onPress={() => navigation.navigate('Signup')} style={styles.createAccountButton}>
+        Create a new account
+      </PaperButton>
     </View>
   );
 };
@@ -26,7 +69,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  input: {
+    marginBottom: 10,
+  },
+  loginButton: {
+    marginTop: 10,
+  },
+  createAccountButton: {
+    marginTop: 20,
   },
 });
 

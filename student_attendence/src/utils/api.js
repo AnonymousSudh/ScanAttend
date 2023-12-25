@@ -1,7 +1,7 @@
 // const BASE_URL = 'https://10.0.3.2:5000/api/v1'; // Replace with your API base URL
-const BASE_URL = 'https://447e-2409-40e3-1f-491a-ac17-da8-1ed9-c196.ngrok.io/api/v1'; // 
-// const BASE_URL = 'http://localhost:5000'; // 
 
+const ngrokUrl = 'https://203c-2409-40e3-32-206d-d5b5-372f-c774-9abe.ngrok-free.app'
+const BASE_URL = `${ngrokUrl}/api/v1`;
 
 // Function to make a GET request
 
@@ -46,10 +46,6 @@ export const postData = async (endpoint, bodyData = {}) => {
       },
       body: JSON.stringify(bodyData),
     });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok.');
-    }
 
     const data = await response.json();
     return data;

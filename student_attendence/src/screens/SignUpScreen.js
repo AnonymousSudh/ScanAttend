@@ -1,132 +1,226 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, Button, Picker, Alert } from 'react-native';
-import InputField from '../components/InputField';
-import Dropdown from '../components/Dropdown';
-import { fetchData, postData } from "../utils/api"
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper'; // 
+import { useSelector, useDispatch } from 'react-redux';
+import { createStudent } from '../redux/action/authAction'
 import DeviceInfo from 'react-native-device-info';
-
-// import InputField from '../components/InputField';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 const SignupScreen = () => {
   const [userName, setUserName] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [rollNumber, setRollNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [programName, setProgramName] = useState('');
-  const [programSemester, setProgramSemester] = useState('');
-  const [authToken, setAuthToken] = useState('');
-
+  const [course, setCourse] = useState('');
   const [deviceId, setDeviceID] = useState(null);
+  const navigation = useNavigation();
 
-  const getDeviceID = async () => {
-    setDeviceID(await DeviceInfo.getUniqueId())
-    // console.log(deviceId)
-  }
+  const dispatch = useDispatch();
+  const getDeviceID = async () => setDeviceID(await DeviceInfo.getUniqueId());
 
-
-  const checkUserName = () => {
-    console.log("hello")
-  };
-
-  const handleSignup = async () => {
-    try {
-      const signupData = {
-        userName,
-        firstName,
-        lastName,
-        mobileNumber,
-        rollNumber,
-        password,
-        programName,
-        programSemester,
-        authToken,
-      };
-
-      const result = await postData('create', signupData);
-      console.log("result", result)
-    } catch (error) {
-      console.log(error)
-      throw error;
+  const handleSignUp = async () => {
+    if (!userName || !rollNumber || !password) {
+      ToastAndroid.showWithGravity(
+        'Please fill in all required fields',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
+    } else {
+      const studentData = {userName,fullName,mobileNumber,rollNumber,password,course,deviceId}
+      console.log(studentData)
+      const data = await dispatch(createStudent(studentData));
+      console.log(data.payload);
+      if (data.payload.success) {
+        ToastAndroid.showWithGravity(
+          `${data.payload.msg}`,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+        navigation.navigate('Login')
+      } else {
+        ToastAndroid.showWithGravity(
+          `${data.payload.error}`,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }
     }
-  };
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        console.log("hello")
-        func.apply(this, args);
-      }, delay);
-    };
+
   };
 
-  // Function to be debounced
-  const handleInputChange = (text) => {
-    setUserName(text);
-  };
-  const debouncedInputChange = debounce(handleInputChange, 1000);
+
+  // const debounce = (func, delay) => {
+  //   let timeoutId;
+  //   return function (...args) {
+  //     clearTimeout(timeoutId);
+  //     timeoutId = setTimeout(() => {
+  //       console.log("hello")
+  //       func.apply(this, args);
+  //     }, delay);
+  //   };
+  // };
+
+  // // Function to be debounced
+  // const handleInputChange = (text) => {
+  //   setUserName(text);
+  // };
+  // const debouncedInputChange = debounce(handleInputChange, 1000);
+
+  // const handlePhotoUpload = () => {
+  //   // Implement logic for photo upload
+  //   console.log("fghjk")
+  // };
   useEffect(() => {
-
-    getDeviceID()
+    getDeviceID();
   }, [])
 
-
-  const handlePhotoUpload = () => {
-    // Implement logic for photo upload
-    console.log("fghjk")
-  };
-
   return (
-    <View>
-      {/* <TextInput
-        placeholder="Username"
-        value={userName}
-        onKeyPress={()=>handlePhotoUpload()}
-        onChangeText={text => setUserName(text)}
-        // onChangeText={text =>  debouncedInputChange(text)}
-      /> */}
-      <InputField placeholder={"hello"} onChangeText={handlePhotoUpload}/>
+    <ScrollView>
+      <Text style={styles.signUpText}>SignUp</Text>
+      <View style={styles.signUpContainer}>
+        <View style={styles.inputContainer}>
+          <PaperTextInput
+            mode="outlined"
+            label="Username"
+            placeholder="Enter username"
+            value={userName}
+            onChangeText={text => setUserName(text)}
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+          />
+        </View>
 
-      {/* <TextInput
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={text => setFirstName(text)}
-      /> */}
-      {/* Other input fields for lastName, mobileNumber, rollNumber, password */}
+        <View style={styles.inputContainer}>
+
+          <PaperTextInput
+            placeholder="Enter full name"
+            label="Full Name"
+            value={fullName}
+            onChangeText={text => setFullName(text)}
+            mode="outlined"
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+
+          <PaperTextInput
+            mode="outlined"
+            label="Mobile Number"
+            placeholder="Enter mobile number"
+            value={mobileNumber}
+            keyboardType='number-pad'
+            onChangeText={text => setMobileNumber(text)}
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <PaperTextInput
+            mode="outlined"
+            label="Roll Number"
+            placeholder="Enter roll number"
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+            value={rollNumber}
+            onChangeText={text => setRollNumber(text)}
+          />
+        </View>
 
 
+        <View style={styles.inputContainer}>
 
+          <PaperTextInput
+            placeholder="Enter password"
+            label="Password"
+            value={password}
+            secureTextEntry
+            onChangeText={text => setPassword(text)}
+            mode="outlined"
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+          />
+        </View>
 
+        <View style={styles.inputContainer}>
 
-      <Button title="Signup" onPress={handleSignup} />
-    </View>
+          <PaperTextInput
+            placeholder="Enter course"
+            label="Course"
+            value={course}
+            onChangeText={text => setCourse(text)}
+            mode="outlined"
+            right={<PaperTextInput.Affix text="" />}
+            style={styles.outlineText}
+          />
+        </View>
+
+        <PaperButton mode="contained" style={styles.button} onPress={handleSignUp}>
+          Sign Up
+        </PaperButton>
+        <TouchableOpacity>
+          <Text style={styles.signInText}>
+            Already have an account? Sign In
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  signUpText: {
+    fontWeight: 'bold',
+    padding: 10,
+    fontSize: 18,
+  },
+
+  signUpContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0', // Change the background color as needed
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 20,
   },
-  formContainer: {
-    width: '80%',
-    padding: 20,
-    borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.6)', // Glassmorphism effect with transparency
-    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)', // Box shadow for glass effect
+  inputContainer: {
+    // borderColor:"red",
+    // borderWidth:1,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 15,
   },
-  input: {
-    height: 40,
-    marginBottom: 10,
+  label: {
+    marginBottom: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  signUpinput: {
+    // borderWidth: 1,
+    // borderColor: '#ccc',
+    borderRadius: 5,
     paddingHorizontal: 10,
-    borderRadius: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Transparent input fields
+    paddingVertical: 8,
+    fontSize: 16,
+  },
+  button: {
+    marginTop: 20,
+    width: '100%',
+  },
+  signInText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: 'blue',
+  },
+  outlineText: {
+    width: '80%',
+    marginVertical: 10,
+    backgroundColor: 'transparent', // Set the background color of the input field
   },
 });
 

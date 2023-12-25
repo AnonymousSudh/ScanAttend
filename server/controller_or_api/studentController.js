@@ -4,25 +4,53 @@ const studentService = require("../service/studentService")
 
 const createStudent = async (req, res) => {
     try {
-        const newUserData = req.body
-        console.log(req.body)
-        const result = await studentService.createStudent(newUserData);
-        console.log(result);
-        res.data(result)
-        res.send(result);
+        const studentData = req.body
+        // console.log(req.body)
+        const result = await studentService.createStudent(studentData);
+        res.status(201).json({
+            data: result,
+            success: true,
+            msg: "Account Created Successfully.",
+            error: null
+        });
     } catch (error) {
-        console.log("Error at controller layer")
-        throw error;
+        res.status(400).json({
+            data: null,
+            success: false,
+            msg: "Not able to Create Account",
+            error: error.message,
+        });
     }
 
 }
 
+const loginStudent = async(req,res)=>{
+    try {
+        const studentCredential = req.body
+        console.log(studentCredential)
+        // console.log(req.body)
+        const result = await studentService.loginStudent(studentCredential);
+        res.status(201).json({
+            data: result,
+            success: true,
+            msg: "Login Successfully.",
+            error: null
+        });
+    } catch (error) {
+        res.status(400).json({
+            data: null,
+            success: false,
+            msg: "Unable To Login",
+            error: error.message,
+        });
+    }
+};
 
 const updateStudent = async (req, res) => {
     try {
         console.log(req.body)
-        const {id,userName} = req.body
-        const result = await studentService.updateStudent(id,userName);
+        const { id, userName } = req.body
+        const result = await studentService.updateStudent(id, userName);
         console.log(result);
         res.send(result);
     } catch (error) {
@@ -32,4 +60,4 @@ const updateStudent = async (req, res) => {
 
 }
 
-module.exports = { createStudent,updateStudent }
+module.exports = { createStudent, updateStudent ,loginStudent}

@@ -15,14 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Student.init({
     userName: DataTypes.STRING,
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
+    fullName: DataTypes.STRING,
     mobileNumber: DataTypes.BIGINT,
     deviceAddress: DataTypes.STRING,
     rollNumber: DataTypes.STRING,
     password: DataTypes.STRING,
-    programName: DataTypes.STRING,
-    programSemester: DataTypes.STRING,
+    course: DataTypes.STRING,
     authToken: DataTypes.TEXT
   }, {
     sequelize,

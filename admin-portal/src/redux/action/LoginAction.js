@@ -7,14 +7,14 @@ export const createFaculty = createAsyncThunk('createFaculty', async (formData) 
         const response = await PostData('signUpFaculty', formData);
         console.log("create user login action")
         console.log(response)
-
+ 
         return response;
 
     } catch (error) {
         console.log(error)
         throw error
     }
-});
+}); 
 
 
 export const loginFaculty = createAsyncThunk('loginFaculty', async (data) => {

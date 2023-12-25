@@ -12,12 +12,10 @@ module.exports = {
       userName: {
         type: Sequelize.STRING
       },
-      firstName: {
+      fullName: {
         type: Sequelize.STRING
       },
-      lastName: {
-        type: Sequelize.STRING
-      },
+     
       mobileNumber: {
         type: Sequelize.BIGINT
       },
@@ -25,17 +23,16 @@ module.exports = {
         type: Sequelize.STRING
       },
       rollNumber: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique:true
       },
       password: {
         type: Sequelize.STRING
       },
-      programName: {
+      course: {
         type: Sequelize.STRING
       },
-      programSemester: {
-        type: Sequelize.STRING
-      },
+     
       authToken: {
         type: Sequelize.TEXT
       },

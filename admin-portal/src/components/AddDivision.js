@@ -47,7 +47,7 @@ function AddDivision() {
         // setUserData(user);
         const getCourse = async () => {
             try {
-                const response = await getData('getCourse')
+                const response = await getData('getAllCourse')
                 // console.log(response)
                 if (response.success) {
                     setCourse(response.data);
