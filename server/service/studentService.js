@@ -53,6 +53,7 @@ const loginStudent = async (studentCredential) => {
         // const result = await studentRepo.createStudent(studentData);
         // return result;
     } catch (error) {
+        console.log(error)
         throw error;
 
     }

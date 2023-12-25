@@ -1,6 +1,6 @@
 // const BASE_URL = 'https://10.0.3.2:5000/api/v1'; // Replace with your API base URL
 
-const ngrokUrl = 'https://203c-2409-40e3-32-206d-d5b5-372f-c774-9abe.ngrok-free.app'
+const ngrokUrl = 'https://scan-attend-j2mjar8cd-anonymoussudh.vercel.app'
 const BASE_URL = `${ngrokUrl}/api/v1`;
 
 // Function to make a GET request
