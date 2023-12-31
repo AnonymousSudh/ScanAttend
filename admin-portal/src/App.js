@@ -11,11 +11,14 @@ import {
   Link,
   createRoutesFromElements,
 } from "react-router-dom";
-// localStorage.getItem('faculty')
+
+const isAuthenticated = false;
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+    {/* {isAuthenticated?{}:<LoginScreen/>} */}
     <Route path='/login' element={<LoginScreen/>}/>
     <Route path='/' element={<HomeScreen/>}/> 
     <Route path='/signup' element={<SignUpScreen/>}/>

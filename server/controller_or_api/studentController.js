@@ -14,6 +14,7 @@ const createStudent = async (req, res) => {
             error: null
         });
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             data: null,
             success: false,

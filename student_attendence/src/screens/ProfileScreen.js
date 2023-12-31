@@ -2,26 +2,40 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { fetchData, postData } from "../utils/api"
 import { useSelector, useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { logout } from '../redux/reducer_or_slice/authReducer'
 
 const ProfileScreen = () => {
-    const usesel = async () => {
-        const data = await useSelector(state => { state.user })
-        console.log(data)
-
-    }
-    usesel()
-
+    const dispatch = useDispatch();
+    const data = useSelector((state) => state.auth);
+    console.log(data.studentId)
     const updateUser = async () => {
         const newData = { id: 20, userName: "suchita_chaubey" }
         const result = await postData('update', newData); // this line takes time
         console.log("result", result)
     }
+    const logoutStudent = async () => {
+        try {
+            // try add use dispatch to manuplate datac
+            console.log("1")
+            dispatch(logout());
+            console.log("2")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View>
             <Text>ProfileScreen</Text>
 
             <TouchableOpacity onPress={updateUser}>
                 <Text>Update</Text>
+                {/* <Button></Button> */}
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={logoutStudent}>
+                <Text>Logout</Text>
                 {/* <Button></Button> */}
             </TouchableOpacity>
         </View>

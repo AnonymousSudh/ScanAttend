@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet,ToastAndroid } from 'react-native';
+import { View, StyleSheet, ToastAndroid } from 'react-native';
 import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper'; // 
 import { useSelector, useDispatch } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
-
 import { loginStudent } from '../redux/action/authAction';
 
 const LoginScreen = ({ navigation }) => {
@@ -11,18 +10,24 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [deviceAddress, setDeviceAddress] = useState(null);
   const dispatch = useDispatch();
-
+  const selectorData = useSelector((state) => state.auth);
   const getDeviceID = async () => setDeviceAddress(await DeviceInfo.getUniqueId());
 
   const handleLogin = async () => {
     // Handle login logic here
     console.log('Username:', userName);
     console.log('Password:', password);
+    console.log(deviceAddress)
     const data = await dispatch(loginStudent({ userName, password, deviceAddress }))
     console.log("-------------")
     console.log(data)
     if (data.payload.success) {
-
+      console.log("selectorData",selectorData);
+      ToastAndroid.showWithGravity(
+        `${data.payload.msg}`,
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER,
+      );
     } else {
       ToastAndroid.showWithGravity(
         `${data.payload.error}`,

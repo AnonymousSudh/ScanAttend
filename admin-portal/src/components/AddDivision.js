@@ -20,7 +20,7 @@ function AddDivision() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData)
-        return
+        // return
         // Fetch POST request to send data to the backend
         try {
             const response = await PostData('addDivision', formData)

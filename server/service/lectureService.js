@@ -5,8 +5,8 @@ const createLecture = async (data) => {
         const result = await lectureRepo.createLecture(data);
         // console.log(result)
         // const courseData = result.map((course) => course.name);
-        console.log(result)
-        return result
+        console.log(result.dataValues)
+        return result.dataValues
     } catch (error) {
         console.log("error at service layer");
         console.log(error)

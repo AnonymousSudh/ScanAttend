@@ -14,7 +14,7 @@ const SignupScreen = () => {
   const [rollNumber, setRollNumber] = useState('');
   const [password, setPassword] = useState('');
   const [course, setCourse] = useState('');
-  const [deviceId, setDeviceID] = useState(null);
+  const [deviceAddress, setDeviceID] = useState(null);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const SignupScreen = () => {
         ToastAndroid.CENTER,
       );
     } else {
-      const studentData = {userName,fullName,mobileNumber,rollNumber,password,course,deviceId}
+      const studentData = {userName,fullName,mobileNumber,rollNumber,password,course,deviceAddress}
       console.log(studentData)
       const data = await dispatch(createStudent(studentData));
       console.log(data.payload);

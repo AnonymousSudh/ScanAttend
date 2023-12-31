@@ -6,23 +6,31 @@ import { useSelector } from 'react-redux';
 
 function GenerateQR() {
 
-    const [courses, setCourses] = useState([]);
-    const [selectedCourse, setSelectedCourse] = useState({});
-    const [semester, setSemester] = useState([]);
-    const [selectedSemester, setSelectedSemester] = useState('');
+    var [courses, setCourses] = useState([]);
+    var [selectedCourse, setSelectedCourse] = useState({});
+    var [semester, setSemester] = useState([]);
+    var [selectedSemester, setSelectedSemester] = useState('');
 
-    const [subjects, setSubjects] = useState([]);
-    const [selectedSubject, setSelectedSubject] = useState({});
+    var [subjects, setSubjects] = useState([]);
+    var [selectedSubject, setSelectedSubject] = useState({});
 
-    const [divisions, setDivisions] = useState([]);
-    const [selectedDivision, setSelectedDivision] = useState('');
-    const [selectedDivisionValue, setSelectedDivisionValue] = useState('');
+    var [divisions, setDivisions] = useState([]);
+    var [selectedDivision, setSelectedDivision] = useState('');
+    var [selectedDivisionValue, setSelectedDivisionValue] = useState('');
 
     const [qrData, setQRData] = useState('');
     const [showQR, setShowQR] = useState(false);
     const [userData, setUserData] = useState({});
     const user = useSelector(state => state.data);
+    console.log("user", user)
 
+    const clearForm = () => {
+        setSelectedCourse({});
+        setSelectedSemester('');
+        setSelectedSubject({});
+        setSelectedDivision('');
+        setSelectedDivisionValue('')
+    }
 
 
     // const handleCourseChange = async (e) => {
@@ -35,10 +43,10 @@ function GenerateQR() {
         const subjectId = e.target.value;
         setSelectedSemester(subjectId);
     };
-    const handleSubjectChange = async (e) => {
-        const subjectId = e.target.value;
-        setSelectedSubject(subjectId);
-    };
+    // const handleSubjectChange = async (e) => {
+    //     const subjectId = e.target.value;
+    //     setSelectedSubject(subjectId);
+    // };
 
     const generateQRCode = async () => {
 
@@ -46,14 +54,14 @@ function GenerateQR() {
         console.log(selectedSemester)
         console.log(selectedDivision)
         console.log(selectedDivisionValue)
-        // return
-        const data =
-            `
-          course:${selectedCourse.name},
-          subject:${selectedSubject.name},
-          semester:${selectedSemester},
-          division:${selectedDivisionValue},
-          faculty:${userData.firstName + " " + userData.lastName}`
+        // // return
+        // const data =
+        //     `
+        //   course:${selectedCourse.name},
+        //   subject:${selectedSubject.name},
+        //   semester:${selectedSemester},
+        //   division:${selectedDivisionValue},
+        //   faculty:${userData.firstName + " " + userData.lastName}`
 
         const lectureDate = {
             facultyId: userData.id || 50,
@@ -62,9 +70,10 @@ function GenerateQR() {
             subjectId: selectedSubject.id
         }
         console.log(lectureDate)
-
         const result = await PostData('createLecture', lectureDate)
-        console.log(result)
+        const lectureId = result.data.id
+        console.log("Lecture result", result);
+        console.log("lecture id ", lectureId)
         if (result.success) {
             console.log(result.data);
             // data.lectureId = result.id;
@@ -74,17 +83,21 @@ function GenerateQR() {
                     semester:${selectedSemester},
                     division:${selectedDivisionValue},
                     faculty:${userData.firstName + " " + userData.lastName},
-                    lectureId:${result.data.id}`
+                    facultyId:${userData.id},
+                    subjectId:${selectedSubject.id},
+                    divisionId:${selectedDivision},
+                    courseId:${selectedCourse.id},
+                    lectureId:${lectureId}        
+                    `
             setQRData(data);
             setShowQR(true);
-            // setSubjects(subject?.data?.subjectData);
-            // setDivisions(subject?.data?.divisionData)
         } else {
             console.error('Failed to fetch subjects');
         }
 
 
     };
+
     const handleCourseChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
         const selectedCourseId = e.target.options[selectedIndex].getAttribute('data-id');
@@ -92,7 +105,7 @@ function GenerateQR() {
 
         setSelectedCourse({ id: selectedCourseId, name: selectedCourseName });
     };
-    const handelSubjectChange = (e) => {
+    const handleSubjectChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
         const selectedSubjectId = e.target.options[selectedIndex].getAttribute('data-id');
         const selectedSubjectName = e.target.options[selectedIndex].getAttribute('data-name');
@@ -147,12 +160,15 @@ function GenerateQR() {
 
     // run when semester changes
 
+
+
     useEffect(() => {
         const fetchSubject = async () => {
             try {
                 // console.log(selectedSemester);
                 const subject = await PostData('getSubjectandDivisonOfCourse', { courseId: selectedCourse.id, semester: selectedSemester });
-                // console.log(subject.data.divisionData)
+                console.log(subject.data.divisionData)
+                console.log(subject)
                 // return
                 if (subject.success) {
                     setSubjects(subject?.data?.subjectData);
@@ -234,8 +250,8 @@ function GenerateQR() {
                     <label htmlFor="subject">Select Semester:</label>
                     <select
                         id="subject"
-                        onChange={handleSemesterChange}
                         value={selectedSemester}
+                        onChange={handleSemesterChange}
                     >
                         <option value="">Select Semester</option>
                         {semester.map((val) => (
@@ -249,8 +265,8 @@ function GenerateQR() {
                     <label htmlFor="subject">Select Subject:</label>
                     <select
                         id="subject"
-                        onChange={handelSubjectChange}
-                        value={selectedSubject}
+                        onChange={handleSubjectChange}
+                        value={selectedSubject.id}
                     >
                         <option value="">Select Subject</option>
                         {subjects.map((subject) => (
@@ -278,6 +294,8 @@ function GenerateQR() {
             </form>
 
             <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
+            <button onClick={clearForm} className='generateQRbutton'>Clear</button>
+
             <br />
             {showQR && (
                 <div className="qr-code">

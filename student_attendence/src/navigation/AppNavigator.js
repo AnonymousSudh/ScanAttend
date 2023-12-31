@@ -7,10 +7,21 @@ import AttendanceScreen from '../screens/AttendanceScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
+const HomeStackNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} options={{
+        headerShown: false}}/>
+      <Stack.Screen name="MarkAttendance" component={MarkPresentScreen} options={{
+        headerShown: false}} />
+    </Stack.Navigator>
+  );
+};
 export default function MyComponent() {
   return (
     <Tab.Navigator
@@ -18,38 +29,39 @@ export default function MyComponent() {
         headerShown: false,
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (
-        <BottomNavigation.Bar
-          navigationState={state}
-         safeAreaInsets={insets}
-         onTabPress={({ route }) => {
-        navigation.navigate(route.name);
-      }}
-          renderIcon={({ route, focused, color }) => {
-            const { options } = descriptors[route.key];
-            if (options.tabBarIcon) {
-              return options.tabBarIcon({ focused, color, size: 24 });
-            }
+      <BottomNavigation.Bar
+            navigationState={state}
+            safeAreaInsets={insets}
+            onTabPress={({ route }) => {
+            navigation.navigate(route.name);
+            }}
+            renderIcon={({ route, focused, color }) => {
+              const { options } = descriptors[route.key];
+              if (options.tabBarIcon) {
+                return options.tabBarIcon({ focused, color, size: 24 });
+              }
 
-            return null;
-          }}
-          getLabelText={({ route }) => {
-            const { options } = descriptors[route.key];
-            const label =
-              options.tabBarLabel !== undefined
-                ? options.tabBarLabel
-                : options.title !== undefined
-                ? options.title
-                : route.title;
+              return null;
+            }}
+            getLabelText={({ route }) => {
+              const { options } = descriptors[route.key];
+              const label =
+                options.tabBarLabel !== undefined
+                  ? options.tabBarLabel
+                  : options.title !== undefined
+                  ? options.title
+                  : route.title;
 
-            return label;
-          }}
-        />
-      )}
-    >
+             return label;
+            }}
+          />
+        )}
+      >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="HomeStackNavigator"
+        component={HomeStackNavigator}
         options={{
+          // headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => {
             return <Image source={require('../assets/images/home.png')} />;
@@ -66,6 +78,7 @@ export default function MyComponent() {
           },
         }}
       />
+        {/* <Tab.Screen name="MarkPresent" component={MarkPresentScreen} /> */}
     </Tab.Navigator>
   );
 }

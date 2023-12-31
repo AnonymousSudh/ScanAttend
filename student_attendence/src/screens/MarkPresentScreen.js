@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet ,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { postData } from '../utils/api';
 
 const MarkPresentScreen = ({ route, navigation }) => {
-  const { subject } = route.params; // Assuming subject is passed through navigation
   const [attendancePercentage, setAttendancePercentage] = useState(null);
+  const { lectureId, studentId, courseId, subjectId, facultyId, divisionId,subject } = route.params;
 
-  // Assume there's a function to fetch attendance from the backend
   const fetchAttendance = async () => {
-
-    setAttendancePercentage(75); // Replace this with your backend logic
+    try{
+    console.log("useEffect running")
+    const attendData = await postData('getattendancePercentage', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
+    console.log("attendData",attendData)
+    setAttendancePercentage(Math.round(attendData.data.attendancePercentage)); // Replace this with your backend logic
+    }catch(error){
+      console.log(error)
+    }
   };
   const goToMyAttendance = () => {
     navigation.navigate('MyAttendance'); // Navigate to MyAttendance screen
@@ -16,25 +22,20 @@ const MarkPresentScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchAttendance();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.checkmarkContainer}>
-        {/* Big correct sign */}
         <Text style={styles.checkmark}>✓</Text>
-        {/* Bold text "Marked present!" */}
         <Text style={styles.markedPresent}>Marked present!</Text>
       </View>
-      {/* Subject field */}
       <Text style={styles.subjectText}>Subject: {subject}</Text>
-      {/* Current attendance percentage */}
       <Text style={styles.attendanceText}>
         Current Attendance: {attendancePercentage ? `${attendancePercentage}%` : 'Loading...'}
       </Text>
-
-      <TouchableOpacity style={styles.button} onPress={goToMyAttendance}>
+      <TouchableOpacity style={styles.button} onPress={fetchAttendance}>
         <Text style={styles.buttonText}>My Attendance</Text>
       </TouchableOpacity>
     </View>

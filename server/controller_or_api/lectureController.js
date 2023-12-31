@@ -8,14 +8,14 @@ const createLecture = async (req, res) => {
         console.log("---")
         console.log(result)
         console.log("-----")
-        if (result.error) {
-            // If there's an error during login, respond with an error status and message
-            return res.status(401).json({ error: result.error });
-        }
+        // if (result.error) {
+        //     // If there's an error during login, respond with an error status and message
+        //     return res.status(401).json({ error: result.error });
+        // }
         return res.status(200).json({
             data: result,
             success: true,
-            msg: "successfully Added a Divison",
+            msg: "successfully created a lecture",
             error: null
         })
 
@@ -25,7 +25,7 @@ const createLecture = async (req, res) => {
         return res.status(500).json({
             data: null,
             success: false,
-            msg: "Not able to add Divsion",
+            msg: "Lecture Not created",
             error: error
         })
     }

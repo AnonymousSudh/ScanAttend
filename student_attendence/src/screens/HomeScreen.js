@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button, ToastAndroid } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { useNavigation } from '@react-navigation/native';
@@ -11,14 +11,16 @@ const HomeScreen = () => {
   const [visible, setVisible] = useState(false);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
-  const user = useSelector(state => state.data);
-  console.log("user",user)
+  const studentData = useSelector(state => state.auth);
+  console.log(" User data ", studentData.studentId)
   var qrInfo = {};
 
   const handleBarCodeRead = (event) => {
+
     const dataString = event.data;
     console.log(dataString)
     const keyValuePairs = dataString.split(',').map(pair => pair.split(':'));
+    console.log("keyValuePairs", keyValuePairs)
     keyValuePairs.forEach(([key, value]) => {
       qrInfo[key.trim()] = value.trim();
     });
@@ -26,19 +28,44 @@ const HomeScreen = () => {
     console.log(qrInfo)
     setQRData(qrInfo)
     setVisible(true);
-
   };
-  const markPresent = async () => {
-    // Handle marking present functionality here
-    // This function will be called when "Mark Present" button is pressed
 
-    const response = await postData('markPresent', QRdata);
-    if (response.success) {
+  const markAttendance = async () => {
+    try {
+
+      console.log("-------- Data after mark attendance ----")
+      console.log(QRdata);
+      const { course, courseId, division, divisionId, faculty, facultyId, subject, subjectId } = QRdata;
+      const studentId = studentData.studentId;
+      console.log("----------")
+      console.log("studentData",studentData)
+      console.log("studentId",studentId)
+      const lectureData = { ...QRdata, studentId }
+      console.log("lectureData",lectureData)
+      const response = await postData('markAttendance', lectureData); // student attendance marked
+      console.log("response after marked present ")
       console.log(response);
-    }
-    console.log(QRdata)
+      if (response.success) {
+        console.log("---------")
+        const lectureId = response.data.id;
+        console.log(lectureId)
+        // const attendData = await postData('getattendancePercentage', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
+        // console.log("attendData",attendData);
 
-    navigation.navigate('MarkPresent', QRdata)
+        navigation.navigate('MarkAttendance', {...QRdata, lectureId, studentId, courseId, subjectId, facultyId, divisionId })
+      } else {
+        console.log(response)
+        ToastAndroid.showWithGravity(
+          `${response.msg}`,
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
+      }
+      console.log(QRdata)
+    } catch (error) {
+      console.log("error", error)
+    }
+
 
   };
 
@@ -100,7 +127,7 @@ const HomeScreen = () => {
         )}
         {visible && (
           <View style={styles.buttonContainer}>
-            <Button title="Mark Present" onPress={markPresent} />
+            <Button title="Mark Present" onPress={markAttendance} />
           </View>
         )}
       </View>
@@ -141,7 +168,7 @@ const styles = StyleSheet.create({
   },
   blackBoldText: {
     color: 'black',
-    fontWeight: 'bolder'
+    // fontWeight: 'bolder'
   }
 });
 

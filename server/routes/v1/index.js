@@ -12,6 +12,8 @@ const attendanceController = require("../../controller_or_api/attendanceControll
 router.post("/createStudent", studentController.createStudent);
 router.post("/updateStudent", studentController.updateStudent);
 router.post("/loginStudent", studentController.loginStudent)
+router.post("/getattendancePercentage", attendanceController.attendancePercentage)
+
 
 
  
@@ -19,7 +21,7 @@ router.post("/loginStudent", studentController.loginStudent)
 
 router.post('/signUpFaculty', facultyController.createFaculty);
 router.post('/loginFaculty', facultyController.loginFaculty);
-router.post('/markPresent',attendanceController.markAttendance)
+router.post('/markAttendance',attendanceController.markAttendance)
 
 
 

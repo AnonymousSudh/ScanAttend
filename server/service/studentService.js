@@ -3,7 +3,7 @@ const studentRepo = require("../repository_or_dal/studentRepository");
 
 const createStudent = async (studentData) => {
     try {
-        console.log(studentData)
+        console.log("studentData",studentData)
         const existingUser = await studentRepo.findByRollNumber(studentData.rollNumber);
         if (existingUser) {
             throw new Error('Roll number already exists');

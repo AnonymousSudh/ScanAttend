@@ -20,9 +20,12 @@ export const authSlice = createSlice({
             state.token = action.payload.token
         },
         logout: (state, action) => {
-            state.student.token = null
-            AsyncStorage.removeItem('token')
-        }
+            console.log("logout called")
+            state.token = null
+            state.studentId = null
+            state.isLoading = false
+        },
+
     },
     extraReducers: (builder) => {
         builder
@@ -60,16 +63,15 @@ export const authSlice = createSlice({
             })
             .addCase(loginStudent.fulfilled, (state, action) => {
 
-                // console.log("action", action.payload)  //action.payload.data.user 
-                if (action.payload.data.success) {
+                console.log("action", action.payload.success)  //action.payload.data.user 
+                if (action.payload.success) {
+                    // console.log("inside")
                     const token = "xyz"
                     state.token = token
                     state.studentId = action.payload.data.id
                     state.isLoading = false
-          
-
                 }
-
+                console.log("2")
 
             })
             .addCase(loginStudent.rejected, (state, action) => {
@@ -79,6 +81,6 @@ export const authSlice = createSlice({
     }
 })
 
-export const { login, logout } = authSlice.actions // here we export individually because we have to use indivisual reducer at any component as per our use.
+export const { login, logout } = authSlice.actions // here we export individually because we have to use individually reducer at any component as per our use.
 
 export default authSlice.reducer // here we export default (means we export whole reducer) to make it aware at store.js.

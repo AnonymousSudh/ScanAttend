@@ -16,7 +16,6 @@ const addSubject = async (data) => {
     }
 }
 const getSubjectandDivionOfCourse = async (data) => {
-
     try {
         // console.log("getSubjectandDivionOfCourse called")
         console.log("data at repo layer", data)
