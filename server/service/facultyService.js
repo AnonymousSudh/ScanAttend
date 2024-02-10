@@ -1,13 +1,13 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 const SECRETKEY = process.env.SECRET_KEY;
 const facultyRepository = require("../repository_or_dal/facultyRepository")
 
 const createFaculty = async (data) => {
     try {
         // Check if the email is already registered
+        console.log(data)
         const existingUser = await facultyRepository.findFaculty(data);
-
         if (existingUser) {
             console.log("user alredy exist")
             return {
@@ -15,20 +15,21 @@ const createFaculty = async (data) => {
                 error: 'Email already exists'
             };
         }
-        const { firstName,lastName,email,mobile} = data
+        const { firstName,lastName,email,mobile,type} = data
 
         // Hash the password
         const hashedPassword = await bcrypt.hash(data.password, 10);
+        console.log("This is hased password",hashedPassword)
 
         // Create a new user with the hashed password
-        const newFaculty = await facultyRepository.createFaculty({firstName,lastName,email,mobile,password:hashedPassword});
+        const newFaculty = await facultyRepository.createFaculty({firstName,lastName,email,mobile,type,password:hashedPassword});
 
         return {
             data: newFaculty,
             error: null // No error if successful
         };
     } catch (error) {
-        console.log("error at service layer");
+        console.log("error at service c layer");
 
         console.log(error)
         throw error;
@@ -36,15 +37,22 @@ const createFaculty = async (data) => {
 }
 const loginFaculty = async (data) => {
     try {
+        data.userType = 'faculty'
+
         const user = await facultyRepository.findFaculty(data);
+        // console.log(data)
         if (!user) {
             throw new Error('User not found');
         }
-
-        const isPasswordValid = await bcrypt.compare(data.password, user.password);
-
+        const planePassword = data.password
+        const hashedPassword = user.password
+        // console.log("Both password")
+        // console.log(planePassword,hashedPassword)
+ 
+        const isPasswordValid = await bcrypt.compare(planePassword,hashedPassword);
+        console.log(isPasswordValid)
         if (!isPasswordValid) {
-            throw new Error('Invalid password');
+            throw new Error('Invalid  password');
         }
 
         const token = jwt.sign({ userId: user.id }, SECRETKEY, { expiresIn: '1h' });
@@ -55,7 +63,7 @@ const loginFaculty = async (data) => {
             error: null // No error if successful
         };
     } catch (error) {
-        console.log("error at service layer");
+        console.log("error at service layer -> login Faculty");
         console.log(error)
         throw error;
     }

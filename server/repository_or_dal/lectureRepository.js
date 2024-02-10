@@ -4,7 +4,7 @@ const createLecture = async (data) => {
     console.log(new Date());
     
     data.lectureDate = new Date();
-    console.log("data",data)
+    // console.log("data",data)
     // return
     try {
         const newLecture = await Lecture.create(data);

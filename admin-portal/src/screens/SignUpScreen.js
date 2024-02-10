@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/SignUp.css'; // Your CSS file for styling
-import { PostData } from '../utils/api';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createFaculty } from '../redux/action/LoginAction';
-
+import { useNavigate } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const SignUpScreen = () => {
-
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -14,6 +17,10 @@ const SignUpScreen = () => {
         mobile: '',
         password: '',
     });
+
+    const [showPassword, setShowPassword] = React.useState(false);
+
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -21,17 +28,19 @@ const SignUpScreen = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     const handleSubmit = async (e) => {
+        console.log(e)
+        console.log("formData",formData)
         e.preventDefault();
-        // Handle form submission logic here
-        console.log('Form submitted:', formData);
         try {
-            console.log(formData)
-            const data = await dispatch(createFaculty(formData))
+            formData.type='faculty'
+            const data = await dispatch(createFaculty(formData));
             if (data.payload.error) {
-                console.log("payload ")
                 alert(data.payload.error);
                 setFormData({
                     firstName: '',
@@ -40,9 +49,8 @@ const SignUpScreen = () => {
                     mobile: '',
                     password: '',
                 });
-                return
+                return;
             }
-
             navigate('/login');
             setFormData({
                 firstName: '',
@@ -54,63 +62,85 @@ const SignUpScreen = () => {
         } catch (error) {
             console.error('Error signing up:', error);
         }
-        // You can add your API calls or form submission logic here
     };
 
     return (
         <div className="signup-container">
             <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>firstName:</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                    />
-                </div> <div className="form-group">
-                    <label>lastName:</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                    />
-                </div>
+            <form onSubmit={handleSubmit} className='formDiv'>
+                <TextField
+                    label="First Name"
+                    variant="outlined"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    style={{ marginBottom: '15px' }}
+                />
+                <TextField
+                    label="Last Name"
+                    variant="outlined"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    style={{ marginBottom: '15px' }}
 
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Password:</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Mobile</label>
-                    <input
-                        type="text"
-                        name="mobile"
-                        value={formData.mobile}
-                        onChange={handleInputChange}
-                    />
-                </div>
+                />
+                <TextField
+                    label="Email"
+                    variant="outlined"
+                    // type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    style={{ marginBottom: '15px' }}
 
-                <button type="submit" >Sign Up</button>
+                />
+                <TextField
+                    label="Password"
+                    variant="outlined"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    style={{ marginBottom: '15px' }}
+
+                />
+                {/* <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                        <InputAdornment position="end" style={{ width: '10px', height: '5px' }} >
+                            <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                            >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                    }
+                    label="Password"
+                /> */}
+                <TextField
+                    label="Mobile"
+                    variant="outlined"
+                    className='hhhh'
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleInputChange}
+                    style={{ marginBottom: '15px' }}
+
+                />
+                <button type="submit">Sign Up</button>
+                <h6>Or</h6>
+                <button onClick={() => {
+
+                    navigate('/login')
+                    }}>Login</button>
             </form>
         </div>
     );
 };
 
-export default SignUpScreen;
+export default SignUpScreen;    

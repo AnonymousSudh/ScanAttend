@@ -108,7 +108,7 @@ const LoginScreen = () => {
       // Perform API call for authentication and get token
       const { email, password } = formData;
       // console.log(email,password)
-      const facultyData = await dispatch(loginFaculty({ email, password }))
+      const facultyData = await dispatch(loginFaculty({ email, password,userType }))
       console.log(facultyData.payload.success)
       if (facultyData.payload.success && facultyData.payload.data.user) {
         navigation('/', facultyData.payload.data)

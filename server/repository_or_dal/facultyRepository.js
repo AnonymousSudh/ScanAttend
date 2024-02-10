@@ -13,7 +13,7 @@ const createFaculty = async (data) => {
 
 const findFaculty = async (data) => {
     try {
-        console.log("data at repo layer" , data)
+        // console.log("data at repo layer" , data)
         const result = await Faculty.findOne({ where: { email:data.email } });
         console.log(result);
         return result

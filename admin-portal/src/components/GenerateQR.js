@@ -54,15 +54,6 @@ function GenerateQR() {
         console.log(selectedSemester)
         console.log(selectedDivision)
         console.log(selectedDivisionValue)
-        // // return
-        // const data =
-        //     `
-        //   course:${selectedCourse.name},
-        //   subject:${selectedSubject.name},
-        //   semester:${selectedSemester},
-        //   division:${selectedDivisionValue},
-        //   faculty:${userData.firstName + " " + userData.lastName}`
-
         const lectureDate = {
             facultyId: userData.id || 50,
             courseId: selectedCourse.id,
