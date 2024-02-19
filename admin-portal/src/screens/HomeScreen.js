@@ -8,6 +8,7 @@ import AddSubject from '../components/AddSubject';
 import GenerateQR from '../components/GenerateQR';
 import AddDivision from '../components/AddDivision';
 import AddCourse from '../components/AddCourse';
+import AssignSubjectsToFaculty from './adminScreen/AssignSubjectsToFaculty';
 
 function HomeScreen() {
   const [qrData, setQRData] = useState('');
@@ -31,8 +32,9 @@ function HomeScreen() {
       <div className="qr-generator">
 
         <h1>{userData.firstName + " " + userData.lastName}</h1>
-        <AddSubject />
-        <AddCourse />
+        <AssignSubjectsToFaculty/>
+        {/* <AddSubject /> */}
+        {/* <AddCourse /> */}
         <br />
         <br />
         <AddDivision />
@@ -48,6 +50,7 @@ function HomeScreen() {
         <br />
         <br />
         <br />
+
         <LogoutButton redirectTo="/signup" />
       </div>
     </>

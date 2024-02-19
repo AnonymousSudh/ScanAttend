@@ -78,5 +78,25 @@ const getSemesterOfCourse = async (data) => {
     }
 }
 
+const getSubjectOfStudents = async (data) => {
 
-module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse }
+    try {
+        console.log("data at repo layer", data)
+        const result = await Subject.findAll({
+            where: {
+                courseId: data.courseId,
+                semester: data.semester
+            }
+        });
+        // console.log(result)
+      
+        return result;
+    } catch (error) {
+        console.log("error at Repository layer");
+        console.log(error)
+        throw error;
+    }
+}
+
+
+module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse,getSubjectOfStudents }

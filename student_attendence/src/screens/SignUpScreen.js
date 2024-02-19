@@ -28,7 +28,7 @@ const SignupScreen = () => {
         ToastAndroid.CENTER,
       );
     } else {
-      const studentData = {userName,fullName,mobileNumber,rollNumber,password,course,deviceAddress}
+      const studentData = { userName, fullName, mobileNumber, rollNumber, password, course, deviceAddress }
       console.log(studentData)
       const data = await dispatch(createStudent(studentData));
       console.log(data.payload);
@@ -162,7 +162,9 @@ const SignupScreen = () => {
         <PaperButton mode="contained" style={styles.button} onPress={handleSignUp}>
           Sign Up
         </PaperButton>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          navigation.navigate('Login')
+        }} >
           <Text style={styles.signInText}>
             Already have an account? Sign In
           </Text>

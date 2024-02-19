@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { postData } from '../utils/api';
+import { useNavigation } from '@react-navigation/native';
 
 const MarkPresentScreen = ({ route, navigation }) => {
   const [attendancePercentage, setAttendancePercentage] = useState(null);
-  const { lectureId, studentId, courseId, subjectId, facultyId, divisionId,subject } = route.params;
+  const { lectureId, studentId, courseId, subjectId, facultyId, divisionId,subject,semester} = route.params;
+  console.log(route.params)
+  const navigationn = useNavigation();
+
 
   const fetchAttendance = async () => {
     try{
@@ -17,7 +21,9 @@ const MarkPresentScreen = ({ route, navigation }) => {
     }
   };
   const goToMyAttendance = () => {
-    navigation.navigate('MyAttendance'); // Navigate to MyAttendance screen
+    navigationn.navigate('AttendanceScreen',{
+      studentId,courseId,divisionId,semester
+    }); // Navigate to MyAttendance screen
   };
 
   useEffect(() => {
@@ -35,7 +41,7 @@ const MarkPresentScreen = ({ route, navigation }) => {
       <Text style={styles.attendanceText}>
         Current Attendance: {attendancePercentage ? `${attendancePercentage}%` : 'Loading...'}
       </Text>
-      <TouchableOpacity style={styles.button} onPress={fetchAttendance}>
+      <TouchableOpacity style={styles.button} onPress={goToMyAttendance}>
         <Text style={styles.buttonText}>My Attendance</Text>
       </TouchableOpacity>
     </View>

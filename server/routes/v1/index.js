@@ -38,6 +38,7 @@ router.post('/addDivision', divisionController.addDivision);
 router.post('/addCourseAndSubject', subjectController.addSubject);
 router.post('/getSubjectandDivisonOfCourse', subjectController.getSubjectandDivionOfCourse);
 router.post('/getSemesterOfCourse', subjectController.getSemesterOfCourse);
+router.post('/getSubjectOfStudents', subjectController.getSubjectOfStudents);
 
 
 // lecture routes

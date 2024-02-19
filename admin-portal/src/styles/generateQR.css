@@ -1,0 +1,22 @@
+.qr {
+  /* border: 1px solid red; */
+  /* width: 50%;
+  height: 50%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form_container {
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  /* border: 1px solid red; */
+    display: "flex";
+  justify-content: space-evenly;
+  align-items: center;
+}
+.form-group{
+    width: auto;
+}

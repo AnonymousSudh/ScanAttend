@@ -44,4 +44,19 @@ const getSemesterOfCourse = async (data) => {
         throw error;
     }
 }
-module.exports = { addSubject ,getSubjectandDivionOfCourse,getSemesterOfCourse}
+
+const getSubjectOfStudents = async (data) => {
+    try {
+        // console.log(data)
+        // data = Number(data.course);
+        const result = await subjectRepo.getSubjectOfStudents(data);
+        const subjectData = result.map((val) =>(val.dataValues.name))
+        console.log(subjectData)
+        return subjectData
+    } catch (error) {
+        console.log("error at service layer");
+        console.log(error)
+        throw error;
+    }
+}
+module.exports = { addSubject ,getSubjectandDivionOfCourse,getSemesterOfCourse,getSubjectOfStudents}
