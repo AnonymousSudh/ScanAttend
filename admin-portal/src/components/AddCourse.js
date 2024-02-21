@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PostData } from '../utils/api';
+import './AddCourse.css'
 
 const AddCourse = () => {
   const [courseName, setCourseName] = useState('');
@@ -37,9 +38,10 @@ const AddCourse = () => {
   };
 
   return (
-    <div className="form-container">
-      <form onSubmit={handleAddCourse}>
-        <div className="form-group">
+    <div className='main_addcourse'>
+    <div className="form_container">
+      <form className='form_addcourse' onSubmit={handleAddCourse}>
+        <div className="form_group">
           <label htmlFor="courseName">Course Name:</label>
           <input
             type="text"
@@ -50,6 +52,7 @@ const AddCourse = () => {
         </div>
         <button type="submit">Add Course</button>
       </form>
+    </div>
     </div>
   );
 };

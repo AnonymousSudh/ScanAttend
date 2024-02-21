@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import { PostData, getData } from '../utils/api';
 import { PostData, getData } from '../../utils/api';
 import { useSelector } from 'react-redux';
+import './AssignSubjectToFaculty.css';
 
 
 // import './Form.css'; 
@@ -147,6 +148,7 @@ function AssignSubjectsToFaculty() {
         getCourse();
     }, []);
     return (
+        <div className='main_subjecttofaculty'>
         <div className="form-containerr">
             <form className="form">
                 <div className="form-group">
@@ -224,7 +226,8 @@ function AssignSubjectsToFaculty() {
                     </select>
                 </div>
             </form>
-            <button type="submit">Submit</button>
+            <button type="submit" className='submit_button'>Submit</button>
+        </div>
         </div>
     );
 

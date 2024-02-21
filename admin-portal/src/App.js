@@ -20,9 +20,9 @@ const router = createBrowserRouter(
     <>
     {/* {isAuthenticated?{}:<LoginScreen/>} */}
     <Route path='/login' element={<LoginScreen/>}/>
-    <Route path='/' element={<HomeScreen/>}/> 
-    <Route path='/signup' element={<SignUpScreen/>}/>
-    <Route path='/profile' element={<ProfileScreen/>}/>
+    <Route path='/home' element={<HomeScreen/>}/> 
+    <Route path='/' element={<SignUpScreen/>}/>
+    {/* <Route path='/profile' element={<ProfileScreen/>}/> */}
     </>
   )
 );

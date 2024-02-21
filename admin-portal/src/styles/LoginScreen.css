@@ -4,19 +4,38 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+ background: radial-gradient(circle, rgba(101,103,106,1) 10%, rgba(0,0,0,1) 100%);;
+    /* border: 2px solid red; */
+  }
+
+  .login_main{
+    /* border: 2px solid brown; */
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 25px 45px rgba(255,255,255,0.5);
+    width: 50vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
   }
   
   .user-type-selection {
+    /* border: 2px solid black; */
     display: flex;
     justify-content: center;
+    
     margin-bottom: 20px;
   }
+
   
   .user-type-icon {
+    /* border: 2px solid blue; */
     cursor: pointer;
     margin: 0 10px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #151414;
     border-radius: 50%;
   }
   
@@ -26,6 +45,7 @@
   }
   
   .login-form {
+    /* border: 2px solid gray; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,15 +55,24 @@
   input[type='password'],
   button {
     margin-bottom: 10px;
+    font-size: 1.2rem;
     padding: 10px;
     width: 250px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #cccccc; */
+    /* border: 2px solid green; */
   }
   
   button {
+    /* border: 2px solid rgb(255, 115, 7); */
     cursor: pointer;
+    /* width:30vw; */
     background-color: #333;
     color: white;
     border: none;
+  }
+  .label_login{
+    /* border:2px solid red; */
+    font-size: 1.5rem;
+    font-weight: 800;
   }
