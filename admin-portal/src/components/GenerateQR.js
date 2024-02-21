@@ -4,6 +4,7 @@ import QRCode from 'qrcode.react';
 import { useSelector } from 'react-redux';
 import "../styles/generateQR.css"
 
+
 function GenerateQR() {
 
     var [courses, setCourses] = useState([]);
@@ -247,12 +248,13 @@ function GenerateQR() {
         getCourse();
     }, []);
     return (
-        <div className="form_container">
+        <div className='main_qr'>
+        <div className="form_container_qr">
 
             <div>
 
-                <form className="form">
-                    <div className="form-group">
+                <form className="form_qr">
+                    <div className="form_group_qr">
                         <label htmlFor="course">Select Course:</label>
                         <select
                             id="course"
@@ -267,7 +269,7 @@ function GenerateQR() {
                             ))}
                         </select>
                     </div>
-                    <div className="form-group">
+                    <div className="form_group_qr">
                         <label htmlFor="subject">Select Semester:</label>
                         <select
                             id="subject"
@@ -282,7 +284,7 @@ function GenerateQR() {
                             ))}
                         </select>
                     </div>
-                    <div className="form-group">
+                    <div className="form_group_qr">
                         <label htmlFor="subject">Select Subject:</label>
                         <select
                             id="subject"
@@ -297,7 +299,7 @@ function GenerateQR() {
                             ))}
                         </select>
                     </div>
-                    <div className="form-group">
+                    <div className="form_group_qr">
                         <label htmlFor="division">Select Division:</label>
                         <select
                             id="division"
@@ -313,8 +315,7 @@ function GenerateQR() {
                         </select>
                     </div>
                 </form>
-                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-
+                <div className='qr_button'>
                     <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
                     <button onClick={clearForm} className='generateQRbutton'>Clear</button>
                 </div>
@@ -331,6 +332,7 @@ function GenerateQR() {
                     </div>
                 )}
             </div>
+        </div>
         </div>
     )
 }

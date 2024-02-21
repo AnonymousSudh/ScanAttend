@@ -120,6 +120,8 @@ const LoginScreen = () => {
 
   return (
     <div className="login-container">
+      <div className='login_main'>
+        <h1>Please Login to Continue</h1>
       <div className="user-type-selection">
         <div
           className={`user-type-icon ${userType === 'teacher' ? 'active' : ''}`}
@@ -136,7 +138,7 @@ const LoginScreen = () => {
       </div>
       <form>
         <div>
-          <label>Email:</label>
+          <label className='label_login'>Email:</label>
           <input
             type="email"
             name="email"
@@ -145,7 +147,7 @@ const LoginScreen = () => {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label className='label_login'>Password:</label>
           <input
             type="password"
             name="password"
@@ -157,6 +159,7 @@ const LoginScreen = () => {
           Login
         </button>
       </form>
+      </div>
     </div>
   );
 };

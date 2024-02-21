@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/addCourse.css';
 import { PostData, getData } from '../utils/api';
+import './AddSubject.css';
 function AddSubject() {
     const [successMessage, setSuccessMessage] = useState('');
     const [courses, setCourse] = useState([]);
@@ -61,8 +62,9 @@ function AddSubject() {
         fetchAllCourse();
     }, [])
     return (
+        <div className='main_addsubject'>
         <div className="form-container">
-            <form onSubmit={handleSubmit}>
+            <form className='form_addsubject' onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Subject Name:</label>
                     <input
@@ -127,6 +129,7 @@ function AddSubject() {
                 <button type="submit" className='saveCourse'>Add Subject </button>
                 {successMessage && <p className="success-msg">{successMessage}</p>}
             </form>
+        </div>
         </div>
     )
 }

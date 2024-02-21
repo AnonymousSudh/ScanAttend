@@ -18,6 +18,7 @@ const SignUpScreen = () => {
         password: '',
     });
 
+
     const [showPassword, setShowPassword] = React.useState(false);
 
 
@@ -65,8 +66,9 @@ const SignUpScreen = () => {
     };
 
     return (
+        <div className='main_signup'>
         <div className="signup-container">
-            <h2>Sign Up</h2>
+            <h2 className='heading_sign'>Sign Up</h2>
             <form onSubmit={handleSubmit} className='formDiv'>
                 <TextField
                     label="First Name"
@@ -132,13 +134,18 @@ const SignUpScreen = () => {
                     style={{ marginBottom: '15px' }}
 
                 />
+
+                <div className='sign_button'>
                 <button type="submit">Sign Up</button>
-                <h6>Or</h6>
+                <h1>Or</h1>
                 <button onClick={() => {
 
                     navigate('/login')
                     }}>Login</button>
+
+</div>
             </form>
+        </div>
         </div>
     );
 };

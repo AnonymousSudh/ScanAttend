@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/addCourse.css';
 import { PostData, getData } from '../utils/api';
+import './AddDivision.css'
 function AddDivision() {
     const [successMessage, setSuccessMessage] = useState('');
     const [course, setCourse] = useState([])
@@ -62,10 +63,11 @@ function AddDivision() {
         getCourse();
     }, []);
     return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
+        <div className='main_adddivision'>
+        <div className="form_container_division">
+            <form className='form_division' onSubmit={handleSubmit}>
 
-                <div className="form-group">
+                <div className="form_group_division">
                     <label htmlFor="course">Select Course:</label>
                     <select
                         id="course"
@@ -92,7 +94,7 @@ function AddDivision() {
                         onChange={handleChange}
                     />
                 </div> */}
-                <div className="form-group">
+                <div className="form_group_division">
                     <label htmlFor="name">Year:</label>
                     <input
                         type="text"
@@ -104,7 +106,7 @@ function AddDivision() {
                 </div>
 
 
-                <div className="form-group">
+                <div className="form_group_division">
                     <label htmlFor="semester">Semester:</label>
                     <select
                         id="semester"
@@ -119,7 +121,7 @@ function AddDivision() {
                         ))}
                     </select>
                 </div>
-                <div className="form-group">
+                <div className="form_group_division">
                     <label htmlFor="code">Divison:</label>
                     <input
                         type="text"
@@ -132,6 +134,7 @@ function AddDivision() {
                 <button type="submit" className='saveCourse'>Add Division</button>
                 {successMessage && <p className="success-msg">{successMessage}</p>}
             </form>
+        </div>
         </div>
     )
 }
