@@ -36,9 +36,6 @@ const getSubjectandDivionOfCourse = async (req, res) => {
         const credentials = req.body;
         console.log(credentials);
         const result = await subjectService.getSubjectandDivionOfCourse(credentials);
-        // console.log("---")
-        // console.log(result)
-        // console.log("-----")
         if (result.error) {
             // If there's an error during login, respond with an error status and message
             return res.status(401).json({ error: result.error });

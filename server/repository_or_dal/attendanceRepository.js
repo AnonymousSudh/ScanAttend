@@ -5,7 +5,7 @@ var Sequelize = require('sequelize');
 const markAttendance = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer markAttendance", data)
         const result = await Attendance.create({ lectureId: data.lectureId, studentId: data.studentId });
         // console.log(result);
         return result

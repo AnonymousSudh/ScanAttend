@@ -7,17 +7,19 @@ const LogoutButton = (props) => {
 
     const dispatch = useDispatch();
     const navigation = useNavigate();
-    
+
     const handleLogout = () => {
         dispatch(clearAuthData());
-        navigation(props.redirectTo|| '/signup')
+        navigation(props.redirectTo || '/signup')
         // Redirect or perform any other necessary actions after logout
     };
 
     return (
-        <button onClick={handleLogout}>
-            Logout
-        </button>
+        <div style={{ justifyContent: 'center', alignItems: "center", display: "flex" }}>
+            <button onClick={handleLogout} >
+                Logout
+            </button>
+        </div>
     );
 };
 

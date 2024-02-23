@@ -4,7 +4,7 @@ const { Faculty_Division, Subject_Division } = require("../models/index")
 const setFacultyToSubject = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer setFacultyToSubject", data)
 
         const facultyDivision = await Faculty_Division.create(data);
         const subjectDivision = await Subject_Division.create(data);

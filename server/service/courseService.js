@@ -10,12 +10,26 @@ const addCourse = async (data) => {
         throw error;
     }
 }
-
-
+// checkIsAleadyCourse
+const checkIsAleadyCourse = async (data) => {
+    try {
+        const courseData = await courseRepository.checkIsAleadyCourse(data);
+        if(!courseData){
+            addCourse(data);
+        }else{
+            throw new Error("Course Already Present")
+        }
+        return courseData
+    } catch (error) {
+        console.log("error at service layer checkIsAleadyCourse");
+        // console.log(error)
+        throw error;
+    }
+}
 const getCourse = async () => {
     try {
         const result = await courseRepository.getCourse();
-        const courseData = result.map((course) => ({id: course.id,name: course.name}));
+        const courseData = result.map((course) => ({ id: course.id, name: course.name }));
         return courseData
     } catch (error) {
         console.log("error at service layer");
@@ -52,4 +66,4 @@ const getAllCourses = async () => {
     }
 }
 
-module.exports = { addCourse, getCourse, getSubject, getAllCourses }
+module.exports = { addCourse, getCourse, getSubject, getAllCourses ,checkIsAleadyCourse}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import '../styles/addCourse.css';
+import '../styles/addSubject.css';
 import { PostData, getData } from '../utils/api';
 function AddSubject() {
     const [successMessage, setSuccessMessage] = useState('');
@@ -24,9 +24,15 @@ function AddSubject() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Fetch POST request to send data to the 
-
         console.log(formData)
+        if (!formData.name || !formData.subjectCode || !formData.totalHours || !formData.courseId) {
+            setSuccessMessage('Please Fill All Field');
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+            return;
+        }
+
         try {
             const response = await PostData('addCourseAndSubject', formData)
             console.log(response)
@@ -35,17 +41,9 @@ function AddSubject() {
                 setTimeout(() => {
                     setSuccessMessage('');
                 }, 3000);
-                // setFormData({
-                //     name: '',
-                //     code: '',
-                //     totalHours: '',
-                //     stream:'',
-                //     semester: '1', // Default value for semester dropdown
-                // })
             }
 
             else {
-                // Handle errors from the backend
                 console.error('Failed to save data');
             }
         } catch (error) {
@@ -61,8 +59,8 @@ function AddSubject() {
         fetchAllCourse();
     }, [])
     return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
+        <div className="formontaineraddSubject">
+            <form className='subjectForm'>
                 <div className="form-group">
                     <label htmlFor="name">Subject Name:</label>
                     <input
@@ -124,9 +122,9 @@ function AddSubject() {
                         ))}
                     </select>
                 </div>
-                <button type="submit" className='saveCourse'>Add Subject </button>
-                {successMessage && <p className="success-msg">{successMessage}</p>}
             </form>
+            {successMessage && <p className="success-msg">{successMessage}</p>}
+            <button onClick={handleSubmit} className='saveCourseAddSubject'>Add Subject </button>
         </div>
     )
 }

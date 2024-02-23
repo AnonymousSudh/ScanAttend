@@ -5,7 +5,7 @@ var Sequelize = require('sequelize');
 const addSubject = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer addSubject", data)
         const result = await Subject.create(data);
         console.log(result);
         return result
@@ -18,7 +18,7 @@ const addSubject = async (data) => {
 const getSubjectandDivionOfCourse = async (data) => {
     try {
         // console.log("getSubjectandDivionOfCourse called")
-        console.log("data at repo layer", data)
+        console.log("data at repo layer getSubjectandDivionOfCourse", data)
         // return
         const result = await Subject.findAll({
             where: {
@@ -60,7 +60,7 @@ const getSubjectandDivionOfCourse = async (data) => {
 const getSemesterOfCourse = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer getSemesterOfCourse", data)
         const distinctSemesterOfCourse = await sequelize.query(
             `SELECT DISTINCT subjects.semester
             FROM subjects
@@ -81,7 +81,7 @@ const getSemesterOfCourse = async (data) => {
 const getSubjectOfStudents = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer getSubjectOfStudents", data)
         const result = await Subject.findAll({
             where: {
                 courseId: data.courseId,

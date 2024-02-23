@@ -1,14 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import AddCourse from '../../components/AddCourse'
+import AddSubject from '../../components/AddSubject'
+import LogoutButton from '../../components/LogoutButton'
 
-const AdminHome = () => {
+
+function AdminHome() {
   return (
-    <View>
-      <Text>AdminHome</Text>
-    </View>
+    <>
+      <br />
+      <br />
+      <br />
+
+      <AddCourse />
+      <br />
+      <br />
+      <AddSubject />
+      <br />
+      <br />
+      <LogoutButton />
+    </>
   )
 }
 
 export default AdminHome
-
-const styles = StyleSheet.create({})

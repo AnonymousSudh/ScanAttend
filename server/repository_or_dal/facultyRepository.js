@@ -13,7 +13,7 @@ const createFaculty = async (data) => {
 
 const findFaculty = async (data) => {
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer findFaculty", data)
         const result = await Faculty.findOne({
             where: {
                 email: data.email,
@@ -31,7 +31,7 @@ const findFaculty = async (data) => {
 const getAllFaculty = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer getAllFaculty", data)
         const facultyList = await Faculty.findAll({ where: { type: "faculty" } });
         console.log("facultyList")
         // console.log(facultyList)

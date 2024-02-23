@@ -1,4 +1,4 @@
-const { Course,Division} = require("../models/index");
+const { Course, Division } = require("../models/index");
 const { Op } = require("sequelize");
 var Sequelize = require('sequelize');
 
@@ -16,14 +16,33 @@ const addCourse = async (data) => {
     }
 }
 
+const checkIsAleadyCourse = async (data) => {
+
+    try {
+        console.log("data at repo layer", data)
+        const result = await Course.findOne({
+            where:{
+                name:data.name
+            }
+        });
+        // console.log("result checkIsAleadyCourse",result)
+        // console.log(result);
+        return result
+    } catch (error) {
+        console.log("error at Repository layer");
+        console.log(error)
+        throw error;
+    }
+}
 
 
 
+// checkIsAleadyCourse
 
 const getCourse = async () => {
 
     try {
-        console.log("data at repo layer")
+        console.log("data at repo layer getCourse")
         const allCourse = await Course.findAll();
 
         // console.log(allCourse);
@@ -39,7 +58,7 @@ const getCourse = async () => {
 const getSubject = async (data) => {
 
     try {
-        console.log("data at repo layer", data)
+        console.log("data at repo layer getSubject", data)
         const distinctSubject = await Course.findAll({
             attributes: [
                 [Sequelize.fn('DISTINCT', Sequelize.col('name')), 'name']
@@ -58,7 +77,7 @@ const getSubject = async (data) => {
         });
 
         // console.log(distinctSubject);
-        return {distinctSubject,distinctDivision}
+        return { distinctSubject, distinctDivision }
     } catch (error) {
         console.log("error at Repository layer");
         console.log(error)
@@ -69,8 +88,7 @@ const getSubject = async (data) => {
 const getAllCourses = async () => {
 
     try {
-        console.log("data at repo layer");
-        console.log("1234t ")
+        console.log("data at repo layer getAllCourses");
         const allCourses = await Course.findAll();
         console.log(allCourses);
         return allCourses;
@@ -82,4 +100,4 @@ const getAllCourses = async () => {
 }
 
 
-module.exports = { addCourse, getCourse, getSubject ,getAllCourses}
+module.exports = { addCourse, getCourse, getSubject, getAllCourses, checkIsAleadyCourse }

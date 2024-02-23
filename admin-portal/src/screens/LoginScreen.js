@@ -86,7 +86,7 @@ import { PostData } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 const LoginScreen = () => {
-  const [userType, setUserType] = useState('teacher'); // Default to teacher login
+  const [userType, setUserType] = useState('faculty'); // Default to teacher login
   const [formData, setFormData] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
   const navigation = useNavigate();
@@ -107,10 +107,15 @@ const LoginScreen = () => {
       // Perform API call for authentication and get token
       const { email, password } = formData;
       // console.log(email,password)
-      const facultyData = await dispatch(loginFaculty({ email, password,userType }))
+      const facultyData = await dispatch(loginFaculty({ email, password, userType }))
       console.log(facultyData.payload.success)
+      console.log("login data", facultyData.payload)
       if (facultyData.payload.success && facultyData.payload.data.user) {
-        navigation('/', facultyData.payload.data)
+        if (facultyData.payload.data.user.type == 'faculty') {
+          navigation('/', facultyData.payload.data)
+          return
+        }
+        navigation('/AdminHome', facultyData.payload.data)
       }
     } catch (error) {
       console.error('Login failed:', error.message);
@@ -121,10 +126,10 @@ const LoginScreen = () => {
     <div className="login-container">
       <div className="user-type-selection">
         <div
-          className={`user-type-icon ${userType === 'teacher' ? 'active' : ''}`}
-          onClick={() => handleUserType('teacher')}
+          className={`user-type-icon ${userType === 'faculty' ? 'active' : ''}`}
+          onClick={() => handleUserType('faculty')}
         >
-          Teacher
+          Faculty
         </div>
         <div
           className={`user-type-icon ${userType === 'admin' ? 'active' : ''}`}
