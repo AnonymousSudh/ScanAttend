@@ -3,9 +3,8 @@ const subjectService = require("../service/subjectService");
 const addSubject = async (req, res) => {
     try {
         const credentials = req.body;
-        console.log(credentials);
-        const result = await subjectService.addSubject(credentials);
-        console.log("---")
+        const result = await subjectService.isSubjectPresent(credentials);
+        console.log("-- addSubject -")
         console.log(result)
         console.log("-----")
         if (result.error) {
@@ -26,7 +25,7 @@ const addSubject = async (req, res) => {
             data: null,
             success: false,
             msg: "Not able to add Subject",
-            error: error
+            error: error.message
         })
     }
 }

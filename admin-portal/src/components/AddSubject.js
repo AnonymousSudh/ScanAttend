@@ -35,7 +35,7 @@ function AddSubject() {
 
         try {
             const response = await PostData('addCourseAndSubject', formData)
-            console.log(response)
+            // console.log("response AddSubject ", response)
             if (response.success) {
                 setSuccessMessage('Data saved successfully');
                 setTimeout(() => {
@@ -44,7 +44,10 @@ function AddSubject() {
             }
 
             else {
-                console.error('Failed to save data');
+                setSuccessMessage(response.error);
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
             }
         } catch (error) {
             // Handle fetch errors

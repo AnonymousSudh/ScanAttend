@@ -1,7 +1,7 @@
 const courseRepository = require("../repository_or_dal/courseRepository");
 
 const addCourse = async (data) => {
-    try {
+    try { 
         const courseData = await courseRepository.addCourse(data);
         return courseData
     } catch (error) {

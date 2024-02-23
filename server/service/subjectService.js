@@ -13,6 +13,26 @@ const addSubject = async (data) => {
         throw error;
     }
 }
+// isSubjectPresent
+const isSubjectPresent = async (data) => {
+    try {
+        console.log(data)
+        // const { name, subjectCode, totalHours, courseId, semester, course } = data
+        const subjectData = await subjectRepo.isSubjectPresent(data);
+        if (!subjectData) {
+            addSubject(data)
+        } else {
+            throw Error(`Subject Already Present in Course`)
+        }
+        console.log(subjectData)
+        return subjectData
+    } catch (error) {
+        console.log("error at service layer");
+        console.log(error)
+        throw error;
+    }
+}
+
 
 const getSubjectandDivionOfCourse = async (data) => {
     try {
@@ -20,11 +40,11 @@ const getSubjectandDivionOfCourse = async (data) => {
         data.courseId = Number(data.courseId)
         // data.semester = Number(data.semester)
         const result = await subjectRepo.getSubjectandDivionOfCourse(data);
-        const subjectData = result.result.map((val) =>({id:val.id,name:val.name}))
-        const divisionData = result.distinctDivisions.map((val) =>({id:val.id,division:val.division,}))
+        const subjectData = result.result.map((val) => ({ id: val.id, name: val.name }))
+        const divisionData = result.distinctDivisions.map((val) => ({ id: val.id, division: val.division, }))
         console.log(subjectData)
         console.log(divisionData)
-        return {subjectData,divisionData}
+        return { subjectData, divisionData }
     } catch (error) {
         console.log("error at service layer");
         console.log(error)
@@ -36,7 +56,7 @@ const getSemesterOfCourse = async (data) => {
         // console.log(data)
         data = Number(data.course);
         const result = await subjectRepo.getSemesterOfCourse(data);
-        const subjectData = result.map((val) =>({semester:Number(val.semester)}))
+        const subjectData = result.map((val) => ({ semester: Number(val.semester) }))
         return subjectData
     } catch (error) {
         console.log("error at service layer");
@@ -50,7 +70,7 @@ const getSubjectOfStudents = async (data) => {
         // console.log(data)
         // data = Number(data.course);
         const result = await subjectRepo.getSubjectOfStudents(data);
-        const subjectData = result.map((val) =>(val.dataValues.name))
+        const subjectData = result.map((val) => (val.dataValues.name))
         console.log(subjectData)
         return subjectData
     } catch (error) {
@@ -59,4 +79,4 @@ const getSubjectOfStudents = async (data) => {
         throw error;
     }
 }
-module.exports = { addSubject ,getSubjectandDivionOfCourse,getSemesterOfCourse,getSubjectOfStudents}
+module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents, isSubjectPresent }
