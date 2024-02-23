@@ -32,21 +32,16 @@ function HomeScreen() {
       <div className="qr-generator">
 
         <h1>{userData.firstName + " " + userData.lastName}</h1>
-        <AssignSubjectsToFaculty/>
+        {/* <AssignSubjectsToFaculty/> */}
         {/* <AddSubject /> */}
         {/* <AddCourse /> */}
         <br />
         <br />
-        <AddDivision />
+        {/* <AddDivision /> */}
         <br />
-        {/* <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
-        {showQR && (
-          <div className="qr-code">
-            <QRCode value={qrData} />
-          </div>
-        )} */}
         <br />
-        <GenerateQR />
+   
+        {/* <GenerateQR /> */}
         <br />
         <br />
         <br />

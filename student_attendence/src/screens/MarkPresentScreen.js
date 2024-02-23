@@ -13,7 +13,7 @@ const MarkPresentScreen = ({ route, navigation }) => {
   const fetchAttendance = async () => {
     try{
     console.log("useEffect running")
-    const attendData = await postData('getattendancePercentage', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
+    const attendData = await postData('getattendancePercentageOfSubjectSubject', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
     console.log("attendData",attendData)
     setAttendancePercentage(Math.round(attendData.data.attendancePercentage)); // Replace this with your backend logic
     }catch(error){
@@ -21,7 +21,7 @@ const MarkPresentScreen = ({ route, navigation }) => {
     }
   };
   const goToMyAttendance = () => {
-    navigationn.navigate('AttendanceScreen',{
+    navigationn.navigate('Attendance Sheet',{
       studentId,courseId,divisionId,semester
     }); // Navigate to MyAttendance screen
   };

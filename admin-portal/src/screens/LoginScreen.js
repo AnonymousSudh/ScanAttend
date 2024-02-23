@@ -103,7 +103,6 @@ const LoginScreen = () => {
   };
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Your async login logic goes here using await
     try {
       // Perform API call for authentication and get token
       const { email, password } = formData;

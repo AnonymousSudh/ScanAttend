@@ -19,8 +19,8 @@ const HomeStackNavigator = () => {
         headerShown: false}}/>
       <Stack.Screen name="MarkAttendance" component={MarkPresentScreen} options={{
         headerShown: false}} />
-         <Stack.Screen name="AttendanceScreen" component={AttendanceScreen} options={{
-        headerShown: false}} />
+         <Stack.Screen name="Attendance Sheet" component={AttendanceScreen} options={{
+        headerShown: true}} />
     </Stack.Navigator>
   );
 };

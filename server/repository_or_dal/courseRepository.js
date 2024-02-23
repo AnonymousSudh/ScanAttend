@@ -7,7 +7,7 @@ const addCourse = async (data) => {
     try {
         console.log("data at repo layer", data)
         const result = await Course.create(data);
-        console.log(result);
+        // console.log(result);
         return result
     } catch (error) {
         console.log("error at Repository layer");

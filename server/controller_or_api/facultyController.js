@@ -51,13 +51,13 @@ const loginFaculty = async (req, res) => {
         }
 
         // If login is successful, extract the user data and token from the result
-        const { data: user, token } = result;
+        const { data: user, token, type } = result;
         // console.log("user",user)
 
         // Send a response with user information and the token
         // res.status(200).json({ user: { id: user.id, email: user.email }, token });
         return res.status(200).json({
-            data: { user: { id: user.id, email: user.email ,firstName:user.firstName,lastName:user.lastName}, token },
+            data: { user: { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName }, token, type },
             success: true,
             msg: "successfully created a Faculty",
             error: null
@@ -75,5 +75,69 @@ const loginFaculty = async (req, res) => {
     }
 }
 
+const getAllFaculty = async (req, res) => {
+    try {
+        const result = await facultyService.getAllFaculty();
+        console.log("---")
+        console.log(result)
+        console.log("-----")
+        if (result.error) {
+            // If there's an error during login, respond with an error status and message
+            return res.status(401).json({ error: result.error });
+        }
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "successfully fetched all Faculty",
+            error: null
+        })
 
-module.exports = { createFaculty, loginFaculty }
+    } catch (error) {
+        console.log("error at fetching all Faculty");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Not able fetch Faculty",
+            error: error
+        })
+    }
+}
+
+
+
+const setFacultyToSubject = async (req, res) => {
+    try {
+        const result = await facultyService.getAllFaculty();
+        console.log("---")
+        console.log(result)
+        console.log("-----")
+        if (result.error) {
+            // If there's an error during login, respond with an error status and message
+            return res.status(401).json({ error: result.error });
+        }
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "successfully fetched all Faculty",
+            error: null
+        })
+
+    } catch (error) {
+        console.log("error at fetching all Faculty");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Not able fetch Faculty",
+            error: error
+        })
+    }
+}
+
+
+
+
+
+
+module.exports = { createFaculty, loginFaculty, getAllFaculty, setFacultyToSubject }

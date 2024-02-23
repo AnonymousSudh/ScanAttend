@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, Button, StyleSheet, ToastAndroid } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { useNavigation } from '@react-navigation/native';
 import { postData } from '../utils/api';
 import { useSelector } from 'react-redux';
+import { Avatar, Card, Text } from 'react-native-paper';
+
 
 const HomeScreen = () => {
   const [QRdata, setQRData] = useState({});
@@ -38,11 +40,11 @@ const HomeScreen = () => {
       const { course, courseId, division, divisionId, faculty, facultyId, subject, subjectId } = QRdata;
       const studentId = studentData.studentId;
       console.log("----------")
-      console.log("studentData",studentData)
-      console.log("studentId",studentId)
+      console.log("studentData", studentData)
+      console.log("studentId", studentId)
       const lectureData = { ...QRdata, studentId }
-      console.log("lectureData",lectureData)
-      const response = await postData('markAttendance', lectureData); // student attendance marked
+      console.log("lectureData", lectureData)
+      const response = await postData('markAttendance', lectureData);
       console.log("response after marked present ")
       console.log(response);
       if (response.success) {
@@ -52,7 +54,7 @@ const HomeScreen = () => {
         // const attendData = await postData('getattendancePercentage', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
         // console.log("attendData",attendData);
 
-        navigation.navigate('MarkAttendance', {...QRdata, lectureId, studentId, courseId, subjectId, facultyId, divisionId })
+        navigation.navigate('MarkAttendance', { ...QRdata, lectureId, studentId, courseId, subjectId, facultyId, divisionId })
       } else {
         console.log(response)
         ToastAndroid.showWithGravity(
@@ -63,7 +65,7 @@ const HomeScreen = () => {
       }
       console.log(QRdata)
     } catch (error) {
-      console.log("error", error)
+      console.log("error  at markAttendance", error)
     }
 
 
@@ -117,13 +119,37 @@ const HomeScreen = () => {
       <View style={styles.container}>
 
         {visible && (
-          <View style={styles.dataContainer}>
-            <Text style={styles.blackBoldText}>course: {QRdata.course}</Text>
-            <Text style={styles.blackBoldText}>subject: {QRdata.subject}</Text>
-            <Text style={styles.blackBoldText}>division: {QRdata.division}</Text>
-            <Text style={styles.blackBoldText}>semester: {QRdata.semester}</Text>
-            <Text style={styles.blackBoldText}>Faculty: {QRdata.faculty}</Text>
-          </View>
+
+
+
+          <Card>
+            <Card.Content style={{ width: "90%" }}>
+
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+
+                <Text style={styles.blackBoldText}>Course: </Text>
+                <Text style={styles.resultText}>{QRdata.course}</Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={styles.blackBoldText}>Semester: </Text>
+                <Text style={styles.resultText}>{QRdata.semester}</Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={styles.blackBoldText}>Division: </Text>
+                <Text style={styles.resultText}>{QRdata.division}</Text>
+              </View>
+
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={styles.blackBoldText}>Subject: </Text>
+                <Text style={styles.resultText}>{QRdata.subject}</Text>
+              </View>
+
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={styles.blackBoldText}>Faculty: </Text>
+                <Text style={styles.resultText}>{QRdata.faculty}</Text>
+              </View>
+            </Card.Content>
+          </Card>
         )}
         {visible && (
           <View style={styles.buttonContainer}>
@@ -165,10 +191,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '80%',
+    marginTop: 30
   },
   blackBoldText: {
     color: 'black',
-    // fontWeight: 'bolder'
+    fontWeight: 'bold'
+  },
+  resultText: {
+    fontSize: 15
   }
 });
 

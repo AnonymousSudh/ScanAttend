@@ -23,6 +23,9 @@ function AssignSubjectsToFaculty() {
     var [selectedDivisionValue, setSelectedDivisionValue] = useState('');
 
     var [faculty, setFaculty] = useState([]);
+    var [selectedFaculty, setSelectedFaculty] = useState('');
+    var [selectedFacultyValue, setSelectedFacultyValue] = useState('');
+
 
 
     const [userData, setUserData] = useState({});
@@ -42,13 +45,6 @@ function AssignSubjectsToFaculty() {
         const subjectId = e.target.value;
         setSelectedSemester(subjectId);
     };
-    // const handleSubjectChange = async (e) => {
-    //     const subjectId = e.target.value;
-    //     setSelectedSubject(subjectId);
-    // };
-
-
-
     const handleCourseChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
         const selectedCourseId = e.target.options[selectedIndex].getAttribute('data-id');
@@ -73,8 +69,58 @@ function AssignSubjectsToFaculty() {
         setSelectedDivision(selectedDivisionId)
         setSelectedDivisionValue(selectedDivisionName);
     };
+    const handleFacultyChange = (e) => {
+        const selectedIndex = e.target.selectedIndex;
+        const selectedDivisionId = e.target.options[selectedIndex].getAttribute('data-id');
+        const selectedDivisionName = e.target.options[selectedIndex].getAttribute('data-name');
+        console.log(selectedDivisionId, selectedDivisionName)
+        setSelectedFaculty(selectedDivisionId)
+        setSelectedFacultyValue(selectedDivisionName);
+    };
 
 
+    const handleSubmit = async () => {
+        console.log(selectedCourse)
+        console.log(selectedSemester)
+        console.log(selectedSubject)
+        console.log(selectedDivision)
+        console.log(selectedDivisionValue)
+        console.log(selectedFaculty)
+
+
+        if (!selectedCourse) {
+            alert("Select Course")
+            return;
+        }
+        if (!selectedSemester) {
+            alert("Select semester")
+            return;
+        }
+        if (!selectedSubject) {
+            alert("Select Subject")
+            return;
+        }
+        if (!selectedDivision) {
+            alert("Select Division")
+            return;
+        }
+        if (!selectedDivisionValue) {
+            alert("Select Division Value")
+            return;
+        }
+
+        const subjectTeacherData = {
+            courseId: selectedCourse.id,
+            semester: selectedSemester,
+            subjectId: selectedSubject.id,
+            divisionId: selectedDivision,
+            facultyId: selectedFaculty,
+
+        }
+        console.log(subjectTeacherData)
+        const result = await PostData('setFacultyToSubject', subjectTeacherData)
+
+    }
 
     useEffect(() => {
         const fetchSubject = async () => {
@@ -96,13 +142,18 @@ function AssignSubjectsToFaculty() {
 
         };
 
-        const fetchFaculty = () => {
-            
-
+        const fetchFaculty = async () => {
+            const facultyList = await getData('getAllFaculty');
+            console.log("facultyList")
+            console.log(facultyList)
+            console.log(facultyList.data)
+            setFaculty(facultyList.data)
         }
         fetchFaculty()
         fetchSubject();
     }, [selectedSemester]);
+
+
     // when course Changes
     useEffect(() => {
         const fetchSemester = async () => {
@@ -148,7 +199,7 @@ function AssignSubjectsToFaculty() {
     }, []);
     return (
         <div className="form-containerr">
-            <form className="form">
+            <form className="form" >
                 <div className="form-group">
                     <label htmlFor="course">Select Course:</label>
                     <select
@@ -213,18 +264,20 @@ function AssignSubjectsToFaculty() {
                     <label htmlFor="selectFaculty">Select Faculty:</label>
                     <select
                         id="selectFaculty"
-                        value={faculty}
-                        onChange={(e) => setFaculty(e.target.value)}
-                        required
+                        value={selectedFaculty}
+                        onChange={handleFacultyChange}
+
                     >
                         <option value="">Select Faculty</option>
-                        <option value="FacultyA">Faculty A</option>
-                        <option value="FacultyB">Faculty B</option>
-                        <option value="Facultyc">Faculty C</option>
+                        {faculty.map((faculty) => (
+                            <option key={faculty.id} value={faculty.id} data-id={faculty.id} data-name={faculty.Name}>
+                                {faculty.Name}
+                            </option>
+                        ))}
                     </select>
                 </div>
             </form>
-            <button type="submit">Submit</button>
+            <button type="submit" onClick={handleSubmit}>Submit</button>
         </div>
     );
 

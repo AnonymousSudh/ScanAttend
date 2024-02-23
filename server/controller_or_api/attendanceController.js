@@ -52,6 +52,57 @@ const attendancePercentage = async (req, res) => {
         })
     }
 }
+const getAllAttendanceDetails = async (req, res) => {
+    try {
+        console.log("--------- getAllAttendanceDetails ------");
+
+        const credentials = req.body;
+        console.log("Attendance Data",credentials);
+        
+        const result = await attendanceService.getAllAttendanceDetails(credentials);
+ 
+        res.status(200).json({
+            data: result,
+            success: true,
+            msg: "Attendance Marked Successfully",
+            error: null
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            data: null,
+            success: false,
+            msg: "Not Able To mark Present",
+            error: err
+        })
+    }
+}
+
+const getAllLectureCountOfDivis = async (req, res) => {
+    try {
+        console.log("--------- getAllAttendanceDetails ------");
+
+        const credentials = req.body;
+        console.log("Attendance Data",credentials);
+        
+        const result = await attendanceService.getAllLectureCountOfDivis(credentials);
+ 
+        res.status(200).json({
+            data: result,
+            success: true,
+            msg: "Attendance Marked Successfully",
+            error: null
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            data: null,
+            success: false,
+            msg: "Not Able To mark Present",
+            error: err
+        })
+    }
+}
 
 
-module.exports = { markAttendance, attendancePercentage }
+module.exports = { markAttendance, attendancePercentage,getAllAttendanceDetails,getAllLectureCountOfDivis }

@@ -7,21 +7,29 @@ const divisionController = require('../../controller_or_api/divisionController')
 const subjectController = require("../../controller_or_api/subjectController")
 const lectureController = require("../../controller_or_api/lectureController");
 const attendanceController = require("../../controller_or_api/attendanceController")
+const facultyDivisionController = require("../../controller_or_api/facultyDivisionController")
 
 //  App routes
 router.post("/createStudent", studentController.createStudent);
 router.post("/updateStudent", studentController.updateStudent);
 router.post("/loginStudent", studentController.loginStudent)
-router.post("/getattendancePercentage", attendanceController.attendancePercentage)
+router.post("/getattendancePercentageOfSubjectSubject", attendanceController.attendancePercentage)
+router.post("/getAllAttendanceDetails", attendanceController.getAllAttendanceDetails)
+router.post("/getAllLectureCountOfDivis", attendanceController.getAllLectureCountOfDivis)
+
+// getAllLectureCountOfDivis
 
 
 
- 
 // admin routes
-
+// setFacultyToSubject
 router.post('/signUpFaculty', facultyController.createFaculty);
 router.post('/loginFaculty', facultyController.loginFaculty);
 router.post('/markAttendance',attendanceController.markAttendance)
+router.get('/getAllFaculty', facultyController.getAllFaculty);
+// Main Admin routes
+router.post('/setFacultyToSubject', facultyDivisionController.setFacultyToSubject);
+
 
 
 
@@ -41,6 +49,8 @@ router.post('/getSemesterOfCourse', subjectController.getSemesterOfCourse);
 router.post('/getSubjectOfStudents', subjectController.getSubjectOfStudents);
 
 
+
+// 
 // lecture routes
 
 router.post('/createLecture', lectureController.createLecture)

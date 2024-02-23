@@ -1,5 +1,20 @@
 const attendanceRepository = require("../repository_or_dal/attendanceRepository");
 
+
+function mergeArrays(array1, array2) {
+    let mergedArray = [];
+
+    array1.forEach(item1 => {
+        let matchingItem = array2.find(item2 => item2.name === item1.name);
+        console.log("matchingItem", matchingItem)
+        if (matchingItem) {
+            const percentage = ((item1.count / matchingItem.lectureCount) * 100).toFixed(2);
+            mergedArray.push({ ...item1, ...matchingItem, percentage });
+        }
+    });
+
+    return mergedArray;
+}
 const markAttendance = async (data) => {
     try {
         const isPresent = await attendanceRepository.isAlreadyPresent({ lectureId: data.lectureId })
@@ -29,11 +44,40 @@ const attendancePercentage = async (data) => {
         subjectId = Number(subjectId)
         facultyId = Number(facultyId)
         divisionId = Number(divisionId)
-        const toalLecture = await attendanceRepository.totalLectureCount({ facultyId, subjectId, divisionId });
-        const totalAttend = await attendanceRepository.totalLectureAttend({ studentId, lectureId });
-        const attendancePercentage = (totalAttend/toalLecture)*100
-        console.log("attendancePercentage",attendancePercentage)
-        return {attendancePercentage};
+        const toalLecture = await attendanceRepository.totalLectureCount({ facultyId, subjectId, divisionId, courseId });
+        const totalAttend = await attendanceRepository.totalLectureAttend({ studentId, subjectId });
+        console.log("toalLecture", toalLecture, "totalAttend", totalAttend)
+        const attendancePercentage = (totalAttend / toalLecture) * 100
+        console.log("attendancePercentage", attendancePercentage)
+        return { attendancePercentage };
+
+    } catch (error) {
+
+        throw error;
+    }
+}
+const getAllAttendanceDetails = async (data) => {
+    try {
+        var { lectureId, studentId, courseId, subjectId, facultyId, divisionId } = data
+        lectureId = Number(lectureId)
+        studentId = Number(studentId)
+        courseId = Number(courseId)
+        subjectId = Number(subjectId)
+        facultyId = Number(facultyId)
+        divisionId = Number(divisionId)
+        console.log("called from service layer")
+
+        const attendanceReport = await attendanceRepository.getAllAttendanceDetails({ studentId, lectureId, divisionId, courseId });
+        const lectureCountReport = await attendanceRepository.getAllLectureCountOfDivis({ studentId, lectureId, divisionId, courseId });
+
+        console.log("attendanceReport", attendanceReport)
+        console.log("lectureCountReport", lectureCountReport)
+
+        const mergedArray = mergeArrays(attendanceReport, lectureCountReport);
+        console.log(mergedArray)
+        // const attendancePercentage = (totalAttend/toalLecture)*100
+        // console.log("attendancePercentage",attendancePercentage)
+        return { mergedArray };
 
     } catch (error) {
 
@@ -41,6 +85,29 @@ const attendancePercentage = async (data) => {
     }
 }
 
+const getAllLectureCountOfDivis = async (data) => {
+    try {
+        var { lectureId, studentId, courseId, subjectId, facultyId, divisionId } = data
+        lectureId = Number(lectureId)
+        studentId = Number(studentId)
+        courseId = Number(courseId)
+        subjectId = Number(subjectId)
+        facultyId = Number(facultyId)
+        divisionId = Number(divisionId)
+        // const toalLecture = await attendanceRepository.totalLectureCount({ facultyId, subjectId, divisionId });
+        console.log("called from service layer")
+        const lectureCountReport = await attendanceRepository.getAllLectureCountOfDivis({ studentId, lectureId, divisionId, courseId });
+        // console.log("lectureCountReport", lectureCountReport)
+
+        // const attendancePercentage = (totalAttend/toalLecture)*100
+        // console.log("attendancePercentage",attendancePercentage)
+        return { lectureCountReport };
+
+    } catch (error) {
+
+        throw error;
+    }
+}
 // const totalLectureCount = async (data) => {
 //     try {
 //         const result = await attendanceRepository.totalLectureCount();
@@ -51,4 +118,4 @@ const attendancePercentage = async (data) => {
 // }
 
 
-module.exports = { markAttendance, attendancePercentage }
+module.exports = { markAttendance, attendancePercentage, getAllAttendanceDetails, getAllLectureCountOfDivis }
