@@ -24,7 +24,6 @@ export const loginStudent = createAsyncThunk('loginStudent', async (data) => {
             const token = "ss"
             console.log(token)
             AsyncStorage.setItem('studentId', String(response.data.id));
-            // AsyncStorage.setItem('token', response.data.authToken);
             AsyncStorage.setItem('token', token);
         }
         return response;

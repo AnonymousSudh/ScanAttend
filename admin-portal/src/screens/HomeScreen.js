@@ -32,16 +32,13 @@ function HomeScreen() {
       <div className="qr-generator">
 
         <h1>{userData.firstName + " " + userData.lastName}</h1>
-        {/* <AssignSubjectsToFaculty/> */}
-        {/* <AddSubject /> */}
-        {/* <AddCourse /> */}
         <br />
         <br />
-        {/* <AddDivision /> */}
+  
         <br />
         <br />
    
-        {/* <GenerateQR /> */}
+        <GenerateQR />
         <br />
         <br />
         <br />

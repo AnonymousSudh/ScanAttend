@@ -35,10 +35,10 @@ const SignUpScreen = () => {
     };
     const handleSubmit = async (e) => {
         console.log(e)
-        console.log("formData",formData)
+        console.log("formData", formData)
         e.preventDefault();
         try {
-            formData.type='faculty'
+            formData.type = 'faculty'
             const data = await dispatch(createFaculty(formData));
             if (data.payload.error) {
                 alert(data.payload.error);
@@ -65,81 +65,84 @@ const SignUpScreen = () => {
     };
 
     return (
-        <div className="signup-container">
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit} className='formDiv'>
-                <TextField
-                    label="First Name"
-                    variant="outlined"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    style={{ marginBottom: '15px' }}
-                />
-                <TextField
-                    label="Last Name"
-                    variant="outlined"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    style={{ marginBottom: '15px' }}
+        <>
 
-                />
-                <TextField
-                    label="Email"
-                    variant="outlined"
-                    // type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    style={{ marginBottom: '15px' }}
+            <div className='mainDivSignup'>
+                <div className='imageViewSignUP'></div>
 
-                />
-                <TextField
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    style={{ marginBottom: '15px' }}
+                <div className='formContainer' >
 
-                />
-                {/* <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                        <InputAdornment position="end" style={{ width: '10px', height: '5px' }} >
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                edge="end"
-                            >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                    label="Password"
-                /> */}
-                <TextField
-                    label="Mobile"
-                    variant="outlined"
-                    className='hhhh'
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleInputChange}
-                    style={{ marginBottom: '15px' }}
+                    <div className="signup-container">
+                        <h1 style={{"font-size":40}}> Get Started Now </h1>
+                        <form onSubmit={handleSubmit} className='formDiv'>
+                            <TextField
+                                label="First Name"
+                                variant="outlined"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleInputChange}
+                                className='signUpTextfield'
+                                style={{ marginBottom: '18px' }}
+                            />
+                            <TextField
+                                label="Last Name"
+                                variant="outlined"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleInputChange}
+                                className='signUpTextfield'
 
-                />
-                <button type="submit">Sign Up</button>
-                <h6>Or</h6>
-                <button onClick={() => {
+                                style={{ marginBottom: '18px' }}
 
-                    navigate('/login')
-                    }}>Login</button>
-            </form>
-        </div>
+                            />
+                            <TextField
+                                label="Email"
+                                variant="outlined"
+                                // type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                className='signUpTextfield'
+
+                                style={{ marginBottom: '18px' }}
+
+                            />
+                            <TextField
+                                label="Password"
+                                variant="outlined"
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: '18px' }}
+                                className='signUpTextfield'
+                                size="large"
+
+                            />
+                
+
+                            <TextField
+                                label="Mobile"
+                                variant="outlined"
+                                className='signUpTextfield'
+                                name="mobile"
+                                value={formData.mobile}
+                                onChange={handleInputChange}
+                                style={{ marginBottom: '18px' }}
+
+
+                            />
+                            <button type="submit">Sign Up</button>
+                            <h6>Or</h6>
+                            <button onClick={() => {
+
+                                navigate('/login')
+                            }}>Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 

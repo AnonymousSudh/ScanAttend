@@ -4,7 +4,7 @@ import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native
 import { useSelector, useDispatch } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { loginStudent } from '../redux/action/authAction';
-
+ 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');

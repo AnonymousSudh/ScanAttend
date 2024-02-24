@@ -1,31 +1,66 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  /* background-color: #0056b3; */
+}
 
+.mainDivSignup {
+  /* border: 5px solid greenyellow; */
+  display: flex;
+  justify-content: space-between;
+  background-image: url("../ship.png");
+  width: 100vw;
+  min-height: 100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.imageViewSignUP {
+  width: 50%;
+  height: 100%;
+}
+.formContainer {
+  /* border: 1px solid red; */
+  width: 50%;
+  height: 100vh;
+  background-color: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .signup-container {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+  /* max-width: 400px; */
+  /* margin: 0 auto; */
+  /* border: 1px solid red;/ */
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* padding: 20px; */
+  /* border: 1px solid #ccc; */
   border-radius: 5px;
   background-color: #fff;
 }
-.hhhh{
-  margin-bottom: 400px;
+.signUpTextfield {
+  width: 80%;
+  /* border: 1px solid red; */
+  margin-bottom: 20px;
 }
 .signup-container h2 {
   text-align: center;
 }
-.signFieldText{
-  margin: 20px;
-}
 .formDiv {
   display: flex;
   flex-direction: column;
+  /* border: 1px solid red; */
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
-.formDiv TextField{
-  margin-top: 20px;
-}
-.form-group {
-  margin-bottom: 15px;
-}
+
+
 
 /* Adjust button styling */
 button[type="submit"] {

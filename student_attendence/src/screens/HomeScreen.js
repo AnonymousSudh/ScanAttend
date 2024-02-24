@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, TouchableOpacity, Button, StyleSheet, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, Button, StyleSheet, ToastAndroid, Alert } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { useNavigation } from '@react-navigation/native';
@@ -11,25 +11,45 @@ import { Avatar, Card, Text } from 'react-native-paper';
 const HomeScreen = () => {
   const [QRdata, setQRData] = useState({});
   const [visible, setVisible] = useState(false);
+  const [scanCount, setScanCount] = useState(0);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const studentData = useSelector(state => state.auth);
-  console.log(" User data ", studentData.studentId)
+  console.log(" Student data ", studentData)
   var qrInfo = {};
 
   const handleBarCodeRead = (event) => {
+    console.log(scanCount)
+    if (scanCount == 0) {
+      setScanCount(scanCount + 1);
+      const dataString = event.data;
+      console.log(dataString)
+      const keyValuePairs = dataString.split(',').map(pair => pair.split(':'));
+      // console.log("keyValuePairs", keyValuePairs)
+      keyValuePairs.forEach(([key, value]) => {
+        qrInfo[key.trim()] = value.trim();
+      });
+      // console.log("------------")
+      console.log(qrInfo)
+      if (qrInfo.course != studentData.course) {
+        Alert.alert('Invalid QR', 'Please Scan Your Course QR', [
+          {
+            text: 'Cancel',
+            onPress: () => { setScanCount(0) },
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => { setScanCount(0) }
+          },
+        ]);
+        return
+      }
+      setQRData(qrInfo)
+      setVisible(true);
 
-    const dataString = event.data;
-    console.log(dataString)
-    const keyValuePairs = dataString.split(',').map(pair => pair.split(':'));
-    console.log("keyValuePairs", keyValuePairs)
-    keyValuePairs.forEach(([key, value]) => {
-      qrInfo[key.trim()] = value.trim();
-    });
-    // console.log("------------")
-    console.log(qrInfo)
-    setQRData(qrInfo)
-    setVisible(true);
+    }
+
   };
 
   const markAttendance = async () => {
@@ -39,16 +59,16 @@ const HomeScreen = () => {
       console.log(QRdata);
       const { course, courseId, division, divisionId, faculty, facultyId, subject, subjectId } = QRdata;
       const studentId = studentData.studentId;
-      console.log("----------")
-      console.log("studentData", studentData)
-      console.log("studentId", studentId)
+      // console.log("----------")
+      // console.log("studentData", studentData)
+      // console.log("studentId", studentId)
       const lectureData = { ...QRdata, studentId }
       console.log("lectureData", lectureData)
       const response = await postData('markAttendance', lectureData);
       console.log("response after marked present ")
       console.log(response);
       if (response.success) {
-        console.log("---------")
+        // console.log("---------")
         const lectureId = response.data.id;
         console.log(lectureId)
         // const attendData = await postData('getattendancePercentage', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
@@ -74,23 +94,6 @@ const HomeScreen = () => {
 
 
 
-  // const handleScan = async (event) => {
-  //   if (!scanned) {
-  //     setScanned(true);
-  //     try {
-  //       // Do something with the scanned data (example: log it)
-  //       console.log('Scanned data:', event.data);
-  //       setScannedData(event.data);
-  //     } catch (error) {
-  //       console.error('Error handling scanned data:', error);
-  //     }
-  //   }
-  // };
-
-  // // Function to handle when the scanner is resumed
-  // const handleScanResume = () => {
-  //   setScanned(false);
-  // };
   return (
     <View style={styles.container}>
       <View style={styles.camera}></View>
@@ -203,3 +206,24 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+
+
+
+// const handleScan = async (event) => {
+//   if (!scanned) {
+//     setScanned(true);
+//     try {
+//       // Do something with the scanned data (example: log it)
+//       console.log('Scanned data:', event.data);
+//       setScannedData(event.data);
+//     } catch (error) {
+//       console.error('Error handling scanned data:', error);
+//     }
+//   }
+// };
+
+// // Function to handle when the scanner is resumed
+// const handleScanResume = () => {
+//   setScanned(false);
+// };

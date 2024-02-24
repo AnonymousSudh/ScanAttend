@@ -1,83 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { loginFaculty } from '../redux/action/LoginAction';
-// import { PostData } from '../utils/api';
-// import { useNavigate } from 'react-router-dom';
-
-
-// const LoginScreen = () => {
-//   const dispatch = useDispatch();
-//   const navigation = useNavigate();
-
-
-//   const [formData, setFormData] = useState({ email: '', password: '' });
-
-//   const handleInputChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.name]: e.target.value,
-//     });
-//   };
-
-//   const handleLogin = async () => {
-//     try {
-//       // Perform API call for authentication and get token
-//       const { email, password } = formData;
-//       const facultyData = await dispatch(loginFaculty({ email, password }))
-//       console.log(facultyData.payload.success)
-//       if (facultyData.payload.success && facultyData.payload.data.user) {
-//         navigation('/', facultyData.payload.data)
-//       }
-//     } catch (error) {
-//       console.error('Login failed:', error.message);
-//     }
-//   };
-//   useEffect(() => {
-//     const token = localStorage.getItem('facultyToken');
-//     if (token) {
-//       navigation('/')
-//     }
-
-//   }, [])
-
-//   return (
-//     <div>
-//       <h2>Login</h2>
-//       <form>
-//         <div>
-//           <label>Email:</label>
-//           <input
-//             type="email"
-//             name="email"
-//             value={formData.email}
-//             onChange={handleInputChange}
-//           />
-//         </div>
-//         <div>
-//           <label>Password:</label>
-//           <input
-//             type="password"
-//             name="password"
-//             value={formData.password}
-//             onChange={handleInputChange}
-//           />
-//         </div>
-//         <button type="button" onClick={handleLogin}>
-//           Login
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default LoginScreen;
-
-
-
-
-
-
-
 import React, { useState } from 'react';
 import '../styles/LoginScreen.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -123,45 +43,63 @@ const LoginScreen = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="user-type-selection">
-        <div
-          className={`user-type-icon ${userType === 'faculty' ? 'active' : ''}`}
-          onClick={() => handleUserType('faculty')}
-        >
-          Faculty
-        </div>
-        <div
-          className={`user-type-icon ${userType === 'admin' ? 'active' : ''}`}
-          onClick={() => handleUserType('admin')}
-        >
-          Admin
+    <>
+      <div className='mainDivLogin'>
+
+        <div className="glass-container">
+          <div className='loginHeading'>
+
+            <h1 style={{color:"white"}}>Login As {userType.toUpperCase()}</h1>
+          </div>
+          <div className="glass-content">
+
+            <div className="login-container">
+              <div className="user-type-selection">
+                <div
+                  className={`user-type-icon ${userType === 'faculty' ? 'active' : ''}`}
+                  onClick={() => handleUserType('faculty')}
+                >
+                  Faculty
+                </div>
+                <div
+                  className={`user-type-icon ${userType === 'admin' ? 'active' : ''}`}
+                  onClick={() => handleUserType('admin')}
+                >
+                  Admin
+                </div>
+              </div>
+              <form style={{ display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center" }}>
+                <div className='fieldDiv'>
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className='signupInput'
+                  // style={{"fontSize":"20px"}}
+                  />
+                </div>
+                <div style={{ paddingBottom: "10px" }}>
+                  <label>Password:</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className='signupInput'
+
+                  />
+                </div>
+                <button type="button" onClick={handleLogin} className='loginButton'>
+                  Login
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-      <form>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
-      </form>
-    </div>
+    </>
   );
 };
 

@@ -8,6 +8,10 @@ const initialState = {
     error: null,
     msg: null,
     token: null,
+    mobileNumber: null,
+    rollNumber: null,
+    userName: null,
+    course: null,
 
 }
 
@@ -37,7 +41,7 @@ export const authSlice = createSlice({
             .addCase(createStudent.fulfilled, (state, action) => {
                 state.isLoading = false;
                 const studentData = action.payload;
-                console.log(studentData)
+                console.log("studentData at auth reducer ", studentData)
                 if (studentData.success) {
                     console.log()
                     state.studentId = 1;
@@ -64,14 +68,18 @@ export const authSlice = createSlice({
             .addCase(loginStudent.fulfilled, (state, action) => {
 
                 console.log("action", action.payload.success)  //action.payload.data.user 
+                console.log("payload", action.payload)
                 if (action.payload.success) {
                     // console.log("inside")
                     const token = "xyz"
                     state.token = token
                     state.studentId = action.payload.data.id
                     state.isLoading = false
+                    state.mobileNumber = action.payload.data.mobileNumber
+                    state.rollNumber = action.payload.data.rollNumber
+                    state.userName = action.payload.data.userName
+                    state.course = action.payload.data.course
                 }
-                console.log("2")
 
             })
             .addCase(loginStudent.rejected, (state, action) => {
