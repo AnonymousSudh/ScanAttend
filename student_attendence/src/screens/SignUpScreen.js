@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper'; // 
+import { TextInput as PaperTextInput, Button as PaperButton, Picker } from 'react-native-paper'; // 
 import { useSelector, useDispatch } from 'react-redux';
 import { createStudent } from '../redux/action/authAction'
 import DeviceInfo from 'react-native-device-info';
 import { useNavigation } from '@react-navigation/native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { fetchData, postData } from "../utils/api"
+
 
 const SignupScreen = () => {
   const [userName, setUserName] = useState('');
@@ -16,7 +19,20 @@ const SignupScreen = () => {
   const [course, setCourse] = useState('');
   const [deviceAddress, setDeviceID] = useState(null);
   const navigation = useNavigation();
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  var [courses, setCourses] = useState([]);
 
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+          Course
+        </Text>
+      );
+    }
+    return null;
+  };
   const dispatch = useDispatch();
   const getDeviceID = async () => setDeviceID(await DeviceInfo.getUniqueId());
 
@@ -50,6 +66,19 @@ const SignupScreen = () => {
 
   };
 
+  const getCourse = async () => {
+    try {
+      const response = await fetchData('getAllCourse')
+      console.log("response", response.data)
+      if (response.success) {
+        setCourses(response.data);
+      } else {
+        console.error('Failed to fetch courses');
+      }
+    } catch (error) {
+      console.error('Error occurred while fetching courses:', error);
+    }
+  };
 
   // const debounce = (func, delay) => {
   //   let timeoutId;
@@ -74,6 +103,7 @@ const SignupScreen = () => {
   // };
   useEffect(() => {
     getDeviceID();
+    getCourse();
   }, [])
 
   return (
@@ -148,7 +178,7 @@ const SignupScreen = () => {
 
         <View style={styles.inputContainer}>
 
-          <PaperTextInput
+          {/* <PaperTextInput
             placeholder="Enter course"
             label="Course"
             value={course}
@@ -157,7 +187,33 @@ const SignupScreen = () => {
             right={<PaperTextInput.Affix text="" />}
             style={styles.outlineText}
           />
+        </View> */}
+        <View style={styles.container}>
+          {renderLabel()}
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: 'blue', width: "90%", borderWidth: 1 }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={courses}
+            search
+            maxHeight={300}
+            labelField="name"
+            valueField="id"
+            placeholder={!isFocus ? 'Select Course' : '...'}
+            searchPlaceholder="Search..."
+            value={value}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              setValue(item.id);
+              setCourse(item.name)
+              setIsFocus(false);
+            }}
+          />
         </View>
+
 
         <PaperButton mode="contained" style={styles.button} onPress={handleSignUp}>
           Sign Up
@@ -223,6 +279,53 @@ const styles = StyleSheet.create({
     width: '80%',
     marginVertical: 10,
     backgroundColor: 'transparent', // Set the background color of the input field
+  },
+
+
+
+
+
+
+  container: {
+    // backgroundColor: 'white',
+    padding: 16,
+    width: "90%"
+  },
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    // backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    width:"90%"
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+    width:"90%"
+
   },
 });
 
