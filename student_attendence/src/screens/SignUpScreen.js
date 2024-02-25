@@ -176,18 +176,6 @@ const SignupScreen = () => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-
-          {/* <PaperTextInput
-            placeholder="Enter course"
-            label="Course"
-            value={course}
-            onChangeText={text => setCourse(text)}
-            mode="outlined"
-            right={<PaperTextInput.Affix text="" />}
-            style={styles.outlineText}
-          />
-        </View> */}
         <View style={styles.container}>
           {renderLabel()}
           <Dropdown
