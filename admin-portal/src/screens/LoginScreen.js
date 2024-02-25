@@ -27,7 +27,7 @@ const LoginScreen = () => {
       // Perform API call for authentication and get token
       const { email, password } = formData;
       // console.log(email,password)
-      const facultyData = await dispatch(loginFaculty({ email, password, userType }))
+      const facultyData = await dispatch(loginFaculty({ email, password, type:userType }))
       console.log(facultyData.payload.success)
       console.log("login data", facultyData.payload)
       if (facultyData.payload.success && facultyData.payload.data.user) {

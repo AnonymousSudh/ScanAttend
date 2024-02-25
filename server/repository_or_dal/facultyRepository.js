@@ -16,8 +16,8 @@ const findFaculty = async (data) => {
         console.log("data at repo layer findFaculty", data)
         const result = await Faculty.findOne({
             where: {
-                email: data.email,
-                type: data.userType
+                email: data?.email,
+                type: data?.type
             }
         });
         console.log(result);
