@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ToastAndroid } from 'react-native';
-import { TextInput as PaperTextInput, Button as PaperButton } from 'react-native-paper'; // 
+import { View, StyleSheet, ToastAndroid, TouchableOpacity } from 'react-native';
+import { TextInput as PaperTextInput, Button as PaperButton, Text } from 'react-native-paper';  
 import { useSelector, useDispatch } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import { loginStudent } from '../redux/action/authAction';
@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
     console.log("-------------")
     console.log(data)
     if (data.payload.success) {
-      console.log("selectorData",selectorData);
+      console.log("selectorData", selectorData);
       ToastAndroid.showWithGravity(
         `${data.payload.msg}`,
         ToastAndroid.SHORT,
@@ -60,9 +60,21 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
         style={styles.input}
       />
-      <PaperButton mode="contained" onPress={handleLogin} style={styles.loginButton}>
-        Login
-      </PaperButton>
+      <TouchableOpacity style={{
+        width: "100%",
+        // borderWidth: 1,
+        // borderColor: "red", 
+        marginTop: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 40,
+        borderRadius: 40,
+        backgroundColor: "#674FA3"
+      }}
+        onPress={handleLogin}
+      >
+        <Text style={{ color: "white", fontWeight: 'bold' }}>Login</Text>
+      </TouchableOpacity>
       <PaperButton onPress={() => navigation.navigate('Signup')} style={styles.createAccountButton}>
         Create a new account
       </PaperButton>
@@ -81,6 +93,8 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginTop: 10,
+    borderWidth: 1,
+    borderColor: "red"
   },
   createAccountButton: {
     marginTop: 20,
