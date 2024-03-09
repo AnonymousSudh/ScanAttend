@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 // import { PostData, getData } from '../utils/api';
 import { PostData, getData } from '../../utils/api';
 import { useSelector } from 'react-redux';
+import '../../styles/AssignSubjectToFaculty.css'
 
 
 // import './Form.css'; 
@@ -277,7 +278,8 @@ function AssignSubjectsToFaculty() {
                     </select>
                 </div>
             </form>
-            <button type="submit" onClick={handleSubmit}>Submit</button>
+            <button type="submit" onClick={handleSubmit}
+            className='addCourseSubmit'>Submit</button>
         </div>
     );
 

@@ -27,7 +27,7 @@ const HomeScreen = () => {
       const keyValuePairs = dataString.split(',').map(pair => pair.split(':'));
       // console.log("keyValuePairs", keyValuePairs)
       keyValuePairs.forEach(([key, value]) => {
-        qrInfo[key.trim()] = value.trim();
+        qrInfo[key.trim()] = value?.trim();
       });
       // console.log("------------")
       console.log(qrInfo)
@@ -47,6 +47,9 @@ const HomeScreen = () => {
       }
       setQRData(qrInfo)
       setVisible(true);
+      setTimeout(() => {
+        setScanCount(0)
+      }, 3000);
 
     }
 
@@ -59,9 +62,6 @@ const HomeScreen = () => {
       console.log(QRdata);
       const { course, courseId, division, divisionId, faculty, facultyId, subject, subjectId } = QRdata;
       const studentId = studentData.studentId;
-      // console.log("----------")
-      // console.log("studentData", studentData)
-      // console.log("studentId", studentId)
       const lectureData = { ...QRdata, studentId }
       console.log("lectureData", lectureData)
       const response = await postData('markAttendance', lectureData);

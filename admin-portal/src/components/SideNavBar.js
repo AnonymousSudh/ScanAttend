@@ -2,7 +2,12 @@ import React from 'react'
 
 function SideNavBar() {
     return (
-        <div>SideNavBar</div>
+        <>
+            <div className='sideNavDiv'>
+
+                <div>SideNavBar</div>
+            </div>
+        </>
     )
 }
 

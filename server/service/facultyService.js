@@ -6,7 +6,7 @@ const facultyRepository = require("../repository_or_dal/facultyRepository")
 const createFaculty = async (data) => {
     try {
         // Check if the email is already registered
-        console.log(data)
+        console.log("data at create Faculty service",data)
         const existingUser = await facultyRepository.findFaculty(data);
         if (existingUser) {
             console.log("user alredy exist")

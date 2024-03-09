@@ -30,6 +30,7 @@ function GenerateQR() {
         setSelectedSubject({});
         setSelectedDivision('');
         setSelectedDivisionValue('')
+        setShowQR(false)
     }
 
 
@@ -313,7 +314,7 @@ function GenerateQR() {
                         </select>
                     </div>
                 </form>
-                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
+                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" ,marginTop:"15px"}}>
 
                     <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
                     <button onClick={clearForm} className='generateQRbutton'>Clear</button>

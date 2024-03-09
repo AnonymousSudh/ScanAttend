@@ -1,0 +1,17 @@
+.chartSection {
+  display: flex;
+  border: 1px solid red;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.dateSelection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
+  /* width: 40%; */
+  
+}

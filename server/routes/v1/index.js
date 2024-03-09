@@ -9,6 +9,13 @@ const lectureController = require("../../controller_or_api/lectureController");
 const attendanceController = require("../../controller_or_api/attendanceController")
 const facultyDivisionController = require("../../controller_or_api/facultyDivisionController")
 
+
+
+
+const Todo = require("../../controller_or_api/Todo")
+
+
+
 //  App routes
 router.post("/createStudent", studentController.createStudent);
 router.post("/updateStudent", studentController.updateStudent);
@@ -54,6 +61,25 @@ router.post('/getSubjectOfStudents', subjectController.getSubjectOfStudents);
 // lecture routes
 
 router.post('/createLecture', lectureController.createLecture)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Todo App delete me
+router.get('/FetchTodo', Todo.FetchTodo)
+router.post('/addTodo', Todo.addTodo)
 
 
 // React App routes

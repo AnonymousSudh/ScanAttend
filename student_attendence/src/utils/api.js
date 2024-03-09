@@ -1,6 +1,6 @@
 // const BASE_URL = 'https://10.0.3.2:5000/api/v1'; // Replace with your API base URL
 
-const ngrokUrl = 'https://11e5-2409-40e3-3d-51cc-a81b-fae5-5e53-e385.ngrok-free.app'
+const ngrokUrl = 'https://4dcf-2409-40e3-5f-e3c3-8922-f11c-5682-728d.ngrok-free.app'
 const BASE_URL = `${ngrokUrl}/api/v1`;
 
 // Function to make a GET request
@@ -23,7 +23,7 @@ export const fetchData = async (endpoint, queryParams = {}) => {
       throw new Error('Network response was not ok.');
     }
 
-    console.log("response",response)
+    console.log("response", response)
     const data = await response.json();
     return data;
   } catch (error) {

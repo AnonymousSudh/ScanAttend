@@ -1,0 +1,13 @@
+.form-containerr {
+    /* max-width: 70%;
+     */
+     width: fit-content;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-align: center; /* Align elements to center */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
