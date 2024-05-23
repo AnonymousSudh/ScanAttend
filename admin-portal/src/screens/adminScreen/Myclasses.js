@@ -1,46 +1,90 @@
-import React, { useState } from 'react'
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import '../../styles/myClasses.css'
+import React, { useState, memo } from 'react';
+import { Paper, Typography, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
+import { PostData } from '../../utils/api';
+import '../../styles/myClasses.css';
 
-function Myclasses() {
+const Myclasses = memo(() => {
     const [date, setDate] = useState('');
-    const [response, setResponse] = useState('');
-    const [value, setValue] = React.useState(dayjs('2022-04-17'));
+    const [lectures, setLectures] = useState([]);
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await PostData('getMyLecture', {
+                FacultyId: 2,
+                Date: date
+            });
+            console.log(response, "response")
+            setLectures(response.data);
+        } catch (error) {
+            console.error('Error occurred:', error);
+        }
     }
+
     return (
-        <>
+        <div className='MyClassMainView'>
             <div className='dateSection'></div>
             <div className='chartSection'>
                 <div>
                     <form onSubmit={handleSubmit} className='dateSelection'>
-                        <label>
-                            Select a Date:
-                            <input
-                                type="date"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                            />
-                        </label>
-                        <button type="submit">Submit</button>
-                    </form>
-                    {response && (
-                        <div>
-                            <h2>Response from Backend:</h2>
-                            <p>{response}</p>
+                        <div className="dateDiv">
+
+                            <label>
+                                Select a Date:
+                                <input
+                                    type="date"
+                                    value={date}
+                                    onChange={(e) => setDate(e.target.value)}
+                                />
+                            </label>
+                            <div className="butt">
+
+                                <button type="submit">Submit</button>
+                            </div>
                         </div>
+                    </form>
+                    <h2>Lectures:</h2>
+                    {lectures.length > 0 ? (
+                        <Paper elevation={3} className='lectureTable'>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Course</TableCell>
+                                        <TableCell>Division</TableCell>
+                                        <TableCell>Subject</TableCell>
+                                        <TableCell>Subject Code</TableCell>
+                                        <TableCell>Lecture Date</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {lectures.map((lecture, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{lecture.course_name}</TableCell>
+                                            <TableCell>{lecture.division}</TableCell>
+                                            <TableCell>{lecture.subject_name}</TableCell>
+                                            <TableCell>{lecture.subjectCode}</TableCell>
+                                            <TableCell>{new Date(lecture.lectureDate).toLocaleString()}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {lectures.map((lecture, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{lecture.course_name}</TableCell>
+                                            <TableCell>{lecture.division}</TableCell>
+                                            <TableCell>{lecture.subject_name}</TableCell>
+                                            <TableCell>{lecture.subjectCode}</TableCell>
+                                            <TableCell>{new Date(lecture.lectureDate).toLocaleString()}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Paper>
+                    ) : (
+                        <Typography>No lectures found for the selected date.</Typography>
                     )}
                 </div>
-
             </div>
-        </>
-    )
-}
+        </div>
+    );
+});
 
-export default Myclasses
+export default Myclasses;

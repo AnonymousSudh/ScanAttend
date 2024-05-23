@@ -7,7 +7,7 @@ const addSubject = async (data) => {
     try {
         console.log("data at repo layer addSubject", data)
         const result = await Subject.create(data);
-        console.log(result);
+        console.log("result",result);
         return result
     } catch (error) {
         console.log("error at Repository layer");
@@ -18,7 +18,7 @@ const addSubject = async (data) => {
 const isSubjectPresent = async (data) => {
 
     try {
-        console.log("data at repo layer addSubject", data)
+        console.log("data at repo layer isSubjectPresent", data)
         const result = await Subject.findOne({
             where: {
                 name: data.name,

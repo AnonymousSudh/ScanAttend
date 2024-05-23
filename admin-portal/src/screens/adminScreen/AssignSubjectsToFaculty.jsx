@@ -27,6 +27,7 @@ function AssignSubjectsToFaculty() {
     var [selectedFaculty, setSelectedFaculty] = useState('');
     var [selectedFacultyValue, setSelectedFacultyValue] = useState('');
 
+    const [successMessage, setSuccessMessage] = useState('');
 
 
     const [userData, setUserData] = useState({});
@@ -120,6 +121,13 @@ function AssignSubjectsToFaculty() {
         }
         console.log(subjectTeacherData)
         const result = await PostData('setFacultyToSubject', subjectTeacherData)
+        console.log("result", result)
+        if (result.success) {
+            setSuccessMessage('Data saved successfully');
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+        }
 
     }
 
@@ -127,7 +135,7 @@ function AssignSubjectsToFaculty() {
         const fetchSubject = async () => {
             try {
                 // console.log(selectedSemester);
-                const subject = await PostData('tha', { courseId: selectedCourse.id, semester: selectedSemester });
+                const subject = await PostData('getSubjectandDivisonOfCourse', { courseId: selectedCourse.id, semester: selectedSemester });
                 console.log(subject.data.divisionData)
                 console.log(subject)
                 // return
@@ -199,88 +207,96 @@ function AssignSubjectsToFaculty() {
         getCourse();
     }, []);
     return (
-        <div className="form-containerr">
-            <form className="form" >
-                <div className="form-group">
-                    <label htmlFor="course">Select Course:</label>
-                    <select
-                        id="course"
-                        value={selectedCourse.id}
-                        onChange={handleCourseChange}
-                    >
-                        <option value="">Select Course</option>
-                        {courses.map((val) => (
-                            <option key={val.id} value={val.id} data-id={val.id} data-name={val.name}>
-                                {val.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="subject">Select Semester:</label>
-                    <select
-                        id="subject"
-                        value={selectedSemester}
-                        onChange={handleSemesterChange}
-                    >
-                        <option value="">Select Semester</option>
-                        {semester.map((val) => (
-                            <option key={val.semester} value={val.semester}>
-                                {val.semester}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="subject">Select Subject:</label>
-                    <select
-                        id="subject"
-                        onChange={handleSubjectChange}
-                        value={selectedSubject.id}
-                    >
-                        <option value="">Select Subject</option>
-                        {subjects.map((subject) => (
-                            <option key={subject.id} value={subject.id} data-id={subject.id} data-name={subject.name}>
-                                {subject.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="division">Select Division:</label>
-                    <select
-                        id="division"
-                        value={selectedDivision}
-                        onChange={handleDivisonChange}
-                    >
-                        <option value="">Select Division</option>
-                        {divisions.map((division) => (
-                            <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
-                                {division.division}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="selectFaculty">Select Faculty:</label>
-                    <select
-                        id="selectFaculty"
-                        value={selectedFaculty}
-                        onChange={handleFacultyChange}
+        <>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                    >
-                        <option value="">Select Faculty</option>
-                        {faculty.map((faculty) => (
-                            <option key={faculty.id} value={faculty.id} data-id={faculty.id} data-name={faculty.Name}>
-                                {faculty.Name}
-                            </option>
-                        ))}
-                    </select>
+                <div className="form-containerr">
+                    <form className="form" >
+                        <div className="form-group">
+                            <label htmlFor="course">Select Course:</label>
+                            <select
+                                id="course"
+                                value={selectedCourse.id}
+                                onChange={handleCourseChange}
+                            >
+                                <option value="">Select Course</option>
+                                {courses.map((val) => (
+                                    <option key={val.id} value={val.id} data-id={val.id} data-name={val.name}>
+                                        {val.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="subject">Select Semester:</label>
+                            <select
+                                id="subject"
+                                value={selectedSemester}
+                                onChange={handleSemesterChange}
+                            >
+                                <option value="">Select Semester</option>
+                                {semester.map((val) => (
+                                    <option key={val.semester} value={val.semester}>
+                                        {val.semester}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="subject">Select Subject:</label>
+                            <select
+                                id="subject"
+                                onChange={handleSubjectChange}
+                                value={selectedSubject.id}
+                            >
+                                <option value="">Select Subject</option>
+                                {subjects.map((subject) => (
+                                    <option key={subject.id} value={subject.id} data-id={subject.id} data-name={subject.name}>
+                                        {subject.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="division">Select Division:</label>
+                            <select
+                                id="division"
+                                value={selectedDivision}
+                                onChange={handleDivisonChange}
+                            >
+                                <option value="">Select Division</option>
+                                {divisions.map((division) => (
+                                    <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
+                                        {division.division}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="selectFaculty">Select Faculty:</label>
+                            <select
+                                id="selectFaculty"
+                                value={selectedFaculty}
+                                onChange={handleFacultyChange}
+
+                            >
+                                <option value="">Select Faculty</option>
+                                {faculty.map((faculty) => (
+                                    <option key={faculty.id} value={faculty.id} data-id={faculty.id} data-name={faculty.Name}>
+                                        {faculty.Name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            <button type="submit" onClick={handleSubmit}
-            className='addCourseSubmit'>Submit</button>
-        </div>
+                <div>
+                    <button type="submit" onClick={handleSubmit}
+                        className='addCourseSubmit'>Assign Faculty</button>
+                    {successMessage && <p className="success-msg">{successMessage}</p>}
+                </div>
+            </div>
+        </>
     );
 
 }

@@ -10,90 +10,80 @@ import AddDivision from '../components/AddDivision';
 import AddCourse from '../components/AddCourse';
 import AssignSubjectsToFaculty from './adminScreen/AssignSubjectsToFaculty';
 import SideNavBar from '../components/SideNavBar';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { requirePropFactory } from '@mui/material';
 import logo from '../images/logo2.jpeg'
 import { clearAuthData } from '../redux/reducer/authReducer';
 import LiveAttend from '../components/LiveAttend';
 import Myclasses from './adminScreen/Myclasses';
-
+import LastClass from './LastClass';
+import { commonStyle } from '../styles/CommonStyle'
 
 function HomeScreen() {
-  const [qrData, setQRData] = useState('');
-  const [showQR, setShowQR] = useState(false);
+  const [tabValue, setTabValue] = useState('My Classes');
   const [userData, setUserData] = useState({});
-  
 
   const dispatch = useDispatch();
   const navigation = useNavigate();
-  const user = useSelector(state => state.data);
+  const user = useSelector(state => state);
+  console.log(user.auth.data, "user");
 
   const logout = () => {
     dispatch(clearAuthData());
-    navigation('/signup')
+    navigation('/signup');
   }
 
-  const [alignment, setAlignment] = React.useState('Home');
-
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
-  const data = useSelector(state => state);
-  console.log(data)
 
   useEffect(() => {
-    setUserData(user);
+    setUserData(user.auth.data);
+  }, [user]);
 
-  }, [])
   return (
     <>
-      <div style={{ position: "relative" }}>
-        <div className='sideBar'>
-          <div style={{ justifyContent: "center", alignItems: "center", width: "100%", display: "flex" }}>
-
-            <img src={logo} alt="React Image" className='logoImg' />
-          </div>
-          <ToggleButtonGroup
-            color="primary"
-            value={alignment}
-            exclusive
-            onChange={handleChange}
-            aria-label="Platform"
-            orientation="vertical"
-            style={{ width: "100%", marginBottom: 10, }}
-          >
-            <ToggleButton value="Home" style={{ marginBottom: 10 }}>Home</ToggleButton>
-            <ToggleButton value="My Classes" style={{ marginBottom: 10 }}>My Classes</ToggleButton>
-            <ToggleButton value="Live" style={{ marginBottom: 10 }}>Live Attend</ToggleButton>
-            <ToggleButton value="Profile" style={{ marginBottom: 10 }}>Profile</ToggleButton>
-            <ToggleButton value="Logout" style={{ marginBottom: 10 }} onClick={logout}>Logout</ToggleButton>
-            <LogoutButton redirectTo="/signup" />
-
-          </ToggleButtonGroup>
-        </div>
-
-        <div className='header'>
-          <div className='insideHeader'>
-            <h1>{userData.firstName + " " + userData.lastName}</h1>
+      <div style={{ backgroundColor: '#F5F7F9', display: 'flex' }}>
+        <div style={{}}>
+          <div className='sideBar'>
+            <div style={{ justifyContent: "center", alignItems: "center", width: "100%", display: "flex" }}>
+              <img src={logo} alt="React Image" className='logoImg' />
+            </div>
+            <Tabs
+              className="tabs"
+              orientation="vertical"
+              value={tabValue}
+              onChange={handleTabChange}
+              aria-label="Navigation Tabs"
+              indicatorColor="secondary"
+              textColor="secondary"
+              style={{ width: "100%" }}
+            >
+              <Tab value="Home" label="Home" />
+              <Tab value="My Classes" label="My Classes" />
+              <Tab value="Live" label="Live Attend" />
+              <Tab value="Last Class" label="Last Class" />
+              <Tab value="Add Subject" label="Add Subject" />
+              <Tab value="Logout" label="Logout" onClick={logout} />
+            </Tabs>
           </div>
         </div>
-        <div className="qr-generator">
-
-
-
-          {alignment == "Home" && (
-            <GenerateQR />
-          )}
-
-          <LiveAttend />
-          <Myclasses/>
-          <br />
-          <br />
+        <div className="content" style={{ flexGrow: 1 }}>
+          <div className='header'>
+            <div className='insideHeader'>
+              <h1>{userData.firstName + " " + userData.lastName}</h1>
+            </div>
+          </div>
+          {tabValue === "Home" && <GenerateQR />}
+          {tabValue === "My Classes" && <Myclasses />}
+          {tabValue === "Live" && <LiveAttend />}
+          {tabValue === "Last Class" && <LastClass />}
+          {tabValue === "Add Subject" && <AddSubject />}
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;

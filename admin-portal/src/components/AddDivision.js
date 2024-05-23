@@ -85,7 +85,7 @@ function AddDivision() {
                 {/* <div className="form-group">
                     <label htmlFor="code">Course:</label>
                     <input
-                        type="text"
+                        type="text" 
                         id="stream"
                         name="stream"
                         value={formData.stream}

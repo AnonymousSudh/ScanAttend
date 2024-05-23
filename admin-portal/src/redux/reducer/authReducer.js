@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
 import { createFaculty, loginFaculty } from "../action/LoginAction"
 
 const initialState = {
@@ -9,7 +10,7 @@ const initialState = {
     isLoading: false,
     error: null,
     token: null
-
+ 
 } 
 
 export const authSlice = createSlice({

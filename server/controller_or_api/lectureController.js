@@ -31,4 +31,30 @@ const createLecture = async (req, res) => {
     }
 }
 
-module.exports = {createLecture}
+const getMyLectures = async (req, res) => {
+    try {
+        const userId = req.body;  // assuming user ID is stored in req.user.id after authentication middleware
+        console.log("Fetching lectures for user ID:", userId);
+        const result = await lectureService.getMyLectures(userId);
+        // console.log("Fetched lectures:", result);
+
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "Successfully fetched lectures",
+            error: null
+        });
+    } catch (error) {
+        console.log("error at controller layer while fetching lectures");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Could not fetch lectures",
+            error: error
+        });
+    }
+}
+
+
+module.exports = {createLecture,getMyLectures}

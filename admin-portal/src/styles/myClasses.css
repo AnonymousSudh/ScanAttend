@@ -1,6 +1,6 @@
 .chartSection {
   display: flex;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100%;
   flex-direction: row;
   justify-content: center;
@@ -11,7 +11,25 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   /* width: 40%; */
+}
+.MyClassMainView {
+  /* border: 5px solid green; */
+  width: 100%;
+}
+
+.dateDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
+}
+.butt {
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 30px;
+  padding-top: 20px;
 }

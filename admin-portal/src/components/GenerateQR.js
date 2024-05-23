@@ -21,7 +21,7 @@ function GenerateQR() {
     const [qrData, setQRData] = useState('');
     const [showQR, setShowQR] = useState(false);
     const [userData, setUserData] = useState({});
-    const user = useSelector(state => state.data);
+    const user = useSelector(state => state);
     console.log("user", user)
 
     const clearForm = () => {
@@ -55,6 +55,7 @@ function GenerateQR() {
         console.log(selectedSemester)
         console.log(selectedDivision)
         console.log(selectedDivisionValue)
+        console.log(selectedCourse)
 
         if (!selectedCourse) {
             alert("Select Course")
@@ -230,7 +231,7 @@ function GenerateQR() {
 
     useEffect(() => {
 
-        setUserData(user);
+        setUserData(user.auth.data);
         const getCourse = async () => {
             try {
                 const response = await getData('getAllCourse')
@@ -248,89 +249,92 @@ function GenerateQR() {
         getCourse();
     }, []);
     return (
-        <div className="form_container">
+        <div className="generateQRDiv" >
 
-            <div>
+            <div className="form_container">
 
-                <form className="form">
-                    <div className="form-group">
-                        <label htmlFor="course">Select Course:</label>
-                        <select
-                            id="course"
-                            value={selectedCourse.id}
-                            onChange={handleCourseChange}
-                        >
-                            <option value="">Select Course</option>
-                            {courses.map((val) => (
-                                <option key={val.id} value={val.id} data-id={val.id} data-name={val.name}>
-                                    {val.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="subject">Select Semester:</label>
-                        <select
-                            id="subject"
-                            value={selectedSemester}
-                            onChange={handleSemesterChange}
-                        >
-                            <option value="">Select Semester</option>
-                            {semester.map((val) => (
-                                <option key={val.semester} value={val.semester}>
-                                    {val.semester}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="subject">Select Subject:</label>
-                        <select
-                            id="subject"
-                            onChange={handleSubjectChange}
-                            value={selectedSubject.id}
-                        >
-                            <option value="">Select Subject</option>
-                            {subjects.map((subject) => (
-                                <option key={subject.id} value={subject.id} data-id={subject.id} data-name={subject.name}>
-                                    {subject.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="division">Select Division:</label>
-                        <select
-                            id="division"
-                            value={selectedDivision}
-                            onChange={handleDivisonChange}
-                        >
-                            <option value="">Select Division</option>
-                            {divisions.map((division) => (
-                                <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
-                                    {division.division}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </form>
-                <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center" ,marginTop:"15px"}}>
+                <div>
 
-                    <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
-                    <button onClick={clearForm} className='generateQRbutton'>Clear</button>
+                    <form className="form">
+                        <div className="form-group">
+                            <label htmlFor="course">Select Course:</label>
+                            <select
+                                id="course"
+                                value={selectedCourse.id}
+                                onChange={handleCourseChange}
+                            >
+                                <option value="">Select Course</option>
+                                {courses.map((val) => (
+                                    <option key={val.id} value={val.id} data-id={val.id} data-name={val.name}>
+                                        {val.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="subject">Select Semester:</label>
+                            <select
+                                id="subject"
+                                value={selectedSemester}
+                                onChange={handleSemesterChange}
+                            >
+                                <option value="">Select Semester</option>
+                                {semester.map((val) => (
+                                    <option key={val.semester} value={val.semester}>
+                                        {val.semester}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="subject">Select Subject:</label>
+                            <select
+                                id="subject"
+                                onChange={handleSubjectChange}
+                                value={selectedSubject.id}
+                            >
+                                <option value="">Select Subject</option>
+                                {subjects.map((subject) => (
+                                    <option key={subject.id} value={subject.id} data-id={subject.id} data-name={subject.name}>
+                                        {subject.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="division">Select Division:</label>
+                            <select
+                                id="division"
+                                value={selectedDivision}
+                                onChange={handleDivisonChange}
+                            >
+                                <option value="">Select Division</option>
+                                {divisions.map((division) => (
+                                    <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
+                                        {division.division}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </form>
+                    <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", marginTop: "15px" }}>
+
+                        <button onClick={generateQRCode} className='generateQRbutton'>Generate QR Code</button>
+                        <button onClick={clearForm} className='generateQRbutton'>Clear</button>
+                    </div>
                 </div>
-            </div>
-            <div >
+                <div >
 
 
-                <br />
-                {showQR && (
-                    <div className="qr">
-                        <QRCode value={qrData}
-                            size={500}
-                        />
-                    </div>
-                )}
+                    <br />
+                    {showQR && (
+                        <div className="qr">
+                            <QRCode value={qrData}
+                                size={400}
+                            />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

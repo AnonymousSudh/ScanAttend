@@ -13,5 +13,18 @@ const createLecture = async (data) => {
         throw error;
     }
 }
+const getMyLectures = async (data) => {
+    try {
+        const result = await lectureRepo.getMyLectures(data);
+        // console.log(result)
+        const lectureData = result.map((lecture) => lecture);
+        console.log(lectureData,"lectureData")
+        return lectureData
+    } catch (error) {
+        console.log("error at service layer");
+        console.log(error)
+        throw error;
+    }
+}
 
-module.exports ={createLecture}
+module.exports = { createLecture, getMyLectures }

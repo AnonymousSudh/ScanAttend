@@ -3,12 +3,12 @@ const facultyDivisionService = require("../service/facultyDivisionService.js")
 const setFacultyToSubject = async (req, res) => {
     try {
         const credentials = req.body;
-     
+
         const result = await facultyDivisionService.setFacultyToSubject(credentials);
         res.status(200).json({
             data: result,
             success: true,
-            msg: "Faculty Division set",
+            msg: "Faculty Assign Succesfully",
             error: null
         })
     } catch (err) {
@@ -24,4 +24,4 @@ const setFacultyToSubject = async (req, res) => {
 
 
 
-module.exports = { setFacultyToSubject,  }
+module.exports = { setFacultyToSubject, }

@@ -25,17 +25,24 @@ router.post("/getAllAttendanceDetails", attendanceController.getAllAttendanceDet
 router.post("/getAllLectureCountOfDivis", attendanceController.getAllLectureCountOfDivis)
 
 // getAllLectureCountOfDivis
-
+ 
 
 
 // admin routes
+
+
+
+
 // setFacultyToSubject
 router.post('/signUpFaculty', facultyController.createFaculty);
 router.post('/loginFaculty', facultyController.loginFaculty);
 router.post('/markAttendance',attendanceController.markAttendance)
 router.get('/getAllFaculty', facultyController.getAllFaculty);
+
+
 // Main Admin routes
 router.post('/setFacultyToSubject', facultyDivisionController.setFacultyToSubject);
+router.post('/getMyLecture',lectureController.getMyLectures)
 
 
 

@@ -2,10 +2,11 @@ const subjectRepo = require('../repository_or_dal/subjectRepository')
 
 const addSubject = async (data) => {
     try {
-        console.log(data)
+        // console.log("data","data")
         // const { name, subjectCode, totalHours, courseId, semester, course } = data
+        console.log("data at addsubject ", data)
         const subjectData = await subjectRepo.addSubject(data);
-        console.log(subjectData)
+        console.log("subjectData", subjectData)
         return subjectData
     } catch (error) {
         console.log("error at service layer");
@@ -16,15 +17,16 @@ const addSubject = async (data) => {
 // isSubjectPresent
 const isSubjectPresent = async (data) => {
     try {
-        console.log(data)
+        console.log("isSubjectPresent")
+        console.log(data, "data")
         // const { name, subjectCode, totalHours, courseId, semester, course } = data
         const subjectData = await subjectRepo.isSubjectPresent(data);
+        console.log("isSubjectPresent", subjectData)
         if (!subjectData) {
             addSubject(data)
         } else {
             throw Error(`Subject Already Present in Course`)
         }
-        console.log(subjectData)
         return subjectData
     } catch (error) {
         console.log("error at service layer");
@@ -36,14 +38,14 @@ const isSubjectPresent = async (data) => {
 
 const getSubjectandDivionOfCourse = async (data) => {
     try {
-        console.log(data)
+        console.log(data,"data at service layer")
         data.courseId = Number(data.courseId)
         // data.semester = Number(data.semester)
         const result = await subjectRepo.getSubjectandDivionOfCourse(data);
         const subjectData = result.result.map((val) => ({ id: val.id, name: val.name }))
         const divisionData = result.distinctDivisions.map((val) => ({ id: val.id, division: val.division, }))
-        console.log(subjectData)
-        console.log(divisionData)
+        console.log("subjectData",subjectData)
+        console.log("divisionData",divisionData)
         return { subjectData, divisionData }
     } catch (error) {
         console.log("error at service layer");
