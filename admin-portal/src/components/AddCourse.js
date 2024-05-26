@@ -54,7 +54,7 @@ const AddCourse = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleAddCourse} className='formcourse'>
-        <div className="form-group">
+        <div className="form-groupss">
           <label htmlFor="courseName">Course Name:</label>
           <input
             type="text"
