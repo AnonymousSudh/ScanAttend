@@ -132,9 +132,41 @@ const setFacultyToSubject = async (req, res) => {
     }
 }
 
+const getlastClassData = async (req, res) => {
+    try {
+        console.log("called----------------------")
+        console.log(req.query)
+        const { facultyId } = req.query
+        const result = await facultyService.getlastClassData({ facultyId });
+        console.log("---")
+        console.log(result)
+        console.log("-----")
+        // if (result.error) {
+        //     // If there's an error during login, respond with an error status and message
+        //     return res.status(401).json({ error: result.error });
+        // }
+        // // return res.status(200).json({
+        // //     data: result,
+        // //     success: true,
+        // //     msg: "successfully fetched all Faculty",
+        // //     error: null
+        // // })
+
+    } catch (error) {
+        console.log("error at fetching all Faculty");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Not able fetch Faculty",
+            error: error
+        })
+    }
+}
 
 
 
 
 
-module.exports = { createFaculty, loginFaculty, getAllFaculty, setFacultyToSubject }
+
+module.exports = { createFaculty, loginFaculty, getAllFaculty, setFacultyToSubject, getlastClassData }

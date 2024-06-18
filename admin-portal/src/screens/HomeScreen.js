@@ -13,7 +13,8 @@ import SideNavBar from '../components/SideNavBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { requirePropFactory } from '@mui/material';
-import logo from '../images/logo2.jpeg'
+// import logo from '../images/logo2.png'
+import logo from '../images/logo5.jpg'
 import { clearAuthData } from '../redux/reducer/authReducer';
 import LiveAttend from '../components/LiveAttend';
 import Myclasses from './adminScreen/Myclasses';
@@ -21,7 +22,7 @@ import LastClass from './LastClass';
 import { commonStyle } from '../styles/CommonStyle'
 
 function HomeScreen() {
-  const [tabValue, setTabValue] = useState('My Classes');
+  const [tabValue, setTabValue] = useState('Home');
   const [userData, setUserData] = useState({});
 
   const dispatch = useDispatch();
@@ -37,7 +38,6 @@ function HomeScreen() {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
   useEffect(() => {
     setUserData(user.auth.data);
   }, [user]);
@@ -48,7 +48,11 @@ function HomeScreen() {
         <div style={{}}>
           <div className='sideBar'>
             <div style={{ justifyContent: "center", alignItems: "center", width: "100%", display: "flex" }}>
-              <img src={logo} alt="React Image" className='logoImg' />
+              <button onClick={() => {
+                setTabValue('Home')}} style={{ backgroundColor: "transparent" }}>
+
+                <img src={logo} alt="React Image" className='logoImg' />
+              </button>
             </div>
             <Tabs
               className="tabs"
@@ -62,7 +66,7 @@ function HomeScreen() {
             >
               <Tab value="Home" label="Home" />
               <Tab value="My Classes" label="My Classes" />
-              <Tab value="Live" label="Live Attend" />
+              {/* <Tab value="Live" label="Live Attend" /> */}
               <Tab value="Last Class" label="Last Class" />
               <Tab value="Add Subject" label="Add Subject" />
               <Tab value="Logout" label="Logout" onClick={logout} />
@@ -77,7 +81,7 @@ function HomeScreen() {
           </div>
           {tabValue === "Home" && <GenerateQR />}
           {tabValue === "My Classes" && <Myclasses />}
-          {tabValue === "Live" && <LiveAttend />}
+          {/* {tabValue === "Live" && <LiveAttend />} */}
           {tabValue === "Last Class" && <LastClass />}
           {tabValue === "Add Subject" && <AddSubject />}
         </div>

@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Division.init({
     year: DataTypes.STRING,
-    program: DataTypes.STRING,
     stream: DataTypes.STRING,
     courseId:DataTypes.STRING,
     semester: DataTypes.STRING,

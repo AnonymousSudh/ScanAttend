@@ -12,6 +12,7 @@ const initialState = {
     rollNumber: null,
     userName: null,
     course: null,
+    courseId:null
 
 }
 
@@ -79,6 +80,7 @@ export const authSlice = createSlice({
                     state.rollNumber = action.payload.data.rollNumber
                     state.userName = action.payload.data.userName
                     state.course = action.payload.data.course
+                    state.courseId = action.payload.data.courseId
                 }
 
             })

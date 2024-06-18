@@ -6,7 +6,11 @@ const markAttendance = async (data) => {
 
     try {
         console.log("data at repo layer markAttendance", data)
-        const result = await Attendance.create({ lectureId: data.lectureId, studentId: data.studentId });
+        const result = await Attendance.create({
+            lectureId: data.lectureId,
+            studentId: data.studentId,
+            subjectId: data.subjectId,
+        });
         // console.log(result);
         return result
     } catch (error) {
@@ -30,7 +34,7 @@ const isAlreadyPresent = async ({ lectureId }) => {
 }
 
 const totalLectureCount = async (data) => {
-    const { facultyId, subjectId, divisionId ,courseId} = data
+    const { facultyId, subjectId, divisionId, courseId } = data
 
     try {
         const result = await Lecture.findAndCountAll({

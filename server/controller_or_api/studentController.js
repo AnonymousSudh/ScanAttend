@@ -31,6 +31,7 @@ const loginStudent = async(req,res)=>{
         console.log(studentCredential)
         // console.log(req.body)
         const result = await studentService.loginStudent(studentCredential);
+        console.log(result,"result")
         res.status(201).json({
             data: result,
             success: true,

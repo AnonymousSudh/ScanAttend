@@ -2,42 +2,61 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Attendances', {
+    await queryInterface.createTable('Lectures', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      studentId: {
+      facultyId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'students',
+          model: 'Faculties',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
-      lectureId: {
+      courseId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'lectures',
+          model: 'Courses',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
       },
-      subectId: {
+      divisionId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
-          model: 'subjects',
+          model: 'Divisions',
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+
+      },
+      subjectId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Subjects',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+
+      },
+      lectureDate: {
+        type: Sequelize.DATE
+      },
+      startTime: {
+        type: Sequelize.STRING
+      },
+      endTime: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -50,6 +69,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Attendances');
+    await queryInterface.dropTable('Lectures');
   }
 };

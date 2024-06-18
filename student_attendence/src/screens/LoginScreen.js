@@ -6,8 +6,8 @@ import DeviceInfo from 'react-native-device-info';
 import { loginStudent } from '../redux/action/authAction';
  
 const LoginScreen = ({ navigation }) => {
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('sudhanshu');
+  const [password, setPassword] = useState('1111');
   const [deviceAddress, setDeviceAddress] = useState(null);
   const dispatch = useDispatch();
   const selectorData = useSelector((state) => state.auth);

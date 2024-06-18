@@ -3,7 +3,7 @@ const lectureService = require("../service/lectureService")
 const createLecture = async (req, res) => {
     try {
         const credentials = req.body;
-        console.log("at controller ",credentials);
+        console.log("at controller ", credentials);
         const result = await lectureService.createLecture(credentials);
         console.log("---")
         console.log(result)
@@ -56,5 +56,52 @@ const getMyLectures = async (req, res) => {
     }
 }
 
+const getLectureDataAndCount = async (req, res) => {
+    try {
+        console.log(req.query, "req.params")
+        const { courseId } = req.query
+        const result = await lectureService.getLectureDataAndCount({ courseId });
+        console.log(result, "result")
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "Successfully fetched All lectures",
+            error: null
+        });
+    } catch (error) {
+        console.log("error at controller layer while fetching lectures");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Could not fetch lectures",
+            error: error
+        });
+    }
+}
 
-module.exports = {createLecture,getMyLectures}
+const getAttendCount = async (req, res) => {
+    try {
+        console.log(req.query, "req.params")
+        const { studentId } = req.query
+        const result = await lectureService.getAttendCount({ studentId });
+        console.log(result, "result")
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "Successfully fetched All lectures",
+            error: null
+        });
+    } catch (error) {
+        console.log("error at controller layer,getAttendCount");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Could not  getAttendCount",
+            error: error
+        });
+    }
+}
+
+module.exports = { createLecture, getMyLectures, getLectureDataAndCount,getAttendCount }

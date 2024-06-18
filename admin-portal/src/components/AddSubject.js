@@ -70,6 +70,7 @@ function AddSubject() {
                         type="text"
                         id="name"
                         name="name"
+                        
                         value={formData.name}
                         onChange={handleChange}
                     />
@@ -80,6 +81,7 @@ function AddSubject() {
                         type="text"
                         id="subjectCode"
                         name="subjectCode"
+                        placeholder='Add Subject Code'
                         value={formData.subjectCode}
                         onChange={handleChange}
                     />

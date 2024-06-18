@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const sequelize = require('../../models')
+
 const studentController = require("../../controller_or_api/studentController")
 const facultyController = require('../../controller_or_api/facultyController')
 const courseController = require('../../controller_or_api/courseController');
@@ -24,16 +26,14 @@ router.post("/getattendancePercentageOfSubjectSubject", attendanceController.att
 router.post("/getAllAttendanceDetails", attendanceController.getAllAttendanceDetails)
 router.post("/getAllLectureCountOfDivis", attendanceController.getAllLectureCountOfDivis)
 
-// getAllLectureCountOfDivis
- 
+
 
 
 // admin routes
+router.get('/lastClassAttendData',facultyController.getlastClassData)
 
 
 
-
-// setFacultyToSubject
 router.post('/signUpFaculty', facultyController.createFaculty);
 router.post('/loginFaculty', facultyController.loginFaculty);
 router.post('/markAttendance',attendanceController.markAttendance)
@@ -43,6 +43,8 @@ router.get('/getAllFaculty', facultyController.getAllFaculty);
 // Main Admin routes
 router.post('/setFacultyToSubject', facultyDivisionController.setFacultyToSubject);
 router.post('/getMyLecture',lectureController.getMyLectures)
+router.post('/getAllSubjectandDivion',subjectController.getAllSubjectandDivion)
+//getAllSubjectandDivion
 
 
 
@@ -68,8 +70,9 @@ router.post('/getSubjectOfStudents', subjectController.getSubjectOfStudents);
 // lecture routes
 
 router.post('/createLecture', lectureController.createLecture)
-
-
+router.get('/getLectureDataAndCount',lectureController.getLectureDataAndCount)
+router.get('/getAttendCount',lectureController.getAttendCount)
+//getAttendCount
 
 
 

@@ -135,8 +135,9 @@ function AssignSubjectsToFaculty() {
         const fetchSubject = async () => {
             try {
                 // console.log(selectedSemester);
-                const subject = await PostData('getSubjectandDivisonOfCourse', { courseId: selectedCourse.id, semester: selectedSemester });
-                console.log(subject.data.divisionData)
+                const subject = await PostData('getAllSubjectandDivion', { courseId: selectedCourse.id, semester: selectedSemester });
+                // console.log(subject.data.divisionData)
+                console.log("---------------")
                 console.log(subject)
                 // return
                 if (subject.success) {

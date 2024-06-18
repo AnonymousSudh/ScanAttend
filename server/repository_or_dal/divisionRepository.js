@@ -1,4 +1,4 @@
-const {Division} = require("../models/index")
+const { Division } = require("../models/index")
 
 
 const addDivision = async (data) => {
@@ -16,4 +16,23 @@ const addDivision = async (data) => {
     }
 }
 
-module.exports  ={addDivision}
+// function to get Semester according to division
+const getSemester = async (data) => {
+    console.log(data, "get semester")
+    try {
+        console.log(data, "divisionId getSemester")
+        const semester = await Division.findAll({
+            where: {
+                id: data,
+            }
+        })
+        console.log(semester.dataValues, "semester")
+        return semester.dataValues
+    } catch (error) {
+        console.log("Error at getting Semester", error);
+        return { success: false, error }
+    }
+}
+
+
+module.exports = { addDivision, getSemester }

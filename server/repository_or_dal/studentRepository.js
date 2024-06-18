@@ -3,15 +3,16 @@ const { Student } = require("../models/index");
 const createStudent = async (studentData) => {
     // try {
     console.log(studentData)
-
+    return
     const result = await Student.create(studentData);
     return result
 
 }
 
 const loginStudent = async (studentCredential) => {
-    console.log("studentCredential",studentCredential)
+    console.log("studentCredential", studentCredential)
     try {
+
         const result = await Student.findOne({
             where: {
                 userName: studentCredential.userName,
@@ -37,6 +38,8 @@ const findByRollNumber = async (rollNumber) => {
 };
 const findByUserName = async (userName) => {
     try {
+        console.log("ddd")
+        console.log(userName)
         return await Student.findOne({ where: { userName } });
 
     } catch (error) {
@@ -85,4 +88,25 @@ const checkUniqueDevice = async (deviceData) => {
     }
 
 }
-module.exports = { createStudent, updateStudent, checkUniqueDevice, findByRollNumber, findByUserName, loginStudent }
+
+// Fucntion to get All the student of a class
+const getAllStudentList = async (data) => {
+    try {
+        const { courseId, subjectId, divisionId } = data;
+
+        const studentList = await Student.findAll({
+            where: {
+                courseId,
+
+            }
+        })
+        console.log(studentList, "studentList")
+        return studentList
+    } catch (error) {
+        console.log("Error at getting studentList", error);
+        return { success: false, error }
+    }
+}
+
+
+module.exports = { createStudent, updateStudent, checkUniqueDevice, findByRollNumber, findByUserName, loginStudent, getAllStudentList }

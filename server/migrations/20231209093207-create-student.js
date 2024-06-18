@@ -15,7 +15,7 @@ module.exports = {
       fullName: {
         type: Sequelize.STRING
       },
-     
+
       mobileNumber: {
         type: Sequelize.BIGINT
       },
@@ -31,7 +31,15 @@ module.exports = {
       course: {
         type: Sequelize.STRING
       },
-   
+      courseId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Courses',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       authToken: {
         type: Sequelize.TEXT
       },

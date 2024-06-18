@@ -14,4 +14,17 @@ const addDivision = async (data) => {
     }
 }
 
-module.exports ={addDivision}
+// function to get Semester according to division
+const getSemester = async (data) => {
+    try {
+        console.log(data, "divisionId getSemester")
+        const result = await divisionRepo.getSemester(data.divisionId)
+        // console.log(result)
+        return result
+    } catch (error) {
+        console.log("Error at getting getSemester", error);
+        return { success: false, error }
+    }
+}
+
+module.exports = { addDivision, getSemester }

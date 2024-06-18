@@ -21,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     rollNumber: DataTypes.STRING,
     password: DataTypes.STRING,
     course: DataTypes.STRING,
-    authToken: DataTypes.TEXT
+    authToken: DataTypes.TEXT,
+    courseId: DataTypes.BIGINT
+
   }, {
     sequelize,
     modelName: 'Student',

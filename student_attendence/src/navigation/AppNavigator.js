@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import MarkPresentScreen from '../screens/MarkPresentScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import AttendanceScreen from '../screens/AttendanceScreen';
+import MyAttendance from '../screens/MyAttendance';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, BottomNavigation } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,10 +18,12 @@ const HomeStackNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} options={{
         headerShown: false}}/>
-      <Stack.Screen name="MarkAttendance" component={MarkPresentScreen} options={{
-        headerShown: false}} />
-         <Stack.Screen name="Attendance Sheet" component={AttendanceScreen} options={{
-        headerShown: true}} />
+      <Stack.Screen name="MarkAttendance" component={MarkPresentScreen} 
+      options={{headerShown: true}} />
+      <Stack.Screen name="Attendance Sheet" component={AttendanceScreen} options={{headerShown: true}} />
+      <Stack.Screen name="MyAttendance" component={MyAttendance} options={{headerShown: true}} />
+      
+      
     </Stack.Navigator>
   );
 };

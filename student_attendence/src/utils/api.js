@@ -1,6 +1,6 @@
 // const BASE_URL = 'https://10.0.3.2:5000/api/v1'; // Replace with your API base URL
 
-const ngrokUrl = 'https://4dcf-2409-40e3-5f-e3c3-8922-f11c-5682-728d.ngrok-free.app'
+const ngrokUrl = 'https://eb92-2409-40e3-100f-ab20-8c96-6a73-388f-27f.ngrok-free.app'
 const BASE_URL = `${ngrokUrl}/api/v1`;
 
 // Function to make a GET request
@@ -55,4 +55,24 @@ export const postData = async (endpoint, bodyData = {}) => {
   }
 };
 
+export const fetchDataByQuery = async (endpoint, queryParams) => {
+  try {
+    var url = `${BASE_URL}/${endpoint}`;
+    url = new URL(url);
+
+    Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
+    console.log(url,)
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    // console.log(data, "data at api")
+    return data;
+  } catch (error) {
+    console.log("error at fetchDataByQuery", error)
+  }
+}
 // module.exports= trial

@@ -19,6 +19,7 @@ export const PostData = async (url,data) => {
     throw new Error(error.message);
   }
 };
+
 export const getData = async (url) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${url}`, {
@@ -39,3 +40,23 @@ export const getData = async (url) => {
   }
 };
 
+export const fetchDataByQuery = async (endpoint, queryParams) => {
+  try {
+    var url = `${API_BASE_URL}/${endpoint}`;
+    url = new URL(url);
+
+    Object.keys(queryParams).forEach(key => url.searchParams.append(key, queryParams[key]));
+    console.log(url,)
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    // console.log(data, "data at api")
+    return data;
+  } catch (error) {
+    console.log("error at fetchDataByQuery", error)
+  }
+}

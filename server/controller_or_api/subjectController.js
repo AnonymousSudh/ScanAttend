@@ -56,6 +56,34 @@ const getSubjectandDivionOfCourse = async (req, res) => {
         })
     }
 }
+const getAllSubjectandDivion = async (req, res) => {
+    try {
+        const credentials = req.body;
+        console.log("called getAllSubjectandDivion")
+        console.log(credentials, "credentials");
+        const result = await subjectService.getAllSubjectandDivion(credentials);
+        if (result.error) {
+            // If there's an error during login, respond with an error status and message
+            return res.status(401).json({ error: result.error });
+        }
+        return res.status(200).json({
+            data: result,
+            success: true,
+            msg: "successfully fertched all Subject and division",
+            error: null
+        })
+
+    } catch (error) {
+        console.log("error at controller layer,getAllSubjectandDivion");
+        console.log(error);
+        return res.status(500).json({
+            data: null,
+            success: false,
+            msg: "Not able to get Subject and Division",
+            error: error
+        })
+    }
+}
 
 const getSemesterOfCourse = async (req, res) => {
     try {
@@ -123,4 +151,4 @@ const getSubjectOfStudents = async (req, res) => {
 
 // getSubjectOfStudents
 
-module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents }
+module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents, getAllSubjectandDivion }

@@ -1,9 +1,10 @@
 // this layer is only for logic developmet not for backend call
 const studentRepo = require("../repository_or_dal/studentRepository");
+const devisionService = require("../service/divisionService")
 
 const createStudent = async (studentData) => {
     try {
-        console.log("studentData",studentData)
+        console.log("studentData", studentData)
         const existingUser = await studentRepo.findByRollNumber(studentData.rollNumber);
         if (existingUser) {
             throw new Error('Roll number already exists');
@@ -20,6 +21,7 @@ const createStudent = async (studentData) => {
 const loginStudent = async (studentCredential) => {
     try {
         const { deviceAddress, userName } = studentCredential;
+        console.log(deviceAddress, "devies")
         const existingUser = await studentRepo.findByUserName(userName); // checking valid rollNumber
         if (existingUser) { // 
             const data = await studentRepo.checkUniqueDevice({ deviceAddress, userName }); //checking unique device
@@ -73,5 +75,18 @@ const updateStudent = async (id, updatedData) => {
 
 
 
+const getAllStudentList = async (data) => {
+    try {
+        const { courseId, subjectId, divisionId } = data;
+        console.log(divisionId, "ddd")
+        // function to get all semester
+        const semester = await devisionService.getSemester({ divisionId });
 
-module.exports = { createStudent, updateStudent, loginStudent }
+        // const studentList = await studentRepo.getAllStudentList({ courseId, subjectId, divisionId })
+        // return studentList
+    } catch (error) {
+        console.log("Error at getting studentList", error);
+        return { success: false, error }
+    }
+}
+module.exports = { createStudent, updateStudent, loginStudent, getAllStudentList }

@@ -2,11 +2,13 @@ const jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const SECRETKEY = process.env.SECRET_KEY;
 const facultyRepository = require("../repository_or_dal/facultyRepository")
-
+const studentRepository = require("../repository_or_dal/studentRepository");
+// const studentController = require("../controller_or_api/studentController");
+const studentService = require('../service/studentService')
 const createFaculty = async (data) => {
     try {
         // Check if the email is already registered
-        console.log("data at create Faculty service",data)
+        console.log("data at create Faculty service", data)
         const existingUser = await facultyRepository.findFaculty(data);
         if (existingUser) {
             console.log("user alredy exist")
@@ -75,7 +77,7 @@ const getAllFaculty = async () => {
         const result = await facultyRepository.getAllFaculty();
         const facultyList = result.map((faculty) => ({
             id: faculty.id,
-            Name: faculty.firstName+" "+faculty.lastName,
+            Name: faculty.firstName + " " + faculty.lastName,
             // lastName: faculty.lastName,
             email: faculty.email,
             mobile: faculty.mobile,
@@ -89,4 +91,28 @@ const getAllFaculty = async () => {
         throw error;
     }
 }
-module.exports = { createFaculty, loginFaculty, getAllFaculty }
+const getlastClassData = async (data) => {
+    try {
+        console.log(data, "data at repo")
+
+        const lastClass = await facultyRepository.getLastClass(data);
+        console.log(lastClass, "last class")
+        // Now get all student data from last Class
+        // step-1 - get all student list of that class
+        const AllStudentList = studentService.getAllStudentList({ courseId: lastClass.courseId, divisionId: lastClass.divisionId, subjectId: lastClass.subjectId })
+        // const facultyList = result.map((faculty) => ({
+        //     id: faculty.id,
+        //     Name: faculty.firstName + " " + faculty.lastName,
+        //     // lastName: faculty.lastName,
+        //     email: faculty.email,
+        //     mobile: faculty.mobile,
+        // }));
+        // console.log(facultyList)
+        // return facultyList
+    } catch (error) {
+        console.log("error at service in getAllFaculty");
+        console.log(error)
+        throw error;
+    }
+}
+module.exports = { createFaculty, loginFaculty, getAllFaculty, getlastClassData }

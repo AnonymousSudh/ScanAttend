@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { postData } from '../utils/api';
 import { useSelector } from 'react-redux';
 import { Avatar, Card, Text } from 'react-native-paper';
-
+import BackNav from '../components/BackNav';
 
 const HomeScreen = () => {
   const [QRdata, setQRData] = useState({});
@@ -30,7 +30,8 @@ const HomeScreen = () => {
         qrInfo[key.trim()] = value?.trim();
       });
       // console.log("------------")
-      console.log(qrInfo)
+      console.log(qrInfo, "QR info")
+      console.log(studentData,"student Data")
       if (qrInfo.course != studentData.course) {
         Alert.alert('Invalid QR', 'Please Scan Your Course QR', [
           {
@@ -119,6 +120,7 @@ const HomeScreen = () => {
         markerStyle={styles.marker}
         cameraStyle={styles.camera}
       /> */}
+      {/* <BackNav/> */}
       <View style={styles.container}>
 
         {visible && (

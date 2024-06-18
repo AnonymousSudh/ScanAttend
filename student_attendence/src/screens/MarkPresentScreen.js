@@ -2,27 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { postData } from '../utils/api';
 import { useNavigation } from '@react-navigation/native';
+import BackNav from '../components/BackNav';
 
 const MarkPresentScreen = ({ route, navigation }) => {
   const [attendancePercentage, setAttendancePercentage] = useState(null);
-  const { lectureId, studentId, courseId, subjectId, facultyId, divisionId,subject,semester} = route.params;
-  console.log(route.params)
+  const { lectureId, studentId, courseId, subjectId, facultyId, divisionId, subject, semester } = route.params;
+  console.log(route.params);
+  console.log(studentId)
   const navigationn = useNavigation();
 
 
   const fetchAttendance = async () => {
-    try{
-    console.log("useEffect running")
-    const attendData = await postData('getattendancePercentageOfSubjectSubject', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
-    console.log("attendData",attendData)
-    setAttendancePercentage(Math.round(attendData.data.attendancePercentage)); // Replace this with your backend logic
-    }catch(error){
+    try {
+      console.log("useEffect running")
+      const attendData = await postData('getattendancePercentageOfSubjectSubject', { lectureId, studentId, courseId, subjectId, facultyId, divisionId });
+      console.log("attendData", attendData)
+      setAttendancePercentage(Math.round(attendData.data.attendancePercentage)); // Replace this with your backend logic
+    } catch (error) {
       console.log(error)
     }
   };
   const goToMyAttendance = () => {
-    navigationn.navigate('Attendance Sheet',{
-      studentId,courseId,divisionId,semester
+    navigationn.navigate('Attendance Sheet', {
+      studentId, courseId, divisionId, semester
     }); // Navigate to MyAttendance screen
   };
 
@@ -33,6 +35,7 @@ const MarkPresentScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <BackNav />
       <View style={styles.checkmarkContainer}>
         <Text style={styles.checkmark}>✓</Text>
         <Text style={styles.markedPresent}>Marked present!</Text>

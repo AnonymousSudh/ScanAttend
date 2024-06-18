@@ -3,6 +3,7 @@ import React, { useEffect, useState, useMemo, useLayoutEffect } from 'react'
 import { postData } from '../utils/api';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import BackNav from '../components/BackNav';
 
 
 const AttendanceScreen = ({ route }) => {
@@ -28,7 +29,7 @@ const AttendanceScreen = ({ route }) => {
   }, [])
   return (
     <View style={{ paddingVertical: 20, paddingHorizontal: 10, flex: 1 }} >
-
+      <BackNav />
       <FlatList
         data={subjectList}
         renderItem={({ item, index }) => {
@@ -38,12 +39,6 @@ const AttendanceScreen = ({ route }) => {
               <Card style={{ margin: 10 }}>
                 <Card.Content>
                   <View style={{ flexDirection: 'row', justifyContent: "space-between", flex: 1, alignItems: "center" }}>
-                    {/*  
-                    style={{ }}
-                    borderWidth:1
-<Text></Text> alignText:""
-                    alignItem:"center"
-                    */}
                     <View style={{ flex: 0.8 }}>
 
                       <Text variant="bodyMedium" >{item?.subjectCode ?? "Subject Code"}</Text>

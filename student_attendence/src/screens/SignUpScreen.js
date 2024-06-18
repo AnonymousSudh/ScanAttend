@@ -44,7 +44,8 @@ const SignupScreen = () => {
         ToastAndroid.CENTER,
       );
     } else {
-      const studentData = { userName, fullName, mobileNumber, rollNumber, password, course, deviceAddress }
+      console.log(value, "value")
+      const studentData = { userName, fullName, mobileNumber, rollNumber, password, course, deviceAddress, courseId: value }
       console.log(studentData)
       const data = await dispatch(createStudent(studentData));
       console.log(data.payload);
@@ -71,6 +72,7 @@ const SignupScreen = () => {
       const response = await fetchData('getAllCourse')
       console.log("response", response.data)
       if (response.success) {
+        console.log(response.data, "course Data")
         setCourses(response.data);
       } else {
         console.error('Failed to fetch courses');
@@ -303,7 +305,7 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 16,
-    width:"90%"
+    width: "90%"
   },
   iconStyle: {
     width: 20,
@@ -312,7 +314,7 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
-    width:"90%"
+    width: "90%"
 
   },
 });

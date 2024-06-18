@@ -1,44 +1,60 @@
-const { Subject, Course, sequelize, Division } = require('../models/index')
-var Sequelize = require('sequelize');
+const { Subject, Course, sequelize, Division } = require("../models/index");
+var Sequelize = require("sequelize");
 // const db = require('../config/config.json')
 
 const addSubject = async (data) => {
-
     try {
-        console.log("data at repo layer addSubject", data)
+        console.log("data at repo layer addSubject", data);
         const result = await Subject.create(data);
-        console.log("result",result);
-        return result
+        console.log("result", result);
+        return result;
     } catch (error) {
         console.log("error at Repository layer");
-        console.log(error)
+        console.log(error);
         throw error;
     }
-}
+};
 const isSubjectPresent = async (data) => {
-
     try {
-        console.log("data at repo layer isSubjectPresent", data)
+        console.log("data at repo layer isSubjectPresent", data);
         const result = await Subject.findOne({
             where: {
                 name: data.name,
-                courseId: data.courseId
-            }
+                courseId: data.courseId,
+            },
         });
         console.log(result);
         // return
-        return result
+        return result;
     } catch (error) {
         console.log("error at Repository layer");
-        console.log(error)
+        console.log(error);
         throw error;
     }
-}
+};
 const getSubjectandDivionOfCourse = async (data) => {
     try {
         // console.log("getSubjectandDivionOfCourse called")
-        console.log("data at repo layer getSubjectandDivionOfCourse", data)
+        console.log("data at repo layer getSubjectandDivionOfCourse", data);
         // return
+        const result = await sequelize.query(`
+            select subjects.name,subjects.subjectCode,subjects.semester,divisions.division,subjects.id,divisions.id as divisionId from subjects
+            inner join faculty_divisions on subjects.id = faculty_divisions.subjectId
+            inner join divisions on divisions.id = faculty_divisions.divisionId
+            where subjects.courseId = ${data.courseId}
+            and faculty_divisions.facultyId = ${data.facultyId}`);
+
+        console.log(result[0], "result");
+        return result[0];
+    } catch (error) {
+        console.log("error at Repository layer");
+        console.log(error);
+        throw error;
+    }
+};
+const getAllSubjectandDivion = async (data) => {
+    try {
+        console.log("data at repo layer getSubjectandDivionOfCourse", data)
         const result = await Subject.findAll({
             where: {
                 courseId: data.courseId,
@@ -74,12 +90,10 @@ const getSubjectandDivionOfCourse = async (data) => {
         console.log(error)
         throw error;
     }
-}
-
+};
 const getSemesterOfCourse = async (data) => {
-
     try {
-        console.log("data at repo layer getSemesterOfCourse", data)
+        console.log("data at repo layer getSemesterOfCourse", data);
         const distinctSemesterOfCourse = await sequelize.query(
             `SELECT DISTINCT subjects.semester
             FROM subjects
@@ -88,34 +102,38 @@ const getSemesterOfCourse = async (data) => {
             { type: sequelize.QueryTypes.SELECT }
         );
 
-
         return distinctSemesterOfCourse;
     } catch (error) {
         console.log("error at Repository layer");
-        console.log(error)
+        console.log(error);
         throw error;
     }
-}
+};
 
 const getSubjectOfStudents = async (data) => {
-
     try {
-        console.log("data at repo layer getSubjectOfStudents", data)
+        console.log("data at repo layer getSubjectOfStudents", data);
         const result = await Subject.findAll({
             where: {
                 courseId: data.courseId,
-                semester: data.semester
-            }
+                semester: data.semester,
+            },
         });
         // console.log(result)
 
         return result;
     } catch (error) {
         console.log("error at Repository layer");
-        console.log(error)
+        console.log(error);
         throw error;
     }
-}
+};
 
-
-module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents, isSubjectPresent }
+module.exports = {
+    addSubject,
+    getSubjectandDivionOfCourse,
+    getSemesterOfCourse,
+    getSubjectOfStudents,
+    isSubjectPresent,
+    getAllSubjectandDivion
+};

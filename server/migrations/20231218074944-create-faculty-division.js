@@ -27,6 +27,15 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      subjectId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Subjects',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -2,16 +2,18 @@ import React, { useState, memo } from 'react';
 import { Paper, Typography, Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { PostData } from '../../utils/api';
 import '../../styles/myClasses.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Myclasses = memo(() => {
     const [date, setDate] = useState('');
     const [lectures, setLectures] = useState([]);
-
+    const user = useSelector(state => state);
+    console.log(user.auth.data, "user");
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
             const response = await PostData('getMyLecture', {
-                FacultyId: 2,
+                FacultyId: user.auth.data.id, // 
                 Date: date
             });
             console.log(response, "response")
@@ -66,15 +68,7 @@ const Myclasses = memo(() => {
                                             <TableCell>{new Date(lecture.lectureDate).toLocaleString()}</TableCell>
                                         </TableRow>
                                     ))}
-                                    {lectures.map((lecture, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{lecture.course_name}</TableCell>
-                                            <TableCell>{lecture.division}</TableCell>
-                                            <TableCell>{lecture.subject_name}</TableCell>
-                                            <TableCell>{lecture.subjectCode}</TableCell>
-                                            <TableCell>{new Date(lecture.lectureDate).toLocaleString()}</TableCell>
-                                        </TableRow>
-                                    ))}
+
                                 </TableBody>
                             </Table>
                         </Paper>

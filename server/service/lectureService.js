@@ -16,10 +16,11 @@ const createLecture = async (data) => {
 const getMyLectures = async (data) => {
     try {
         const result = await lectureRepo.getMyLectures(data);
-        // console.log(result)
-        const lectureData = result.map((lecture) => lecture);
-        console.log(lectureData,"lectureData")
-        return lectureData
+        console.log("result  ---")
+        console.log(result)
+        // const lectureData = result.map((lecture) => lecture);
+        // console.log(lectureData, "lectureData")
+        return result
     } catch (error) {
         console.log("error at service layer");
         console.log(error)
@@ -27,4 +28,27 @@ const getMyLectures = async (data) => {
     }
 }
 
-module.exports = { createLecture, getMyLectures }
+
+const getLectureDataAndCount = async (data) => {
+    try {
+        console.log(data, "data at service")
+        const result = await lectureRepo.getLectureDataAndCount({ courseId: data.courseId })
+        return result
+    } catch (error) {
+        console.log("error at service layer, getLectureDataAndCount");
+        console.log(error)
+        throw error;
+    }
+}
+const getAttendCount = async (data) => {
+    try {
+        console.log(data, "data at service")
+        const result = await lectureRepo.getAttendCount({ studentId: data.studentId })
+        return result
+    } catch (error) {
+        console.log("error at service layer, getAttendCount");
+        console.log(error)
+        throw error;
+    }
+}
+module.exports = { createLecture, getMyLectures, getLectureDataAndCount, getAttendCount }

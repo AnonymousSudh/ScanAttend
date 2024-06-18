@@ -38,10 +38,33 @@ const isSubjectPresent = async (data) => {
 
 const getSubjectandDivionOfCourse = async (data) => {
     try {
-        console.log(data,"data at service layer")
+        console.log(data, "data at service layer")
         data.courseId = Number(data.courseId)
         // data.semester = Number(data.semester)
         const result = await subjectRepo.getSubjectandDivionOfCourse(data);
+        var divisionData = [];
+        const subjectData = result.map((val) => {
+            divisionData.push({ divisionName: val.division, divisionId: val.divisionId })
+
+            return { id: val.id, name: val.name }
+
+        })
+        console.log("subjectData", subjectData)
+        console.log("divisionData", divisionData)
+        return { subjectData, divisionData }
+    } catch (error) {
+        console.log("error at service layer");
+        console.log(error)
+        throw error;
+    }
+}
+
+const getAllSubjectandDivion = async (data) => {
+    try {
+        console.log(data,"data at service layer")
+        data.courseId = Number(data.courseId)
+        // data.semester = Number(data.semester)
+        const result = await subjectRepo.getAllSubjectandDivion(data);
         const subjectData = result.result.map((val) => ({ id: val.id, name: val.name }))
         const divisionData = result.distinctDivisions.map((val) => ({ id: val.id, division: val.division, }))
         console.log("subjectData",subjectData)
@@ -81,4 +104,4 @@ const getSubjectOfStudents = async (data) => {
         throw error;
     }
 }
-module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents, isSubjectPresent }
+module.exports = { addSubject, getSubjectandDivionOfCourse, getSemesterOfCourse, getSubjectOfStudents, isSubjectPresent ,getAllSubjectandDivion}

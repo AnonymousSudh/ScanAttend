@@ -1,4 +1,4 @@
-const { Faculty } = require("../models/index");
+const { Faculty,Lecture } = require("../models/index");
 
 const createFaculty = async (data) => {
     console.log("data", data)
@@ -43,4 +43,20 @@ const getAllFaculty = async (data) => {
     }
 }
 
-module.exports = { createFaculty, findFaculty, getAllFaculty }
+// function to get last lecture of a particular Faculty
+const getLastClass = async (data) => {
+    try {
+        console.log("data at repo layer getAllFaculty", data)
+        const lastClass = await Lecture.findOne({
+            where: { facultyId: data.facultyId }
+        });
+        console.log("facultyList")
+        console.log(lastClass.dataValues)
+        return lastClass.dataValues;
+    } catch (error) {
+        console.log("error at Repository in getAllFaculty");
+        console.log(error)
+        throw error;
+    }
+}
+module.exports = { createFaculty, findFaculty, getAllFaculty, getLastClass }

@@ -1,4 +1,4 @@
-const { Faculty, Lecture ,sequelize} = require("../models/index");
+const { Faculty, Lecture, sequelize } = require("../models/index");
 var Sequelize = require('sequelize');
 const createLecture = async (data) => {
     console.log(new Date());
@@ -51,14 +51,59 @@ const getMyLectures = async (data) => {
                 inner join courses on lectures.courseId = courses.id
                 inner join divisions on lectures.divisionId = divisions.id
                 inner join subjects on lectures.subjectId = subjects.id
-                where lectures.id = ${FacultyId} AND DATE(lectures.lectureDate) = '${Date}'`,
+                where lectures.facultyId = ${FacultyId} AND DATE(lectures.lectureDate) = '${Date}'`,
             { type: sequelize.QueryTypes.SELECT }
         );
-        console.log(lectures,"lectures")
+        console.log(lectures, "lectures")
         return lectures;
     } catch (error) {
         console.error('Error:', error);
         throw error;
     }
 }
-module.exports = { createLecture, totalLectureCount, getMyLectures }
+
+// this Function Get all the lecture for a Specific Course
+const getLectureDataAndCount = async (data) => {
+    try {
+        console.log(data, "data at repo")
+        const { courseId } = data;
+        console.log(courseId)
+        const lectureDataAndCount = await sequelize.query(
+            `select count(*) as count,name,subjectId,faculties.firstName,faculties.lastName,subjects.subjectCode
+            from lectures 
+            inner join subjects on lectures.subjectId = subjects.id 
+            inner join faculties on lectures.facultyId = faculties.id 
+            where lectures.courseId=${courseId} group by subjectId;`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(lectureDataAndCount, "lectureDataAndCount")
+        return lectureDataAndCount
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+
+
+const getAttendCount = async (data) => {
+    try {
+        console.log(data, "data at repo")
+        const { studentId } = data;
+        console.log(studentId)
+        // return
+        const attendCount = await sequelize.query(
+            `select count(*) as count,subjects.name,subjects.subjectCode,subjects.id from attendances 
+            inner join lectures on attendances.lectureId= lectures.id 
+            inner join subjects on lectures.subjectId = subjects.id
+            where studentId=${studentId}
+            group by  lectures.subjectId;`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        console.log(attendCount, "attendCount")
+        return attendCount
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+}
+module.exports = { createLecture, totalLectureCount, getMyLectures, getLectureDataAndCount, getAttendCount }

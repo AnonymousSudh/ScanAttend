@@ -123,6 +123,7 @@ function GenerateQR() {
     };
     const handleSubjectChange = (e) => {
         const selectedIndex = e.target.selectedIndex;
+        console.log(e.target, "target")
         const selectedSubjectId = e.target.options[selectedIndex].getAttribute('data-id');
         const selectedSubjectName = e.target.options[selectedIndex].getAttribute('data-name');
 
@@ -131,6 +132,7 @@ function GenerateQR() {
         setSelectedSubject({ id: selectedSubjectId, name: selectedSubjectName });
     };
     const handleDivisonChange = (e) => {
+        console.log(e.target.selectedIndex, "target")
         const selectedIndex = e.target.selectedIndex;
         const selectedDivisionId = e.target.options[selectedIndex].getAttribute('data-id');
         const selectedDivisionName = e.target.options[selectedIndex].getAttribute('data-name');
@@ -188,7 +190,11 @@ function GenerateQR() {
         const fetchSubject = async () => {
             try {
                 // console.log(selectedSemester);
-                const subject = await PostData('getSubjectandDivisonOfCourse', { courseId: selectedCourse.id, semester: selectedSemester });
+                const subject = await PostData('getSubjectandDivisonOfCourse', {
+                    courseId: selectedCourse.id,
+                    semester: selectedSemester,
+                    facultyId: userData.id
+                });
                 console.log(subject.data.divisionData)
                 console.log(subject)
                 // return
@@ -310,8 +316,8 @@ function GenerateQR() {
                             >
                                 <option value="">Select Division</option>
                                 {divisions.map((division) => (
-                                    <option key={division.id} value={division.id} data-id={division.id} data-name={division.division}>
-                                        {division.division}
+                                    <option key={division.divisionId} value={division.divisionId} data-id={division.divisionId} data-name={division.divisionName}>
+                                        {division.divisionName}
                                     </option>
                                 ))}
                             </select>
